@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Zilla+Slab:300,400');
+html {
+	background: url(images/coral.jpg) no-repeat top left fixed;
+	background-size: cover;
+	height: 100%;
+}
+body {
+	font-family: 'Lato', sans-serif;
+	background: rgba(255, 255, 255, .7);
+	margin: 0;
+	width: 100%;
+	min-height: 100%;
+}
+h1 {
+	font-family: 'Zilla Slab', serif;
+	font-size: 4em;
+	font-weight: normal;
+	line-height: 1em;
+	background-color: rgba(11, 117, 197, .6);
+	border-bottom: solid 2px rgb(11, 117, 197);
+	color: #fff;
+	padding: 40px 0 20px 0;
+	margin: 0 0 10px 0;
+	text-align: center;
+	text-shadow: 2px 2px 4px rgb(0, 0, 0, .6);
+}
+section {
+	margin: 0 15px;
+}
+section > div {
+	padding: 0 14px 0 80px;
+}
+section div h2 {
+	font-size: 1.4em;
+	font-weight: 300;
+	font-family: 'Zilla Slab', serif;
+	border-bottom: solid 1px rgba(11, 117, 197, .8);
+	color: rgb(11, 117, 197);
+	margin-left: -65px;
+}
+section div img {
+	border: solid 1px #fff;
+	float: left;
+	height: 5em;
+	margin-right: 10px;
+	margin-left: -65px;
+}
+article {
+	margin: 15px 15px 0 35%;
+	padding: 2em 1em 3em;
+}
+section p {
+	margin: 0;
+	font-size: .9em;
+	line-height: 1.5;
+}
+
+@media scren and (min-width: 700px) {
+}

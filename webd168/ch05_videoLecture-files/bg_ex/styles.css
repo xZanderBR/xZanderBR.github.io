@@ -1,0 +1,72 @@
+/* end reset browser styles */
+*{
+    box-sizing: border-box;  
+}
+
+.wrapper {
+	width: 960px;
+  margin: 0 auto;
+}
+
+main { /* remove the float and make into the second column of a flexbox layout */
+	float: right;
+	width: 565px;
+	margin-right: 15px;
+	padding-top: 25px;
+}
+
+.cssAdvantages { /* first column of a flexbox layout */
+	margin-right: 600px;
+	margin-left: 20px;
+	
+}
+
+.copyright { /* Make this the second row in your flexbox layout */
+	font: bold 12px Tahoma, Geneva, sans-serif;
+	color: #65747E;
+	padding: 5px;
+  margin: 0 15px;
+	border: 1px dotted #98AFBE;
+}
+
+.banner h1 {
+	font: normal 48px Georgia, "Times New Roman", Times, serif;
+	text-align: right;
+  color: #272D32;
+}
+
+main h2 {
+	font: 24px Tahoma, Geneva, sans-serif;
+	margin-bottom: 15px;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+main p {
+	font: 14px Tahoma, Geneva, sans-serif;
+	color: #323A3F;
+	margin-bottom: 20px;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+
+.announcement h2 {
+	font: italic bold normal 20px Georgia, "Times New Roman", Times, serif;
+	text-align: center;
+	color: #323A3F;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-bottom: 18px;
+}
+
+.announcement ul {
+	font: 14px Tahoma, Geneva, sans-serif;
+}
+
+/* add your styles here */
+
+
+
+
+
+
+
+
+
