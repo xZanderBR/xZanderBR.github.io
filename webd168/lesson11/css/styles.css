@@ -1,0 +1,134 @@
+/* CSS Document */
+body {
+	height: 100%;
+	  width: 85%;
+	  margin: 1em auto 0;
+	  font: 90%/1.5 Georgia, "Times New Roman", serif;
+	  color: #39BAE6;
+	  background-color: #0D1017;
+  }
+  h1 {
+	  font-family: Verdana, Geneva, sans-serif;
+	  font-size: 2.8em;
+	  font-weight: bold;
+	  color: #FFB454;
+	  text-align: center;
+  }
+  button {
+	color: white;
+	text-transform: uppercase;
+	background-color: #39BAE6;
+	padding: 7px;
+	border: none;
+	border-radius: 5px;
+	margin: 3px;
+}
+  .buttons {
+	padding-bottom: 50px;
+	display: flex;
+	justify-content: center;
+}
+  .green-eyes .eye-color {
+	  fill: #1b6811;
+}
+
+.sad .mouth {
+	transform: rotate(180deg) scale(0.5);
+	transform-origin: 340px 390px;
+}
+
+.container { 
+    display: flex;
+    flex-direction: row;
+}
+
+.container div {
+	padding: 10px 10px 0 10px;
+}
+
+@media (max-width: 576px) {
+    .container, .buttons {
+		display: flex;
+    	flex-flow: column;
+		justify-content: space-between;
+    }
+}
+
+@keyframes moveEyes {
+	0% {
+		transform: translate(-18px, -20px);
+	}
+
+	40% {
+		transform: translate(0, 0);
+	}
+
+	65% {
+		transform: translate(18px, -2px);
+	}
+}
+
+@keyframes leftWhiskers {
+	20% {
+		transform: rotate(5deg);
+	}
+
+	60% {
+		transform: rotate(-5deg);
+	}
+}
+
+@keyframes rightWhiskers {
+	5% {
+		transform: rotate(-2deg);
+	}
+
+	90% {
+		transform: rotate(7deg);
+	}
+}
+
+@keyframes move {
+	20% {
+		transform: rotateY(10deg) rotateX(10deg);
+	}
+
+	40% {
+		transform: rotateY(25deg) rotateX(10deg);
+	}
+
+	60% {
+		transform: rotateY(-10deg) rotateX(-10deg);
+	}
+
+	85% {
+		transform: rotateY(-10deg) rotateX(-16deg);
+	}
+}
+
+.move-around .inner-eye-group {
+	animation: moveEyes 12s infinite;
+}
+
+.move-around .left-whiskers {
+	animation: leftWhiskers 3s infinite;
+	transform-origin: 325px 350px;
+}
+
+.move-around .right-whiskers {
+	animation: rightWhiskers 3s infinite;
+	transform-origin: 325px 350px;
+}
+
+.move-around {
+	animation: move 8s infinite;
+}
+
+.svg-container {
+	display: flex;
+	margin: auto;
+	justify-content: center;
+	perspective: 1000px;
+	width: 100%;
+	flex-shrink: 0;
+}
