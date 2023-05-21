@@ -33,9 +33,15 @@
         color: #9ece6a;
         font-style: italic;
       }
-      @media screen and (min-width: 600px) {
+
+      .flow {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Add your CSS styles here */
+      @media only screen and (min-width: 600px) {
         .flow {
-          display: flow;
           flex-direction: row;
         }
         section {
@@ -43,8 +49,6 @@
           margin-right: 1em;
         }
       }
-
-      /* Add your CSS styles here */
     </style>
   </head>
 
