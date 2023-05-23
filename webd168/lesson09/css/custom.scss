@@ -1,0 +1,14 @@
+.table {
+    --bs-table-striped-bg: rgba(255, 0, 0, 5%)
+}
+
+.table-dark {
+    --bs-table-bg: #dc3545;
+}
+
+@media (max-width: 768px) {
+    section {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+}
