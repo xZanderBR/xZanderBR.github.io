@@ -3,6 +3,8 @@ import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import CaseStudyMeta from '@/components/CaseStudyMeta.astro';
 import { getSortedProjects } from '@/lib/projects';
+import { cachedReleaseDownloads, cachedRepoPushedAt, repoFromUrl } from '@/lib/github';
+import { formatCountFloor } from '@/lib/format';
 
 export async function getStaticPaths() {
   const projects = await getSortedProjects();
@@ -12,6 +14,13 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { data } = entry;
+
+const liveDownloads = data.liveDownloads
+  ? await cachedReleaseDownloads(data.liveDownloads.repo)
+  : null;
+const downloads = liveDownloads !== null ? formatCountFloor(liveDownloads) : undefined;
+const sourceRepo = repoFromUrl(data.links.find((l) => l.label === 'Source')?.href ?? '');
+const pushedAt = (sourceRepo && (await cachedRepoPushedAt(sourceRepo))) || undefined;
 ---
 
 <BaseLayout title={`${data.title} | Zander Barajas`} description={data.summary}>
@@ -26,7 +35,7 @@ const { data } = entry;
       {data.title}
     </h1>
     <p class="mt-2 text-[17px] text-muted-foreground">{data.summary}</p>
-    <CaseStudyMeta data={data} />
+    <CaseStudyMeta data={data} downloads={downloads} pushedAt={pushedAt} />
     <div class="case-prose mt-10">
       <Content />
     </div>
