@@ -30,3 +30,8 @@ export function findCopyViolations(path: string, text: string, rules: Rule[]): V
   });
   return found;
 }
+
+// Rules can come from the local file and from the COPY_RULES secret in CI.
+export function loadRules(sources: (string | null | undefined)[]): Rule[] {
+  return sources.filter((s): s is string => !!s).flatMap(parseTermsFile);
+}

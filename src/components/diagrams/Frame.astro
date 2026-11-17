@@ -8,7 +8,8 @@ export interface Props {
 const { title, description, height } = Astro.props;
 ---
 
-<figure class="not-prose my-6 overflow-x-auto">
+<!-- On phones the diagram scrolls sideways, so keyboard users need to focus it. -->
+<figure class="not-prose my-6 overflow-x-auto" tabindex="0" role="region" aria-label={title}>
   <svg
     role="img"
     aria-labelledby="diagram-title diagram-desc"

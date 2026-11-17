@@ -29,3 +29,10 @@ test('webhooks does not trip a hooks rule', () => {
 test('blank lines and comments are not rules', () => {
   expect(parseTermsFile('\n  \n# only a comment\n')).toEqual([]);
 });
+
+test('loadRules combines the local file and the CI secret, skipping missing ones', async () => {
+  const { loadRules } = await import('@/lib/copy-check');
+  const rules = loadRules([undefined, '\\bfirst\\b', null, '', 'work/x :: second']);
+  expect(rules.map((r) => r.pattern.source)).toEqual(['\\bfirst\\b', 'second']);
+  expect(rules[1].pathIncludes).toBe('work/x');
+});

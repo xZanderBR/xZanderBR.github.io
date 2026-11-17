@@ -1,8 +1,8 @@
-// Fails when site copy contains an em dash, or any term from the private list in
-// docs/superpowers/forbidden-terms.txt (local only; CI checks em dashes alone).
+// Fails when site copy contains an em dash, or any term from the private rules:
+// docs/superpowers/forbidden-terms.txt locally, the COPY_RULES secret in CI.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { findCopyViolations, parseTermsFile } from '../src/lib/copy-check';
+import { findCopyViolations, loadRules } from '../src/lib/copy-check';
 
 const TERMS_FILE = 'docs/superpowers/forbidden-terms.txt';
 
@@ -13,7 +13,10 @@ function files(dir: string, exts: string[], skip: string[] = []): string[] {
     .filter((f) => exts.some((e) => f.endsWith(e)) && !skip.some((s) => f.startsWith(s)));
 }
 
-const rules = existsSync(TERMS_FILE) ? parseTermsFile(readFileSync(TERMS_FILE, 'utf8')) : [];
+const rules = loadRules([
+  existsSync(TERMS_FILE) ? readFileSync(TERMS_FILE, 'utf8') : null,
+  process.env.COPY_RULES,
+]);
 const targets = [
   ...files('dist', ['.html']),
   ...files('src', ['.astro', '.mdx', '.ts', '.tsx'], ['src/components/ui/']),
