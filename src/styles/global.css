@@ -146,9 +146,12 @@ html:not([data-platform='mac']) [data-kbd='mac'] {
   *,
   ::before,
   ::after {
-    animation-duration: 0.01ms !important;
+    /* Zero, not 0.01ms: a nonzero duration would add transitions where none existed. */
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }

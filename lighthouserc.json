@@ -2,33 +2,44 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "url": ["/", "/work/aztec-list/"],
-      "numberOfRuns": 1
+      "url": [
+        "/",
+        "/work/rivals-toolkit/",
+        "/work/struc-ai/",
+        "/work/licensing-platform/",
+        "/work/aztec-list/",
+        "/work/pourtocol/"
+      ],
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
         "categories:performance": [
           "error",
           {
-            "minScore": 0.95
+            "minScore": 0.95,
+            "aggregationMethod": "median"
           }
         ],
         "categories:accessibility": [
           "error",
           {
-            "minScore": 0.95
+            "minScore": 0.95,
+            "aggregationMethod": "median"
           }
         ],
         "categories:best-practices": [
           "error",
           {
-            "minScore": 0.95
+            "minScore": 0.95,
+            "aggregationMethod": "median"
           }
         ],
         "categories:seo": [
           "error",
           {
-            "minScore": 0.95
+            "minScore": 0.95,
+            "aggregationMethod": "median"
           }
         ]
       }
