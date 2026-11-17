@@ -1,0 +1,39 @@
+---
+title: Rivals Toolkit
+summary: Rust and React mod manager with a UE5 asset editor
+proof:
+  value: '24,000+'
+  label: downloads
+liveDownloads:
+  repo: oZanderr/Rivals-Toolkit
+role: Creator and maintainer
+team: Solo, open source (MIT/Apache)
+dates: Mar 2026 to present
+stack: [Rust, Tauri, React, TypeScript, Tailwind, Rayon]
+links:
+  - label: Source
+    href: https://github.com/oZanderr/Rivals-Toolkit
+order: 1
+---
+
+## The problem
+
+Modding Marvel Rivals means working with Unreal Engine 5 packages: pak and IoStore containers, compressed with Oodle and sometimes encrypted. The tools that existed were command-line only and split across several projects. Players wanted one app that could install, inspect and edit mods without breaking their game files.
+
+## What I built
+
+- A desktop app (Tauri and React) and a CLI on top of one Rust engine, organized as a Cargo workspace: `rivals-core`, `rivals-uasset` and `rivals-cli`.
+- Binary readers and writers for pak and IoStore containers, with Oodle compression and encrypted containers.
+- An editor for UE5 packages: Blueprint scripts as text, textures, meshes and audio.
+- A file browser that stays smooth with 10,000+ entries through virtualized rendering. Long jobs run on background threads and report progress over Tauri IPC.
+- A self-updater, and crash-log analysis that names the mod behind a crash.
+
+## How it fits together
+
+<p>Architecture diagram goes here.</p>
+
+## Results
+
+- Over 24,000 downloads across 20 releases.
+- More than 1,500 Rust tests.
+- Extended three open-source Rust crates (repak, retoc and rebnk) with IoStore creation, encryption and parallel I/O using Rayon.

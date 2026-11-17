@@ -1,0 +1,42 @@
+---
+title: Aztec List
+summary: Student marketplace with semantic search and AI
+proof:
+  value: Live
+  label: demo, no signup
+role: Primary contributor
+team: 5-person team
+dates: Sep 2025 to May 2026
+stack: [Python, FastAPI, Next.js, TypeScript, Qdrant, LangGraph, Docker]
+links:
+  - label: Live demo
+    href: https://azteclist.com
+  - label: Source
+    href: https://github.com/xZanderBR/Aztec-List
+  - label: Original team repo
+    href: https://github.com/SDSU-CompE-561-Fall-2025/aztec-list
+order: 4
+---
+
+## The problem
+
+SDSU students buy and sell textbooks, furniture and electronics through group chats and general marketplaces that aren't built for campus. For CompE 561, our team built a marketplace just for students.
+
+## What I built
+
+I was the primary contributor on a five-person team. Teammates on GitHub: hyp5253, Bmustoe and AntonioHengel7.
+
+- A FastAPI REST API with JWT auth, Argon2 password hashing, rate limiting, and image uploads of up to 10 photos per listing.
+- Real-time messaging, and moderation tools for reported listings and messages.
+- Semantic search: listings are embedded and stored in Qdrant, so a search like "keep drinks cold in my room" matches by meaning, not keywords.
+- An AI shopping assistant (RAG on LangGraph) that answers from real listings and cites them, plus AI-written listing descriptions, Claude-vision image moderation and an MCP server.
+- The live demo: a Docker API on Fly.io that GitHub Actions deploys once the tests pass, and the frontend on Vercel.
+
+## How it fits together
+
+<p>Architecture diagram goes here.</p>
+
+## Results
+
+- Live at azteclist.com with one-click sample accounts for a seller, a buyer and a moderator. The data resets every few hours.
+- Tested with pytest, Jest and Playwright.
