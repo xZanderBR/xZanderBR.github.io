@@ -36,7 +36,7 @@ export const profile: Profile = {
           title: 'Software engineer',
           dates: 'Jun 2026 to present',
           summary:
-            "Building Struc-AI, a design-review checker for structural drawing sets, with the firm's licensed engineers.",
+            "Building Struc-AI with the firm's licensed engineers: a design-review checker for structural drawing sets, plus LLM reading of plans, soils reports and plan-check letters.",
         },
         {
           title: 'Software engineering intern',

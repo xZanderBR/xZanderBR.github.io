@@ -11,9 +11,11 @@ for (const slug of slugs) {
   });
 }
 
-test('struc-ai has its LLM roadmap and no code link', async ({ page }) => {
+test('struc-ai covers the LLM reading in place, with no roadmap or code link', async ({ page }) => {
   await page.goto('/work/struc-ai/');
-  await expect(page.getByRole('heading', { name: /What.s next/ })).toHaveCount(1);
+  await expect(page.getByRole('heading', { name: /What.s next/ })).toHaveCount(0);
+  await expect(page.locator('dl')).toContainText('Claude API');
+  await expect(page.locator('svg[role="img"]')).toContainText('Quote check');
   await expect(page.locator('a[href*="struc-ai"]')).toHaveCount(0);
 });
 

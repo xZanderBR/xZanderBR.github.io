@@ -1,13 +1,13 @@
 ---
 title: Struc-AI
-summary: Design-review checker for structural drawing sets
+summary: Drawing-set checker with LLM reading of plans and reports
 proof:
   value: '101 of 107'
   label: known issues caught
 role: Software engineer, Envision Engineering
 team: Built with the firm's licensed engineers
 dates: Jun 2026 to present
-stack: [Python]
+stack: [Python, Claude API]
 order: 2
 ---
 
@@ -27,7 +27,15 @@ A Python checker that reads a drawing set and tests it against 78 rules written 
 - set integrity, seals and signatures
 - what changed between revisions
 
-It produces a redlined PDF and an HTML report. Engineers review every finding and sign off: the tool flags, people decide.
+It produces a redlined PDF and an HTML report.
+
+An LLM (Claude API) handles the parts of the process that are reading rather than math:
+
+- **Architect plans to structural brief:** reads the architect's PDF set into a one-page brief of what the structure has to handle, like site structures, special loads and retaining conditions, with each item tied to its sheet.
+- **Soils report to design values:** pulls the values the engineers design from out of the geotechnical report, which is often a scanned PDF.
+- **Plan-check letter to response matrix:** sorts the city's comments and drafts a reply to each.
+
+Every value the model reads carries its page and an exact quote, and code confirms the quote is really on that page before anything uses it. Arithmetic, table lookups and pass or fail stay in plain code, and engineers review every finding and sign off: the tool flags, people decide.
 
 ## How it fits together
 
@@ -36,13 +44,3 @@ It produces a redlined PDF and an HTML report. Engineers review every finding an
 ## Results
 
 - Caught 101 of 107 known issues (94%) when scored against 83 archived drawing sets.
-
-## What's next
-
-Next, I'm adding an LLM (Claude API) for the parts of the process that are reading rather than math. Each step keeps the checker's rule: code computes and checks, the model only reads documents and drafts text, and an engineer signs off.
-
-- **Architect plans to structural brief:** reads the architect's PDF set into a one-page brief of what the structure has to handle, like site structures, special loads and retaining conditions, with each item tied to its sheet.
-- **Soils report to design values:** pulls the values the engineers design from out of the geotechnical report, which is often a scanned PDF.
-- **Plan-check letter to response matrix:** sorts the city's comments and drafts a reply to each, measured against the firm's 554 archived plan-check comments.
-
-Every value the model reads carries its page and an exact quote, and code confirms the quote is really on that page before anything uses it. Arithmetic, table lookups, pass or fail, and member selection stay in plain code.
