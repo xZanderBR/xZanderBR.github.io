@@ -4,6 +4,10 @@ export type Violation = { path: string; line: number; match: string };
 // Built from its code point so this file never contains the character itself.
 const EM_DASH: Rule = { pattern: new RegExp(String.fromCharCode(0x2014)) };
 
+// Any US phone number: optional +1, then dots, spaces, dashes, parentheses or nothing.
+export const PHONE = /(?:\+?1[-. ]?)?\(?\b\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}\b/;
+const PHONE_RULE: Rule = { pattern: PHONE };
+
 // One rule per line: "regex", or "path-fragment :: regex" to scope it.
 // Blank lines and lines starting with # are ignored. Patterns are case-insensitive.
 export function parseTermsFile(text: string): Rule[] {
@@ -18,7 +22,7 @@ export function parseTermsFile(text: string): Rule[] {
 }
 
 export function findCopyViolations(path: string, text: string, rules: Rule[]): Violation[] {
-  const active = [EM_DASH, ...rules].filter(
+  const active = [EM_DASH, PHONE_RULE, ...rules].filter(
     (r) => !r.pathIncludes || path.includes(r.pathIncludes),
   );
   const found: Violation[] = [];

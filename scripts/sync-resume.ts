@@ -5,6 +5,7 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { extractText, getDocumentProxy } from 'unpdf';
 import { resumeProblems } from '../src/lib/resume-check';
+import { loadRules } from '../src/lib/copy-check';
 
 const source = process.argv[2] ?? join(homedir(), 'Documents/Resume/resumes/resume_web.pdf');
 if (!existsSync(source)) {
@@ -14,7 +15,13 @@ if (!existsSync(source)) {
 
 const pdf = await getDocumentProxy(new Uint8Array(readFileSync(source)));
 const { totalPages, text } = await extractText(pdf, { mergePages: true });
-const problems = resumeProblems({ pages: totalPages, text });
+// Private copy rules: the local list plus the COPY_RULES secret, same as the copy check.
+const TERMS_FILE = 'docs/superpowers/forbidden-terms.txt';
+const rules = loadRules([
+  existsSync(TERMS_FILE) ? readFileSync(TERMS_FILE, 'utf8') : null,
+  process.env.COPY_RULES,
+]);
+const problems = resumeProblems({ pages: totalPages, text }, rules);
 if (problems.length) {
   console.error(`Not copying ${source}:`);
   for (const p of problems) console.error(`  - ${p}`);

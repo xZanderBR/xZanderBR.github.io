@@ -36,3 +36,21 @@ test('loadRules combines the local file and the CI secret, skipping missing ones
   expect(rules.map((r) => r.pattern.source)).toEqual(['\\bfirst\\b', 'second']);
   expect(rules[1].pathIncludes).toBe('work/x');
 });
+
+test.each([
+  '619.555.0100',
+  '619 555 0100',
+  '(619) 555-0100',
+  '6195550100',
+  '+1 619-555-0100',
+  '619-555-0100',
+])('flags the phone number %s without any private rules', (phone) => {
+  expect(findCopyViolations('x.html', `Call ${phone} today`, [])).toHaveLength(1);
+});
+
+test.each(['24,766 downloads', '101 of 107', 'Sep 2025 to May 2026', '2,500+ customers'])(
+  'does not mistake %s for a phone number',
+  (text) => {
+    expect(findCopyViolations('x.html', text, [])).toEqual([]);
+  },
+);
