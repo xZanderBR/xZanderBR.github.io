@@ -20,7 +20,7 @@ export const profile: Profile = {
   hero: 'I build software people use, from Rust desktop tools to full-stack web apps.',
   context: 'Software engineer at Envision Engineering. SDSU computer science, 2026. San Diego.',
   // Zander: add your contact address here.
-  email: '',
+  email: 'zanderbr@protonmail.com',
   socials: [
     { label: 'GitHub', href: 'https://github.com/xZanderBR' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/xzanderbr' },
