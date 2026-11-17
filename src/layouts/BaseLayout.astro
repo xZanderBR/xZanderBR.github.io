@@ -2,7 +2,9 @@
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-import SearchHint from '@/components/SearchHint.astro';
+import CommandPalette from '@/components/islands/CommandPalette';
+import { profile } from '@/data/profile';
+import { getSortedProjects } from '@/lib/projects';
 import ThemeToggle from '@/components/islands/ThemeToggle';
 import { ClientRouter } from 'astro:transitions';
 
@@ -13,6 +15,13 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const paletteProjects = (await getSortedProjects()).map(({ id, data }) => ({
+  title: data.title,
+  href: `/work/${id}/`,
+  hint: data.stack.slice(0, 2).join(', '),
+}));
+const paletteLinks = [...profile.socials, { label: 'Source', href: profile.sourceHref }];
 ---
 
 <!doctype html>
@@ -51,7 +60,13 @@ const { title, description } = Astro.props;
   <body>
     <div class="mx-auto max-w-[720px] px-4 sm:px-6">
       <Header>
-        <SearchHint />
+        <CommandPalette
+          client:idle
+          projects={paletteProjects}
+          email={profile.email}
+          resumeHref={profile.resumeHref}
+          links={paletteLinks}
+        />
         <ThemeToggle client:load />
       </Header>
       <main>
