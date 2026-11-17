@@ -73,3 +73,20 @@ test('the favicon set is served and linked', async ({ page, request }) => {
     '/apple-touch-icon.png',
   );
 });
+
+test('robots.txt allows crawling and points to the sitemap', async ({ request }) => {
+  const res = await request.get('/robots.txt');
+  expect(res.status()).toBe(200);
+  const body = await res.text();
+  expect(body).toContain('User-agent: *');
+  expect(body).toContain('Sitemap: https://xzanderbr.github.io/sitemap-index.xml');
+});
+
+test('the home page carries Person structured data, and case studies do not', async ({ page }) => {
+  await page.goto('/');
+  const json = await page.locator('script[type="application/ld+json"]').textContent();
+  const types = (JSON.parse(json!)['@graph'] as { '@type': string }[]).map((n) => n['@type']);
+  expect(types).toEqual(expect.arrayContaining(['Person', 'WebSite']));
+  await page.goto('/work/aztec-list/');
+  await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
+});

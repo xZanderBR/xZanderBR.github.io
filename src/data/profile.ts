@@ -4,6 +4,8 @@ export type Job = { org: string; place: string; roles: Role[] };
 export type OtherProject = { title: string; summary: string; stack: string[]; href: string };
 export type Profile = {
   name: string;
+  jobTitle: string;
+  school: string;
   hero: string;
   context: string;
   email: string;
@@ -17,6 +19,8 @@ export type Profile = {
 
 export const profile: Profile = {
   name: 'Zander Barajas',
+  jobTitle: 'Software Engineer',
+  school: 'San Diego State University',
   hero: 'I build software people use: Rust desktop tools, full-stack web apps and LLM features.',
   context: 'Software engineer at Envision Engineering. SDSU computer science, 2026. San Diego.',
   // Zander: add your contact address here.
