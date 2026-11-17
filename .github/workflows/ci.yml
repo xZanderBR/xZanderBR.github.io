@@ -45,6 +45,9 @@ jobs:
           CI: '1'
       - name: Lighthouse
         run: bunx @lhci/cli autorun
+      - name: Lighthouse numbers
+        if: always() && hashFiles('.lighthouseci/lhr-*.json') != ''
+        run: bun scripts/lighthouse-summary.ts
       - name: Internal links
         uses: lycheeverse/lychee-action@v2
         with:
