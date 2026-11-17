@@ -17,7 +17,7 @@ export type Profile = {
 
 export const profile: Profile = {
   name: 'Zander Barajas',
-  hero: 'I build software people use, from Rust desktop tools to full-stack web apps.',
+  hero: 'I build software people use: Rust desktop tools, full-stack web apps and LLM features.',
   context: 'Software engineer at Envision Engineering. SDSU computer science, 2026. San Diego.',
   // Zander: add your contact address here.
   email: 'zanderbr@protonmail.com',
