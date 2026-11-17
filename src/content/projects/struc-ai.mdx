@@ -11,36 +11,16 @@ stack: [Python, Claude API]
 order: 2
 ---
 
-import StrucAi from '@/components/diagrams/StrucAi.astro';
-
 ## The problem
 
-Before a structural engineering firm issues a drawing set, its engineers check it by hand against code requirements, the calculations and the firm's own standards. It takes time, and small misses, like a mark that doesn't match its schedule or an outdated note, come back later as plan-check comments.
+Before a structural engineering firm issues a drawing set, its engineers check it by hand against code requirements and the firm's own standards. It's slow, and small misses come back later as plan-check comments.
 
 ## What I built
 
-A Python checker that reads a drawing set and tests it against 78 rules written with the firm's licensed engineers. The rules cover things like:
-
-- seismic design criteria, checked against USGS data
-- general notes that are missing, outdated or contradictory
-- marks that have to match their schedules
-- set integrity, seals and signatures
-- what changed between revisions
-
-It produces a redlined PDF and an HTML report.
-
-An LLM (Claude API) handles the parts of the process that are reading rather than math:
-
-- **Architect plans to structural brief:** reads the architect's PDF set into a one-page brief of what the structure has to handle, like site structures, special loads and retaining conditions, with each item tied to its sheet.
-- **Soils report to design values:** pulls the values the engineers design from out of the geotechnical report, which is often a scanned PDF.
-- **Plan-check letter to response matrix:** sorts the city's comments and drafts a reply to each.
-
-Every value the model reads carries its page and an exact quote, and code confirms the quote is really on that page before anything uses it. Arithmetic, table lookups and pass or fail stay in plain code, and engineers review every finding and sign off: the tool flags, people decide.
-
-## How it fits together
-
-<StrucAi />
+- Automated checks for structural drawing sets, written with the firm's licensed engineers.
+- An LLM (Claude API) that turns architect plans, soils reports and plan-check letters into structured data and draft responses.
+- Every value the model reads is tied to its source page, and engineers review and sign off on everything.
 
 ## Results
 
-- Caught 101 of 107 known issues (94%) when scored against 83 archived drawing sets.
+- Caught 101 of 107 known issues (94%) across 83 archived projects.

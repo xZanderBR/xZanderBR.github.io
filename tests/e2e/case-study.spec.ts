@@ -3,19 +3,31 @@ import { test, expect } from '@playwright/test';
 const slugs = ['rivals-toolkit', 'struc-ai', 'licensing-platform', 'aztec-list', 'pourtocol'];
 
 for (const slug of slugs) {
-  test(`${slug} renders title, meta and diagram`, async ({ page }) => {
+  test(`${slug} renders title and meta`, async ({ page }) => {
     await page.goto(`/work/${slug}/`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(page.locator('dl')).toContainText('Stack');
+  });
+}
+
+// Struc-AI is an internal tool at Zander's employer, so its page stays an overview.
+for (const slug of slugs.filter((s) => s !== 'struc-ai')) {
+  test(`${slug} has an architecture diagram`, async ({ page }) => {
+    await page.goto(`/work/${slug}/`);
     await expect(page.locator('svg[role="img"] title')).toHaveCount(1);
   });
 }
 
-test('struc-ai covers the LLM reading in place, with no roadmap or code link', async ({ page }) => {
+test('struc-ai stays an overview: no diagram, design details, roadmap or code link', async ({
+  page,
+}) => {
   await page.goto('/work/struc-ai/');
-  await expect(page.getByRole('heading', { name: /What.s next/ })).toHaveCount(0);
+  const headings = page.locator('article h2');
+  await expect(headings).toHaveText(['The problem', 'What I built', 'Results']);
+  await expect(page.locator('svg[role="img"]')).toHaveCount(0);
+  await expect(page.locator('article')).not.toContainText(/78 rules|USGS|quote check|554/i);
+  await expect(page.locator('article')).toContainText('101 of 107');
   await expect(page.locator('dl')).toContainText('Claude API');
-  await expect(page.locator('svg[role="img"]')).toContainText('Quote check');
   await expect(page.locator('a[href*="struc-ai"]')).toHaveCount(0);
 });
 
