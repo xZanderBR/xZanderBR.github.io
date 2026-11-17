@@ -1,0 +1,23 @@
+---
+import Frame from './Frame.astro';
+import Node from './Node.astro';
+import Arrow from './Arrow.astro';
+---
+
+<Frame
+  title="Rivals Toolkit architecture"
+  description="The React UI calls Tauri commands that run jobs in the background. Those commands and the CLI both use the rivals-core Rust engine, which reads and writes pak and IoStore containers and edits UE5 assets through rivals-uasset."
+  height={210}
+>
+  <Node x={1} y={30} w={150} label="React UI" sub="Tauri webview" />
+  <Node x={1} y={130} w={150} label="rivals-cli" sub="command line" />
+  <Node x={190} y={30} w={150} label="Tauri commands" sub="background jobs" />
+  <Node x={380} y={80} w={130} label="rivals-core" sub="Rust engine" accent />
+  <Node x={545} y={30} w={134} label="pak and IoStore" sub="Oodle, encryption" />
+  <Node x={545} y={130} w={134} label="rivals-uasset" sub="UE5 asset editor" />
+  <Arrow d="M151 56 H190" both />
+  <Arrow d="M340 56 H360 V106 H380" />
+  <Arrow d="M151 156 H360 V106 H380" />
+  <Arrow d="M510 106 H527 V56 H545" />
+  <Arrow d="M510 106 H527 V156 H545" />
+</Frame>

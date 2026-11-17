@@ -1,6 +1,13 @@
 import { test, expect } from '@playwright/test';
 
-const pages = ['/'];
+const pages = [
+  '/',
+  '/work/rivals-toolkit/',
+  '/work/struc-ai/',
+  '/work/licensing-platform/',
+  '/work/aztec-list/',
+  '/work/pourtocol/',
+];
 
 test.describe('narrow screens', () => {
   test.use({ viewport: { width: 375, height: 812 } });

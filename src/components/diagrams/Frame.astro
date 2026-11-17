@@ -1,0 +1,36 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  height: number;
+}
+
+const { title, description, height } = Astro.props;
+---
+
+<figure class="not-prose my-6 overflow-x-auto">
+  <svg
+    role="img"
+    aria-labelledby="diagram-title diagram-desc"
+    viewBox={`0 0 680 ${height}`}
+    class="block h-auto w-full min-w-[560px] text-ink"
+    font-family="inherit"
+  >
+    <title id="diagram-title">{title}</title>
+    <desc id="diagram-desc">{description}</desc>
+    <defs>
+      <marker
+        id="arrowhead"
+        viewBox="0 0 10 10"
+        refX="9"
+        refY="5"
+        markerWidth="7"
+        markerHeight="7"
+        orient="auto-start-reverse"
+      >
+        <path d="M0 0 L10 5 L0 10 z" style="fill: var(--muted)"></path>
+      </marker>
+    </defs>
+    <slot />
+  </svg>
+</figure>

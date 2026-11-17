@@ -1,0 +1,25 @@
+---
+import Frame from './Frame.astro';
+import Node from './Node.astro';
+import Arrow from './Arrow.astro';
+---
+
+<Frame
+  title="Aztec List architecture"
+  description="The browser loads the Next.js frontend on Vercel, which calls a FastAPI service running in Docker on Fly.io. The API stores data in SQLite, searches with Qdrant, gets embeddings from Workers AI and uses Claude for the assistant and moderation."
+  height={260}
+>
+  <Node x={1} y={104} w={110} label="Browser" />
+  <Node x={146} y={104} w={130} label="Next.js" sub="Vercel" />
+  <Node x={311} y={104} w={150} label="FastAPI" sub="Docker on Fly.io" accent />
+  <Node x={511} y={10} w={168} h={48} label="SQLite" sub="listings, messages" />
+  <Node x={511} y={75} w={168} h={48} label="Qdrant" sub="semantic search" />
+  <Node x={511} y={140} w={168} h={48} label="Workers AI" sub="embeddings" />
+  <Node x={511} y={205} w={168} h={48} label="Claude" sub="assistant, moderation" />
+  <Arrow d="M111 130 H146" />
+  <Arrow d="M276 130 H311" />
+  <Arrow d="M461 130 H486 V34 H511" />
+  <Arrow d="M461 130 H486 V99 H511" />
+  <Arrow d="M461 130 H486 V164 H511" />
+  <Arrow d="M461 130 H486 V229 H511" />
+</Frame>
