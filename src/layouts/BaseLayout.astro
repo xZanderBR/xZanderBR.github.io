@@ -2,6 +2,9 @@
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import SearchHint from '@/components/SearchHint.astro';
+import ThemeToggle from '@/components/islands/ThemeToggle';
+import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -20,10 +23,37 @@ const { title, description } = Astro.props;
     <link rel="icon" href="/favicon.ico" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      (() => {
+        const media = matchMedia('(prefers-color-scheme: dark)');
+        const stored = () => {
+          try {
+            return localStorage.getItem('theme');
+          } catch {
+            return null;
+          }
+        };
+        const apply = () => {
+          const root = document.documentElement;
+          const theme = stored();
+          root.classList.toggle('dark', theme ? theme === 'dark' : media.matches);
+          root.dataset.platform = /Mac|iPhone|iPad/.test(navigator.userAgent) ? 'mac' : 'other';
+        };
+        apply();
+        document.addEventListener('astro:after-swap', apply);
+        media.addEventListener('change', () => {
+          if (!stored()) apply();
+        });
+      })();
+    </script>
+    <ClientRouter />
   </head>
   <body>
     <div class="mx-auto max-w-[720px] px-4 sm:px-6">
-      <Header />
+      <Header>
+        <SearchHint />
+        <ThemeToggle client:load />
+      </Header>
       <main>
         <slot />
       </main>
