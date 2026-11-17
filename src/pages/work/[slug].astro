@@ -23,7 +23,11 @@ const sourceRepo = repoFromUrl(data.links.find((l) => l.label === 'Source')?.hre
 const pushedAt = (sourceRepo && (await cachedRepoPushedAt(sourceRepo))) || undefined;
 ---
 
-<BaseLayout title={`${data.title} | Zander Barajas`} description={data.summary}>
+<BaseLayout
+  title={`${data.title} | Zander Barajas`}
+  description={data.summary}
+  ogImage={`/og/${entry.id}.png`}
+>
   <article class="mt-10 sm:mt-16">
     <a href="/#work" class="text-[13px] text-muted-foreground hover:text-ink hover:underline">
       Back to all work
