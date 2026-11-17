@@ -67,3 +67,20 @@ test.describe('font loading', () => {
     });
   }
 });
+
+test('hovering or focusing Search starts loading the palette before any click', async ({
+  page,
+}) => {
+  const paletteRequests: string[] = [];
+  page.on('request', (req) => {
+    if (/\/_astro\/mount\.[\w-]+\.js$/.test(new URL(req.url()).pathname)) {
+      paletteRequests.push(req.url());
+    }
+  });
+  await page.goto('/');
+  await expect(page.locator('[data-palette-ready]')).toHaveCount(1);
+  expect(paletteRequests).toHaveLength(0);
+  await page.getByRole('button', { name: 'Search' }).hover();
+  await expect.poll(() => paletteRequests.length).toBeGreaterThan(0);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+});
