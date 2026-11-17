@@ -77,13 +77,13 @@ export default function CommandPalette({ projects, email, resumeHref, links }: P
       <DialogTrigger asChild>
         <button
           type="button"
-          aria-label="Search"
           aria-keyshortcuts="Control+K Meta+K /"
           data-palette-ready={ready ? '' : undefined}
           className="inline-flex h-8 items-center gap-2 rounded-md border border-rule px-2 text-[13px] text-muted-foreground hover:bg-muted hover:text-ink"
         >
           <Search aria-hidden="true" className="size-4" />
-          <span aria-hidden="true" className="hidden sm:inline-flex">
+          <span className="sr-only">Search</span>
+          <span className="hidden sm:inline-flex">
             <kbd data-kbd="mac" className="font-sans">
               ⌘K
             </kbd>
