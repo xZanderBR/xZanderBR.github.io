@@ -5,7 +5,7 @@ My personal site: who I am, what I've built, and my resume. It's also a small pr
 ## Stack
 
 - **[Astro](https://astro.build)** renders every page to static HTML. A portfolio is mostly content, so visitors don't download a framework runtime to read it.
-- **React islands** load only where something is interactive: the command palette (Ctrl K, ⌘K or `/`) and the theme toggle.
+- **React loads on demand.** Pages ship about 20KB of JavaScript. The command palette (Ctrl K, ⌘K or `/`) fetches React the first time it opens, and the theme toggle is a few lines of plain script.
 - **Tailwind CSS v4 and shadcn/ui** for styling and the palette's dialog.
 - **MDX content collections** for the case studies, validated with a Zod schema, so a malformed project fails the build.
 - **Build-time data:** Rivals Toolkit's download count comes from the GitHub releases API when the site builds, with a static fallback if GitHub is unreachable.

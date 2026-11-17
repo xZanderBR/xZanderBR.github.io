@@ -1,0 +1,59 @@
+---
+import { Search } from 'lucide-react';
+---
+
+<button
+  type="button"
+  data-palette-trigger
+  aria-keyshortcuts="Control+K Meta+K /"
+  class="inline-flex h-8 items-center gap-2 rounded-md border border-rule px-2 text-[13px] text-muted-foreground hover:bg-muted hover:text-ink"
+>
+  <Search aria-hidden="true" className="size-4" />
+  <span class="sr-only">Search</span>
+  <span class="hidden sm:inline-flex">
+    <kbd data-kbd="mac" class="font-sans">
+      ⌘K
+    </kbd>
+    <kbd data-kbd="other" class="font-sans">
+      Ctrl K
+    </kbd>
+  </span>
+</button>
+
+<script>
+  // Shortcuts and the button work as soon as the page loads; React and the palette
+  // itself are fetched the first time someone opens it.
+  import { isMacLike, isPaletteShortcut, isSlashShortcut } from '@/lib/platform';
+  import type { PaletteData } from './types';
+
+  type Api = { open(): void; toggle(): void };
+  let api: Promise<Api> | undefined;
+
+  function load(): Promise<Api> {
+    api ??= import('./mount').then(({ mountPalette }) => {
+      const data = JSON.parse(
+        document.getElementById('palette-data')?.textContent ?? '{}',
+      ) as PaletteData;
+      return mountPalette(data, document.getElementById('palette-root')!);
+    });
+    return api;
+  }
+
+  const mac = isMacLike(navigator.userAgent);
+  document.addEventListener('keydown', (e) => {
+    if (isPaletteShortcut(e, mac)) {
+      e.preventDefault();
+      load().then((a) => a.toggle());
+    } else if (isSlashShortcut(e, e.target)) {
+      e.preventDefault();
+      load().then((a) => a.open());
+    }
+  });
+
+  // Runs on the first load and after every client-side navigation.
+  document.addEventListener('astro:page-load', () => {
+    const trigger = document.querySelector<HTMLElement>('[data-palette-trigger]');
+    trigger?.addEventListener('click', () => load().then((a) => a.open()));
+    trigger?.setAttribute('data-palette-ready', '');
+  });
+</script>
