@@ -135,3 +135,9 @@ html.dark {
     max-width: none;
   }
 }
+
+/* Show the shortcut for the visitor's OS; data-platform is set before paint. */
+html[data-platform='mac'] [data-kbd='other'],
+html:not([data-platform='mac']) [data-kbd='mac'] {
+  display: none;
+}

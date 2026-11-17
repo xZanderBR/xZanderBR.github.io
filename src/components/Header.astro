@@ -3,12 +3,12 @@ import { profile } from '@/data/profile';
 ---
 
 <header class="flex items-center justify-between gap-4 py-6 text-[15px]">
-  <a href="/" class="font-semibold text-ink no-underline hover:underline">
+  <a href="/" class="font-semibold whitespace-nowrap text-ink no-underline hover:underline">
     {profile.name}
   </a>
-  <nav aria-label="Main" class="flex items-center gap-5">
-    <ul class="flex items-center gap-5 text-muted-foreground">
-      <li>
+  <nav aria-label="Main" class="flex items-center gap-3 sm:gap-5">
+    <ul class="flex items-center gap-3 text-muted-foreground sm:gap-5">
+      <li class="hidden sm:list-item">
         <a href="/#work" class="hover:text-ink hover:underline">
           Work
         </a>
