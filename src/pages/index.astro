@@ -5,8 +5,18 @@ import OtherProjects from '@/components/OtherProjects.astro';
 import Experience from '@/components/Experience.astro';
 import { profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
+import { cachedReleaseDownloads } from '@/lib/github';
+import { formatCountFloor } from '@/lib/format';
 
 const projects = await getSortedProjects();
+
+// Live numbers where a project has them; the frontmatter value is the fallback.
+const proofOverrides: Record<string, string> = {};
+for (const { id, data } of projects) {
+  if (!data.liveDownloads) continue;
+  const downloads = await cachedReleaseDownloads(data.liveDownloads.repo);
+  if (downloads !== null) proofOverrides[id] = formatCountFloor(downloads);
+}
 ---
 
 <BaseLayout
@@ -20,7 +30,7 @@ const projects = await getSortedProjects();
     <p class="mt-3 text-[15px] text-muted-foreground">{profile.context}</p>
   </section>
 
-  <ProjectIndex projects={projects} />
+  <ProjectIndex projects={projects} proofOverrides={proofOverrides} />
   <OtherProjects />
   <Experience />
 

@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import { profile } from '../../src/data/profile';
 
 const rows = [
-  ['Rivals Toolkit', '24,000+', '/work/rivals-toolkit/'],
+  // Live from GitHub at build time, floored to the thousand.
+  ['Rivals Toolkit', /\d{2,3},000\+/, '/work/rivals-toolkit/'],
   ['Struc-AI', '101 of 107', '/work/struc-ai/'],
   ['Licensing platform', '2,500+', '/work/licensing-platform/'],
   ['Aztec List', 'Live', '/work/aztec-list/'],
