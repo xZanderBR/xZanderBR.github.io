@@ -3,11 +3,11 @@ import { join } from 'node:path';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 
-export interface OgInput {
+export type OgInput = {
   title: string;
   subtitle: string;
   proof?: string;
-}
+};
 
 const WIDTH = 1200;
 const HEIGHT = 630;

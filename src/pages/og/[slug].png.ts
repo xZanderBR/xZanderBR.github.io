@@ -2,19 +2,24 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
 import { renderOgPng, type OgInput } from '@/lib/og';
+import { ogProps } from '@/lib/og-props';
+import { cachedReleaseDownloads } from '@/lib/github';
+import { formatCountFloor } from '@/lib/format';
 
 export const getStaticPaths = (async () => {
   const projects = await getSortedProjects();
   return [
     { params: { slug: 'home' }, props: { title: profile.name, subtitle: profile.hero } },
-    ...projects.map(({ id, data }) => ({
-      params: { slug: id },
-      props: {
-        title: data.title,
-        subtitle: data.summary,
-        proof: `${data.proof.value} ${data.proof.label}`,
-      },
-    })),
+    ...(await Promise.all(
+      projects.map(async ({ id, data }) => {
+        // Same live number as the home page row; the frontmatter value is the fallback.
+        const downloads = data.liveDownloads
+          ? await cachedReleaseDownloads(data.liveDownloads.repo)
+          : null;
+        const live = downloads !== null ? formatCountFloor(downloads) : undefined;
+        return { params: { slug: id }, props: ogProps(data, live) };
+      }),
+    )),
   ];
 }) satisfies GetStaticPaths;
 

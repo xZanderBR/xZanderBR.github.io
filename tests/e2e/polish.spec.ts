@@ -48,3 +48,28 @@ test.describe('reduced motion', () => {
     expect(running).toBe(0);
   });
 });
+
+test('the favicon set is served and linked', async ({ page, request }) => {
+  for (const [path, type] of [
+    ['/favicon.svg', 'image/svg+xml'],
+    ['/favicon.ico', 'icon'],
+    ['/apple-touch-icon.png', 'image/png'],
+  ] as const) {
+    const res = await request.get(path);
+    expect(res.status(), path).toBe(200);
+    expect(res.headers()['content-type'], path).toContain(type);
+  }
+  await page.goto('/');
+  await expect(page.locator('link[rel="icon"][type="image/svg+xml"]')).toHaveAttribute(
+    'href',
+    '/favicon.svg',
+  );
+  await expect(page.locator('link[rel="icon"][sizes="32x32"]')).toHaveAttribute(
+    'href',
+    '/favicon.ico',
+  );
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+    'href',
+    '/apple-touch-icon.png',
+  );
+});
