@@ -41,8 +41,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "^10.0.1",
     "@fontsource/hanken-grotesk": "5.3.0",
+    "@lhci/cli": "0.16.1",
     "@playwright/test": "1.65.1",
     "@resvg/resvg-js": "2.6.2",
     "eslint": "10.15.0",

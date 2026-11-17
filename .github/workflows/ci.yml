@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+
+      - name: Types, lint and formatting
+        run: bun run check && bun run lint && bun run format:check
+      - name: Unit tests
+        run: bun run test
+      - name: Build
+        run: bun run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy check
+        run: bun run check:copy
+
+      - name: Install browsers
+        run: bunx playwright install --with-deps chromium firefox webkit
+      - name: End-to-end tests
+        run: bun run test:e2e
+        env:
+          CI: '1'
+      - name: Lighthouse
+        run: bunx @lhci/cli autorun
+      - name: Internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress --root-dir ${{ github.workspace }}/dist 'dist/**/*.html'
+          fail: true
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
