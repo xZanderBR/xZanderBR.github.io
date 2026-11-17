@@ -11,9 +11,9 @@ for (const slug of slugs) {
   });
 }
 
-test('struc-ai has no roadmap and no code link', async ({ page }) => {
+test('struc-ai has its LLM roadmap and no code link', async ({ page }) => {
   await page.goto('/work/struc-ai/');
-  await expect(page.getByRole('heading', { name: "What's next" })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: /What.s next/ })).toHaveCount(1);
   await expect(page.locator('a[href*="struc-ai"]')).toHaveCount(0);
 });
 
