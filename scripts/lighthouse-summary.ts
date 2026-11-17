@@ -19,4 +19,15 @@ for (const f of readdirSync(dir).filter((f) => f.startsWith('lhr-') && f.endsWit
       `fetched ${r.fetchTime}`,
     ].join(' | '),
   );
+  // What moved, when there was layout shift.
+  const shifts = a['layout-shifts']?.details?.items ?? [];
+  for (const item of shifts.slice(0, 5)) {
+    const node = item.node ?? {};
+    console.log(
+      `  shift ${Number(item.score ?? 0).toFixed(3)} ${node.selector ?? ''} ${node.snippet ?? ''}`.slice(
+        0,
+        220,
+      ),
+    );
+  }
 }

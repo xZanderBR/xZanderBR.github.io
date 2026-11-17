@@ -1,0 +1,46 @@
+---
+import { Moon, Sun } from 'lucide-react';
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-label="Toggle theme"
+  class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-ink"
+>
+  <Sun aria-hidden="true" className="hidden size-4 dark:block" />
+  <Moon aria-hidden="true" className="block size-4 dark:hidden" />
+</button>
+
+<script>
+  // The head script applies the theme before paint; this keeps the button in sync.
+  const isDark = () => document.documentElement.classList.contains('dark');
+
+  function label(button: HTMLElement) {
+    const text = isDark() ? 'Switch to light theme' : 'Switch to dark theme';
+    button.setAttribute('aria-label', text);
+    button.title = text;
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const button = document.querySelector<HTMLElement>('[data-theme-toggle]');
+    if (!button) return;
+    label(button);
+    button.addEventListener('click', () => {
+      const next = !isDark();
+      document.documentElement.classList.toggle('dark', next);
+      try {
+        localStorage.setItem('theme', next ? 'dark' : 'light');
+      } catch {
+        // Storage can be blocked; the choice still applies to this page.
+      }
+      label(button);
+    });
+  });
+
+  // When no choice is stored, the head script follows the system theme live.
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    const button = document.querySelector<HTMLElement>('[data-theme-toggle]');
+    if (button) queueMicrotask(() => label(button));
+  });
+</script>
