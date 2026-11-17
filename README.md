@@ -42,4 +42,6 @@ The script refuses a PDF that isn't one page or that contains a phone number.
 
 ## Deploying
 
-Pushing to `main` runs `.github/workflows/deploy.yml`, which builds with `withastro/action` and publishes to GitHub Pages. Every push also runs `ci.yml`: type checks, lint, unit and end-to-end tests on three browsers, axe accessibility checks, a Lighthouse budget and an internal link check.
+Every push runs `.github/workflows/ci.yml`: type checks, lint, unit and end-to-end tests on three browsers, axe accessibility checks, a Lighthouse budget, an internal link check and the copy rules. On `main`, the same run publishes to GitHub Pages, but only after every check has passed.
+
+The private copy rules live in a `COPY_RULES` repository secret (one regex per line, as in `src/lib/copy-check.ts`).

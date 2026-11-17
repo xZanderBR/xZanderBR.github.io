@@ -27,3 +27,21 @@ test('the open command palette has no axe violations', async ({ page }) => {
   const { violations } = await new AxeBuilder({ page }).include('[role="dialog"]').analyze();
   expect(violations.map((v) => `${v.id}: ${v.nodes.length} node(s)`)).toEqual([]);
 });
+
+test.describe('phone width', () => {
+  test.use({ viewport: { width: 375, height: 812 } });
+  const caseStudies = [
+    '/work/rivals-toolkit/',
+    '/work/struc-ai/',
+    '/work/licensing-platform/',
+    '/work/aztec-list/',
+    '/work/pourtocol/',
+  ];
+  for (const path of ['/', ...caseStudies]) {
+    test(`${path} has no axe violations at 375px`, async ({ page }) => {
+      await page.goto(path);
+      const { violations } = await new AxeBuilder({ page }).analyze();
+      expect(violations.map((v) => `${v.id}: ${v.nodes.length} node(s)`)).toEqual([]);
+    });
+  }
+});

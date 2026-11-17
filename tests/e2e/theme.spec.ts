@@ -10,16 +10,21 @@ test('follows a dark system setting by default', async ({ page }) => {
   await expect(page.locator('html')).toHaveClass(/dark/);
 });
 
-test('toggle choice persists across reload and client navigation', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'dark' });
+// Choose the opposite of the system theme: the server HTML is never dark, so
+// this fails if the choice isn't re-applied after a client-side navigation.
+test('a chosen theme survives reload, client navigation and Back', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/');
-  await page.getByRole('button', { name: /switch to light theme/i }).click();
-  await expect(page.locator('html')).not.toHaveClass(/dark/);
+  await page.getByRole('button', { name: /switch to dark theme/i }).click();
+  await expect(page.locator('html')).toHaveClass(/dark/);
   await page.reload();
-  await expect(page.locator('html')).not.toHaveClass(/dark/);
+  await expect(page.locator('html')).toHaveClass(/dark/);
   await page.getByTestId('project-row').nth(3).click();
   await expect(page).toHaveURL(/aztec-list/);
-  await expect(page.locator('html')).not.toHaveClass(/dark/);
+  await expect(page.locator('html')).toHaveClass(/dark/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('html')).toHaveClass(/dark/);
 });
 
 test.describe('Windows', () => {
