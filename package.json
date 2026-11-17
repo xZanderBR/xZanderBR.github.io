@@ -20,7 +20,6 @@
     "sync:resume": "bun scripts/sync-resume.ts"
   },
   "dependencies": {
-    "@astrojs/markdown-satteri": "^0.4.10",
     "@astrojs/mdx": "^8.1.6",
     "@astrojs/react": "^7.1.9",
     "@astrojs/sitemap": "^3.7.5",

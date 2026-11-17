@@ -19,7 +19,12 @@ import { profile } from '@/data/profile';
         </a>
       </li>
       <li>
-        <a href={profile.resumeHref} class="hover:text-ink hover:underline">
+        <a
+          href={profile.resumeHref}
+          data-astro-reload
+          data-astro-prefetch="false"
+          class="hover:text-ink hover:underline"
+        >
           Resume
         </a>
       </li>

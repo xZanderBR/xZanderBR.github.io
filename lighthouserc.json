@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "url": ["/work/aztec-list/", "/"],
+      "url": ["/", "/work/aztec-list/"],
       "numberOfRuns": 1
     },
     "assert": {
