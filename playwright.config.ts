@@ -14,6 +14,15 @@ export default defineConfig({
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    // Real scrollbars (Playwright hides them by default) for the overflow checks.
+    {
+      name: 'chromium-scrollbars',
+      testMatch: /layout\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: { ignoreDefaultArgs: ['--hide-scrollbars'] },
+      },
+    },
     ...(process.env.CI || process.env.PW_FIREFOX
       ? [{ name: 'firefox', use: { ...devices['Desktop Firefox'] } }]
       : []),
