@@ -46,6 +46,7 @@
     "eslint": "10.15.0",
     "eslint-plugin-astro": "3.2.1",
     "globals": "^17.14.0",
+    "happy-dom": "^21.0.4",
     "prettier": "3.10.1",
     "prettier-plugin-astro": "1.1.2",
     "prettier-plugin-tailwindcss": "0.8.1",
