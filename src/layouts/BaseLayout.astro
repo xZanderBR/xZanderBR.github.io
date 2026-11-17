@@ -7,6 +7,7 @@ import { profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
 import ThemeToggle from '@/components/ThemeToggle.astro';
 import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 
 export interface Props {
   title: string;
@@ -39,6 +40,7 @@ const paletteData = JSON.stringify({
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" />
+    <Font cssVariable="--font-hanken" preload />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

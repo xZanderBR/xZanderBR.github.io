@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@fontsource-variable/hanken-grotesk';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -33,7 +32,7 @@ html.dark {
  * input, ring, border) map onto the same palette so its components match.
  */
 @theme inline {
-  --font-sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --font-sans: var(--font-hanken);
   --font-heading: var(--font-sans);
 
   --color-paper: var(--paper);

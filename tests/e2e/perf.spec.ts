@@ -21,3 +21,49 @@ for (const path of ['/', '/work/aztec-list/']) {
     expect(total).toBeLessThan(LOAD_BUDGET_BYTES);
   });
 }
+
+// On Linux and Windows the system fallback font is much wider than Hanken Grotesk, so
+// text used to re-wrap when it arrived (0.057 on Linux). The preload and the
+// metric-matched fallback keep that near zero. The layout-shift API is Chromium-only.
+async function measureShift(
+  page: import('@playwright/test').Page,
+  path: string,
+  fontDelayMs: number,
+) {
+  if (fontDelayMs) {
+    await page.route(/\.woff2$/, async (route) => {
+      await new Promise((r) => setTimeout(r, fontDelayMs));
+      await route.continue();
+    });
+  }
+  await page.addInitScript(() => {
+    const w = window as unknown as { __cls: number };
+    w.__cls = 0;
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries() as unknown as {
+        value: number;
+        hadRecentInput: boolean;
+      }[]) {
+        if (!e.hadRecentInput) w.__cls += e.value;
+      }
+    }).observe({ type: 'layout-shift', buffered: true });
+  });
+  await page.goto(path);
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(fontDelayMs + 700);
+  return page.evaluate(() => (window as unknown as { __cls: number }).__cls);
+}
+
+test.describe('font loading', () => {
+  test.use({ viewport: { width: 412, height: 823 } });
+  for (const path of ['/', '/work/aztec-list/']) {
+    test(`${path} doesn't shift when the font loads`, async ({ page, browserName }) => {
+      test.skip(browserName !== 'chromium', 'The layout-shift API is Chromium-only');
+      expect(await measureShift(page, path, 0)).toBeLessThan(0.01);
+    });
+    test(`${path} barely shifts when the font is slow`, async ({ page, browserName }) => {
+      test.skip(browserName !== 'chromium', 'The layout-shift API is Chromium-only');
+      expect(await measureShift(page, path, 800)).toBeLessThan(0.03);
+    });
+  }
+});
