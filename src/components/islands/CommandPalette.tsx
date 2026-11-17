@@ -110,8 +110,8 @@ export default function CommandPalette({ projects, email, resumeHref, links }: P
                   keywords={[p.hint]}
                   onSelect={() => go(p.href)}
                 >
-                  <span>{p.title}</span>
-                  <span className="ml-auto text-[13px] text-muted-foreground">{p.hint}</span>
+                  <span className="flex-1">{p.title}</span>
+                  <span className="text-[13px] text-muted-foreground">{p.hint}</span>
                 </CommandItem>
               ))}
             </CommandGroup>
