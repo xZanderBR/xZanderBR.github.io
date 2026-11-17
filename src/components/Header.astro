@@ -1,0 +1,31 @@
+---
+import { profile } from '@/data/profile';
+---
+
+<header class="flex items-center justify-between gap-4 py-6 text-[15px]">
+  <a href="/" class="font-semibold text-ink no-underline hover:underline">
+    {profile.name}
+  </a>
+  <nav aria-label="Main" class="flex items-center gap-5">
+    <ul class="flex items-center gap-5 text-muted-foreground">
+      <li>
+        <a href="/#work" class="hover:text-ink hover:underline">
+          Work
+        </a>
+      </li>
+      <li>
+        <a href="/#about" class="hover:text-ink hover:underline">
+          About
+        </a>
+      </li>
+      <li>
+        <a href={profile.resumeHref} class="hover:text-ink hover:underline">
+          Resume
+        </a>
+      </li>
+    </ul>
+    <div data-slot="header-actions" class="flex items-center gap-2">
+      <slot />
+    </div>
+  </nav>
+</header>

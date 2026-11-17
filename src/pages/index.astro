@@ -1,10 +1,33 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectIndex from '@/components/ProjectIndex.astro';
+import OtherProjects from '@/components/OtherProjects.astro';
+import Experience from '@/components/Experience.astro';
+import { profile } from '@/data/profile';
+import { getSortedProjects } from '@/lib/projects';
+
+const projects = await getSortedProjects();
 ---
 
 <BaseLayout
-  title="Zander Barajas"
+  title={profile.name}
   description="Zander Barajas, software engineer in San Diego. Projects, experience and resume."
 >
-  <h1>Zander Barajas</h1>
+  <section class="mt-10 sm:mt-16">
+    <h1 class="max-w-[30ch] text-[22px] leading-tight font-semibold tracking-tight sm:text-[30px]">
+      {profile.hero}
+    </h1>
+    <p class="mt-3 text-[15px] text-muted-foreground">{profile.context}</p>
+  </section>
+
+  <ProjectIndex projects={projects} />
+  <OtherProjects />
+  <Experience />
+
+  <section id="about" aria-labelledby="about-heading" class="mt-12 scroll-mt-6">
+    <h2 id="about-heading" class="mb-3 text-[15px] font-semibold">
+      About
+    </h2>
+    <p class="max-w-[65ch]">{profile.about}</p>
+  </section>
 </BaseLayout>

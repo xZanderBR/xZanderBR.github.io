@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  projects: CollectionEntry<'projects'>[];
+  // Slug to proof value, for numbers computed at build time.
+  proofOverrides?: Record<string, string>;
+}
+
+const { projects, proofOverrides = {} } = Astro.props;
+---
+
+<section id="work" aria-labelledby="work-heading" class="mt-16 scroll-mt-6">
+  <h2 id="work-heading" class="mb-3 text-[15px] font-semibold">
+    Work
+  </h2>
+  <ul class="border-b border-rule">
+    {projects.map(({ id, data }) => (
+      <li class="border-t border-rule">
+        <a
+          data-testid="project-row"
+          href={`/work/${id}/`}
+          class="group grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1 py-4 sm:grid-cols-[9rem_minmax(0,1fr)_auto]"
+        >
+          <span
+            class="font-semibold text-ink group-hover:underline"
+            transition:name={`project-${id}`}
+          >
+            {data.title}
+          </span>
+          <span class="col-span-2 row-start-2 text-[15px] text-muted-foreground sm:col-span-1 sm:row-start-auto">
+            {data.summary}
+          </span>
+          <span class="col-start-2 row-start-1 text-right sm:col-start-auto sm:row-start-auto">
+            <span class="tabular block text-[17px] font-semibold text-link">
+              {proofOverrides[id] ?? data.proof.value}
+            </span>
+            <span class="block text-[13px] text-muted-foreground">{data.proof.label}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

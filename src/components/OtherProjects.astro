@@ -1,0 +1,21 @@
+---
+import { profile } from '@/data/profile';
+---
+
+<section id="other-projects" aria-labelledby="other-heading" class="mt-12">
+  <h2 id="other-heading" class="mb-3 text-[15px] font-semibold">
+    Other projects
+  </h2>
+  <ul class="space-y-3">
+    {profile.otherProjects.map((p) => (
+      <li>
+        <a href={p.href} rel="noopener" class="font-medium text-ink hover:underline">
+          {p.title}
+        </a>
+        <p class="text-muted-foreground">
+          {p.summary}. <span class="text-[13px]">{p.stack.join(', ')}</span>
+        </p>
+      </li>
+    ))}
+  </ul>
+</section>

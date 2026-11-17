@@ -1,0 +1,30 @@
+---
+import { profile } from '@/data/profile';
+---
+
+<section id="experience" aria-labelledby="experience-heading" class="mt-12">
+  <h2 id="experience-heading" class="mb-3 text-[15px] font-semibold">
+    Experience
+  </h2>
+  <div class="space-y-6">
+    {profile.experience.map((job) => (
+      <div>
+        <h3 class="font-semibold">
+          {job.org}
+          <span class="font-normal text-muted-foreground">, {job.place}</span>
+        </h3>
+        <ul class="mt-2 space-y-3">
+          {job.roles.map((r) => (
+            <li>
+              <p class="flex flex-wrap justify-between gap-x-4">
+                <span class="font-medium">{r.title}</span>
+                <span class="tabular text-[13px] text-muted-foreground">{r.dates}</span>
+              </p>
+              <p class="text-muted-foreground">{r.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
