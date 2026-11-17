@@ -1,0 +1,37 @@
+---
+title: Pourtocol
+summary: Networked drink dispenser on ESP32
+proof:
+  value: '~80%'
+  label: fewer device round-trips
+role: Primary developer, web app and coordinator
+team: Team project
+dates: Feb 2026 to May 2026
+stack: [React, TypeScript, Python, Flask, SQLite, ESP32, C++]
+links:
+  - label: Demo video
+    href: https://youtu.be/go4TOXk46Cg
+  - label: Source
+    href: https://github.com/xZanderBR/Pourtocol
+  - label: Firmware
+    href: https://github.com/xZanderBR/Pourtocol-Firmware
+order: 5
+---
+
+## The problem
+
+A drink dispenser that several people can order from at once, from their phones. The hardware is an ESP32 driving a pump, a distance sensor and an NFC reader, and it can only answer so many requests before it falls behind.
+
+## What I built
+
+- A React and TypeScript web app for ordering and live status.
+- A Python Flask coordinator between the web app and the device. It talks to the ESP32 over HTTP and finds it on the network with mDNS.
+- The firmware and hardware (relay pump, ultrasonic sensor, NFC) were built with a teammate.
+
+## How it fits together
+
+<p>Architecture diagram goes here.</p>
+
+## Results
+
+- Cut round-trips to the ESP32 by about 80% under multi-client polling, with a single-flight status cache, persistent keep-alive sessions and cached mDNS lookups.

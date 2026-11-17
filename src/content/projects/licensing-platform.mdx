@@ -1,0 +1,40 @@
+---
+title: Licensing platform
+summary: Serverless licensing for commercial Windows software
+proof:
+  value: '2,500+'
+  label: paying customers
+role: Founder and software engineer
+team: Solo
+dates: Jul 2026 to present
+stack: [TypeScript, Cloudflare Workers, D1, R2, C++]
+order: 3
+---
+
+## The problem
+
+I sell commercial Windows software. Every sale needs a license that works on the buyer's machine, can't simply be shared, and gets delivered without me in the loop. The app also receives content from the server, so the channel between the desktop app and the server has to be private and authenticated.
+
+## What I built
+
+- A Cloudflare Worker that validates licenses, enforces device limits and rate limits, and delivers content, backed by D1 (SQLite) and R2.
+- Shopify order webhooks, verified with HMAC and processed idempotently, that create license keys and email them to buyers.
+- A Discord bot on the same Worker, using HTTP interactions so there is no separate bot host. Customers redeem keys and reset their devices themselves, and admins look up and manage licenses.
+- Account-sharing detection, and staged rollouts for new builds.
+
+## How it fits together
+
+<p>Architecture diagram goes here.</p>
+
+Every request from the desktop app gets its own encrypted channel:
+
+- an ECDH key exchange, with HKDF deriving a fresh key for each request
+- AES-256 for payloads, and HMAC-SHA256 on every response
+- requests signed by the device, with signing keys rotated every release, so a replayed response is useless on another machine
+
+One deliberate choice: no certificate pinning. Cloudflare rotates its edge certificates, and pinning would have locked out every customer the day it did.
+
+## Results
+
+- 2,500+ paying customers.
+- Sales, key delivery and most support run on their own.

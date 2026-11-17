@@ -1,0 +1,36 @@
+---
+title: Struc-AI
+summary: Design-review checker for structural drawing sets
+proof:
+  value: '101 of 107'
+  label: known issues caught
+role: Software engineer, Envision Engineering
+team: Built with the firm's licensed engineers
+dates: Jun 2026 to present
+stack: [Python]
+order: 2
+---
+
+## The problem
+
+Before a structural engineering firm issues a drawing set, its engineers check it by hand against code requirements, the calculations and the firm's own standards. It takes time, and small misses, like a mark that doesn't match its schedule or an outdated note, come back later as plan-check comments.
+
+## What I built
+
+A Python checker that reads a drawing set and tests it against 78 rules written with the firm's licensed engineers. The rules cover things like:
+
+- seismic design criteria, checked against USGS data
+- general notes that are missing, outdated or contradictory
+- marks that have to match their schedules
+- set integrity, seals and signatures
+- what changed between revisions
+
+It produces a redlined PDF and an HTML report. Engineers review every finding and sign off: the tool flags, people decide.
+
+## How it fits together
+
+<p>Architecture diagram goes here.</p>
+
+## Results
+
+- Caught 101 of 107 known issues (94%) when scored against 83 archived drawing sets.
