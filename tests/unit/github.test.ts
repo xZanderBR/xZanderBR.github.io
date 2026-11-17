@@ -35,9 +35,9 @@ test('returns null on 403, rejection, and timeout', async () => {
     await getReleaseDownloads('o/r', vi.fn().mockRejectedValue(new Error('offline'))),
   ).toBeNull();
   const hang = vi.fn(
-    (_u: string, init: RequestInit) =>
+    (_u: RequestInfo | URL, init?: RequestInit) =>
       new Promise<Response>((_, rej) =>
-        init.signal?.addEventListener('abort', () => rej(init.signal?.reason)),
+        init?.signal?.addEventListener('abort', () => rej(init.signal?.reason)),
       ),
   );
   expect(await getReleaseDownloads('o/r', hang)).toBeNull();
