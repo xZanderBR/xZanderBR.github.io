@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/hanken-grotesk';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Site palette. Diagrams and plain CSS read these directly. */
+:root {
+  --paper: #fcfcfb;
+  --ink: #16181d;
+  --muted: #5b6170;
+  --rule: #e6e8ec;
+  --accent: #2459c9;
+  --wash: #f1f2f4;
+  --radius: 0.5rem;
+  color-scheme: light;
+}
+
+html.dark {
+  --paper: #12151a;
+  --ink: #e8eaee;
+  --muted: #9aa1ae;
+  --rule: #262b33;
+  --accent: #7fa8f0;
+  --wash: #1c2027;
+  color-scheme: dark;
+}
+
+/*
+ * Tailwind colors. Site utilities: paper, ink, rule, link (the accent blue)
+ * and muted-foreground (muted text). The shadcn names (muted, accent, popover,
+ * input, ring, border) map onto the same palette so its components match.
+ */
+@theme inline {
+  --font-sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-rule: var(--rule);
+  --color-link: var(--accent);
+
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-popover: var(--paper);
+  --color-popover-foreground: var(--ink);
+  --color-card: var(--paper);
+  --color-card-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--paper);
+  --color-secondary: var(--wash);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--wash);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--wash);
+  --color-accent-foreground: var(--ink);
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--accent);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply font-sans;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}

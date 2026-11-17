@@ -1,0 +1,11 @@
+dist/
+.astro/
+node_modules/
+bun.lock
+src/components/ui/
+.superpowers/
+docs/
+public/
+playwright-report/
+test-results/
+.lighthouseci/

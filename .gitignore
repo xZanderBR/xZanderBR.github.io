@@ -1,0 +1,10 @@
+# Local design notes: they list what to keep off the public site
+docs/superpowers/
+
+node_modules/
+dist/
+.astro/
+test-results/
+playwright-report/
+.lighthouseci/
+.DS_Store
