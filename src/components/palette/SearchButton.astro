@@ -54,6 +54,10 @@ import { Search } from 'lucide-react';
   document.addEventListener('astro:page-load', () => {
     const trigger = document.querySelector<HTMLElement>('[data-palette-trigger]');
     trigger?.addEventListener('click', () => load().then((a) => a.open()));
+    // Start fetching on intent, so the first open feels instant.
+    for (const event of ['pointerenter', 'focus', 'touchstart']) {
+      trigger?.addEventListener(event, () => void load(), { once: true, passive: true });
+    }
     trigger?.setAttribute('data-palette-ready', '');
   });
 </script>
