@@ -6,18 +6,24 @@ import Arrow from './Arrow.astro';
 
 <Frame
   title="Struc-AI pipeline"
-  description="A drawing set PDF is read into sheets and notes, checked against 78 rules, and turned into a redlined PDF and HTML report that an engineer reviews and signs off. The rules were scored against 83 archived drawing sets with known issues."
-  height={200}
+  description="A drawing set PDF is read into sheets and notes, checked against 78 rules, and turned into a redlined PDF and HTML report that an engineer reviews and signs off. The rules were scored against 83 archived drawing sets with known issues. Separately, the Claude API reads architect plans, soils reports and plan-check letters; code confirms each value's page and quote before it reaches the engineer."
+  height={280}
 >
   <Node x={1} y={20} w={118} label="Drawing set" sub="PDF" />
   <Node x={141} y={20} w={118} label="Extract" sub="sheets and notes" />
   <Node x={281} y={20} w={118} label="78 rules" sub="checks" accent />
   <Node x={421} y={20} w={118} label="Report" sub="redlined PDF, HTML" />
   <Node x={561} y={20} w={118} label="Engineer" sub="reviews, signs off" />
-  <Node x={281} y={140} w={118} label="Archive" sub="83 drawing sets" />
+  <Node x={281} y={118} w={118} label="Archive" sub="83 drawing sets" />
+  <Node x={1} y={214} w={118} label="Documents" sub="plans, soils, letters" />
+  <Node x={141} y={214} w={118} label="Claude API" sub="reads, drafts" accent />
+  <Node x={281} y={214} w={118} label="Quote check" sub="page, exact quote" />
   <Arrow d="M119 46 H141" />
   <Arrow d="M259 46 H281" />
   <Arrow d="M399 46 H421" />
   <Arrow d="M539 46 H561" />
-  <Arrow d="M340 140 V72" label="101 of 107 caught" lx={350} ly={110} anchor="start" />
+  <Arrow d="M340 118 V72" label="101 of 107 caught" lx={350} ly={100} anchor="start" />
+  <Arrow d="M119 240 H141" />
+  <Arrow d="M259 240 H281" />
+  <Arrow d="M399 240 H620 V72" />
 </Frame>
