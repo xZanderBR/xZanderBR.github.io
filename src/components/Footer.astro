@@ -1,0 +1,31 @@
+---
+import { profile } from '@/data/profile';
+
+const links = [
+  ...(profile.email ? [{ label: 'Email', href: `mailto:${profile.email}` }] : []),
+  ...profile.socials,
+  { label: 'Resume', href: profile.resumeHref },
+];
+---
+
+<footer class="mt-20 border-t border-rule py-8 text-[13px] text-muted-foreground">
+  <ul class="flex flex-wrap gap-x-5 gap-y-2">
+    {links.map((l) => (
+      <li>
+        <a
+          href={l.href}
+          rel={l.href.startsWith('http') ? 'noopener' : undefined}
+          class="hover:text-ink hover:underline"
+        >
+          {l.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="mt-4">
+    Built with Astro.{' '}
+    <a href={profile.sourceHref} rel="noopener" class="underline hover:text-ink">
+      Source on GitHub
+    </a>
+  </p>
+</footer>
