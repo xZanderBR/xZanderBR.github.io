@@ -7,8 +7,13 @@ import { profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
 import { cachedReleaseDownloads } from '@/lib/github';
 import { formatCountFloor } from '@/lib/format';
+import { homeJsonLd } from '@/lib/structured-data';
 
 const projects = await getSortedProjects();
+const jsonLd = JSON.stringify(homeJsonLd(profile, new URL('/', Astro.site).href)).replace(
+  /</g,
+  '\\u003c',
+);
 
 // Live numbers where a project has them; the frontmatter value is the fallback.
 const proofOverrides: Record<string, string> = {};
@@ -40,4 +45,5 @@ for (const { id, data } of projects) {
     </h2>
     <p class="max-w-[65ch]">{profile.about}</p>
   </section>
+  <script type="application/ld+json" set:html={jsonLd} />
 </BaseLayout>
