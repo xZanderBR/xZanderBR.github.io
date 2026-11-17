@@ -2,13 +2,13 @@
 import Frame from './Frame.astro';
 import Node from './Node.astro';
 import Arrow from './Arrow.astro';
+
+const title = 'Pourtocol architecture';
+const description =
+  'The React web app talks to a Flask coordinator over HTTP. The coordinator finds the ESP32 with mDNS and talks to it over HTTP, and the ESP32 drives the pump, distance sensor and NFC reader.';
 ---
 
-<Frame
-  title="Pourtocol architecture"
-  description="The React web app talks to a Flask coordinator over HTTP. The coordinator finds the ESP32 with mDNS and talks to it over HTTP, and the ESP32 drives the pump, distance sensor and NFC reader."
-  height={190}
->
+<Frame title={title} description={description} height={190}>
   <Node x={1} y={68} w={130} label="React web app" sub="orders, status" />
   <Node x={196} y={68} w={150} label="Flask coordinator" sub="cache, keep-alive" accent />
   <Node x={411} y={68} w={120} label="ESP32" sub="C++ firmware" />
@@ -20,4 +20,18 @@ import Arrow from './Arrow.astro';
   <Arrow d="M531 94 H553 V34 H576" />
   <Arrow d="M531 94 H576" />
   <Arrow d="M531 94 H553 V154 H576" />
+</Frame>
+
+<Frame title={title} description={description} height={420} layout="tall">
+  <Node x={20} y={10} w={300} label="React web app" sub="orders, status" />
+  <Node x={20} y={106} w={300} label="Flask coordinator" sub="cache, keep-alive" accent />
+  <Node x={20} y={202} w={300} label="ESP32" sub="C++ firmware" />
+  <Node x={20} y={298} w={145} h={48} label="Relay pump" />
+  <Node x={175} y={298} w={145} h={48} label="Distance sensor" />
+  <Node x={20} y={364} w={145} h={48} label="NFC reader" />
+  <Arrow layout="tall" d="M170 62 V106" both label="HTTP" lx={178} ly={88} anchor="start" />
+  <Arrow layout="tall" d="M170 158 V202" both label="HTTP, mDNS" lx={178} ly={184} anchor="start" />
+  <Arrow layout="tall" d="M170 254 V280 H92.5 V298" />
+  <Arrow layout="tall" d="M170 254 V280 H247.5 V298" />
+  <Arrow layout="tall" d="M170 254 V350 H92.5 V364" />
 </Frame>

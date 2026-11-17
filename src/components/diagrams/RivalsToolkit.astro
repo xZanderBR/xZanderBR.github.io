@@ -2,13 +2,13 @@
 import Frame from './Frame.astro';
 import Node from './Node.astro';
 import Arrow from './Arrow.astro';
+
+const title = 'Rivals Toolkit architecture';
+const description =
+  'The React UI calls Tauri commands that run jobs in the background. Those commands and the CLI both use the rivals-core Rust engine, which reads and writes pak and IoStore containers and edits UE5 assets through rivals-uasset.';
 ---
 
-<Frame
-  title="Rivals Toolkit architecture"
-  description="The React UI calls Tauri commands that run jobs in the background. Those commands and the CLI both use the rivals-core Rust engine, which reads and writes pak and IoStore containers and edits UE5 assets through rivals-uasset."
-  height={210}
->
+<Frame title={title} description={description} height={210}>
   <Node x={1} y={30} w={150} label="React UI" sub="Tauri webview" />
   <Node x={1} y={130} w={150} label="rivals-cli" sub="command line" />
   <Node x={190} y={30} w={150} label="Tauri commands" sub="background jobs" />
@@ -20,4 +20,18 @@ import Arrow from './Arrow.astro';
   <Arrow d="M151 156 H360 V106 H380" />
   <Arrow d="M510 106 H527 V56 H545" />
   <Arrow d="M510 106 H527 V156 H545" />
+</Frame>
+
+<Frame title={title} description={description} height={330} layout="tall">
+  <Node x={20} y={10} w={145} label="React UI" sub="Tauri webview" />
+  <Node x={175} y={10} w={145} label="rivals-cli" sub="command line" />
+  <Node x={20} y={96} w={145} label="Tauri commands" sub="background jobs" />
+  <Node x={20} y={182} w={300} label="rivals-core" sub="Rust engine" accent />
+  <Node x={20} y={268} w={145} label="pak and IoStore" sub="Oodle, encryption" />
+  <Node x={175} y={268} w={145} label="rivals-uasset" sub="UE5 asset editor" />
+  <Arrow layout="tall" d="M92.5 62 V96" both />
+  <Arrow layout="tall" d="M92.5 148 V182" />
+  <Arrow layout="tall" d="M247.5 62 V182" />
+  <Arrow layout="tall" d="M92.5 234 V268" />
+  <Arrow layout="tall" d="M247.5 234 V268" />
 </Frame>
