@@ -1,0 +1,23 @@
+---
+import Frame from './Frame.astro';
+import Node from './Node.astro';
+import Arrow from './Arrow.astro';
+---
+
+<Frame
+  title="Licensing platform architecture"
+  description="Shopify order webhooks and Discord interactions reach a Cloudflare Worker, which stores licenses and devices in D1 and content in R2. The desktop app talks to the Worker over a per-request encrypted channel."
+  height={250}
+>
+  <Node x={1} y={20} w={130} label="Shopify" sub="orders" />
+  <Node x={1} y={105} w={130} label="Desktop app" sub="Windows" />
+  <Node x={1} y={190} w={130} label="Discord" sub="self-service, admin" />
+  <Node x={270} y={91} w={150} h={80} label="Cloudflare Worker" sub="licenses, content" accent />
+  <Node x={520} y={50} w={159} label="D1" sub="licenses, devices" />
+  <Node x={520} y={160} w={159} label="R2" sub="content" />
+  <Arrow d="M131 46 H240 V105 H270" label="HMAC webhook" lx={137} ly={38} anchor="start" />
+  <Arrow d="M131 131 H270" both label="ECDH, AES, HMAC" lx={185} ly={124} />
+  <Arrow d="M131 216 H240 V157 H270" label="HTTP interactions" lx={137} ly={208} anchor="start" />
+  <Arrow d="M420 115 H470 V76 H520" />
+  <Arrow d="M420 147 H470 V186 H520" />
+</Frame>

@@ -1,0 +1,23 @@
+---
+import Frame from './Frame.astro';
+import Node from './Node.astro';
+import Arrow from './Arrow.astro';
+---
+
+<Frame
+  title="Pourtocol architecture"
+  description="The React web app talks to a Flask coordinator over HTTP. The coordinator finds the ESP32 with mDNS and talks to it over HTTP, and the ESP32 drives the pump, distance sensor and NFC reader."
+  height={190}
+>
+  <Node x={1} y={68} w={130} label="React web app" sub="orders, status" />
+  <Node x={196} y={68} w={150} label="Flask coordinator" sub="cache, keep-alive" accent />
+  <Node x={411} y={68} w={120} label="ESP32" sub="C++ firmware" />
+  <Node x={576} y={10} w={103} h={48} label="Relay pump" />
+  <Node x={576} y={70} w={103} h={48} label="Distance sensor" />
+  <Node x={576} y={130} w={103} h={48} label="NFC reader" />
+  <Arrow d="M131 94 H196" both label="HTTP" lx={163} ly={86} />
+  <Arrow d="M346 94 H411" both label="HTTP, mDNS" lx={378} ly={86} />
+  <Arrow d="M531 94 H553 V34 H576" />
+  <Arrow d="M531 94 H576" />
+  <Arrow d="M531 94 H553 V154 H576" />
+</Frame>

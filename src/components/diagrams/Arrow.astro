@@ -1,0 +1,27 @@
+---
+export interface Props {
+  d: string;
+  both?: boolean;
+  label?: string;
+  lx?: number;
+  ly?: number;
+  anchor?: 'start' | 'middle' | 'end';
+}
+
+const { d, both = false, label, lx = 0, ly = 0, anchor = 'middle' } = Astro.props;
+---
+
+<g>
+  <path
+    d={d}
+    fill="none"
+    style="stroke: var(--muted); stroke-width: 1"
+    marker-end="url(#arrowhead)"
+    marker-start={both ? 'url(#arrowhead)' : undefined}
+  ></path>
+  {label && (
+    <text x={lx} y={ly} text-anchor={anchor} font-size="12" style="fill: var(--muted)">
+      {label}
+    </text>
+  )}
+</g>
