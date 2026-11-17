@@ -3,25 +3,28 @@ export interface Props {
   title: string;
   description: string;
   height: number;
+  // Each diagram has a wide layout (640px and up) and a tall one for phones.
+  layout?: 'wide' | 'tall';
 }
 
-const { title, description, height } = Astro.props;
+const { title, description, height, layout = 'wide' } = Astro.props;
+const width = layout === 'wide' ? 680 : 340;
+const id = (name: string) => `diagram-${name}-${layout}`;
 ---
 
-<!-- On phones the diagram scrolls sideways, so keyboard users need to focus it. -->
-<figure class="not-prose my-6 overflow-x-auto" tabindex="0" role="region" aria-label={title}>
+<figure class:list={['not-prose my-6', layout === 'wide' ? 'hidden sm:block' : 'sm:hidden']}>
   <svg
     role="img"
-    aria-labelledby="diagram-title diagram-desc"
-    viewBox={`0 0 680 ${height}`}
-    class="block h-auto w-full min-w-[560px] text-ink"
+    aria-labelledby={`${id('title')} ${id('desc')}`}
+    viewBox={`0 0 ${width} ${height}`}
+    class:list={['block h-auto w-full text-ink', layout === 'tall' && 'mx-auto max-w-[400px]']}
     font-family="inherit"
   >
-    <title id="diagram-title">{title}</title>
-    <desc id="diagram-desc">{description}</desc>
+    <title id={id('title')}>{title}</title>
+    <desc id={id('desc')}>{description}</desc>
     <defs>
       <marker
-        id="arrowhead"
+        id={id('arrowhead')}
         viewBox="0 0 10 10"
         refX="9"
         refY="5"

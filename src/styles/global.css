@@ -140,3 +140,15 @@ html[data-platform='mac'] [data-kbd='other'],
 html:not([data-platform='mac']) [data-kbd='mac'] {
   display: none;
 }
+
+/* Respect the OS "reduce motion" setting everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

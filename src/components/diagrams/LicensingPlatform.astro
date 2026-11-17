@@ -2,13 +2,13 @@
 import Frame from './Frame.astro';
 import Node from './Node.astro';
 import Arrow from './Arrow.astro';
+
+const title = 'Licensing platform architecture';
+const description =
+  'Shopify order webhooks and Discord interactions reach a Cloudflare Worker, which stores licenses and devices in D1 and content in R2. The desktop app talks to the Worker over a per-request encrypted channel.';
 ---
 
-<Frame
-  title="Licensing platform architecture"
-  description="Shopify order webhooks and Discord interactions reach a Cloudflare Worker, which stores licenses and devices in D1 and content in R2. The desktop app talks to the Worker over a per-request encrypted channel."
-  height={250}
->
+<Frame title={title} description={description} height={250}>
   <Node x={1} y={20} w={130} label="Shopify" sub="orders" />
   <Node x={1} y={105} w={130} label="Desktop app" sub="Windows" />
   <Node x={1} y={190} w={130} label="Discord" sub="self-service, admin" />
@@ -20,4 +20,18 @@ import Arrow from './Arrow.astro';
   <Arrow d="M131 216 H240 V157 H270" label="HTTP interactions" lx={137} ly={208} anchor="start" />
   <Arrow d="M420 115 H470 V76 H520" />
   <Arrow d="M420 147 H470 V186 H520" />
+</Frame>
+
+<Frame title={title} description={description} height={392} layout="tall">
+  <Node x={20} y={10} w={145} label="Shopify" sub="HMAC webhook" />
+  <Node x={175} y={10} w={145} label="Discord" sub="HTTP interactions" />
+  <Node x={20} y={110} w={300} h={60} label="Cloudflare Worker" sub="licenses, content" accent />
+  <Node x={20} y={230} w={145} label="D1" sub="licenses, devices" />
+  <Node x={175} y={230} w={145} label="R2" sub="content" />
+  <Node x={20} y={330} w={300} label="Desktop app" sub="ECDH, AES, HMAC" />
+  <Arrow layout="tall" d="M92.5 62 V110" />
+  <Arrow layout="tall" d="M247.5 62 V110" />
+  <Arrow layout="tall" d="M92.5 170 V230" />
+  <Arrow layout="tall" d="M247.5 170 V230" />
+  <Arrow layout="tall" d="M170 170 V330" both />
 </Frame>

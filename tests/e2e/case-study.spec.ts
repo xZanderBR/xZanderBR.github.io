@@ -14,7 +14,10 @@ for (const slug of slugs) {
 for (const slug of slugs.filter((s) => s !== 'struc-ai')) {
   test(`${slug} has an architecture diagram`, async ({ page }) => {
     await page.goto(`/work/${slug}/`);
-    await expect(page.locator('svg[role="img"] title')).toHaveCount(1);
+    // Two layouts exist (wide and tall); exactly one shows, with a title.
+    const visible = page.locator('svg[role="img"]:visible');
+    await expect(visible).toHaveCount(1);
+    await expect(visible.locator('title')).toHaveCount(1);
   });
 }
 

@@ -6,9 +6,12 @@ export interface Props {
   lx?: number;
   ly?: number;
   anchor?: 'start' | 'middle' | 'end';
+  // Which layout's arrowhead to use (marker ids are unique per layout).
+  layout?: 'wide' | 'tall';
 }
 
-const { d, both = false, label, lx = 0, ly = 0, anchor = 'middle' } = Astro.props;
+const { d, both = false, label, lx = 0, ly = 0, anchor = 'middle', layout = 'wide' } = Astro.props;
+const marker = `url(#diagram-arrowhead-${layout})`;
 ---
 
 <g>
@@ -16,8 +19,8 @@ const { d, both = false, label, lx = 0, ly = 0, anchor = 'middle' } = Astro.prop
     d={d}
     fill="none"
     style="stroke: var(--muted); stroke-width: 1"
-    marker-end="url(#arrowhead)"
-    marker-start={both ? 'url(#arrowhead)' : undefined}
+    marker-end={marker}
+    marker-start={both ? marker : undefined}
   ></path>
   {label && (
     <text x={lx} y={ly} text-anchor={anchor} font-size="12" style="fill: var(--muted)">

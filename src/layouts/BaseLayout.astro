@@ -83,12 +83,18 @@ const paletteData = JSON.stringify({
     <ClientRouter />
   </head>
   <body>
+    <a
+      href="#main"
+      class="sr-only rounded-md bg-ink px-3 py-2 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+    >
+      Skip to content
+    </a>
     <div class="mx-auto max-w-[720px] px-4 sm:px-6">
       <Header>
         <SearchButton />
         <ThemeToggle />
       </Header>
-      <main>
+      <main id="main" tabindex="-1" class="outline-none">
         <slot />
       </main>
       <Footer />
