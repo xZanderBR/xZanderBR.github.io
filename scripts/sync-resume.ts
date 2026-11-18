@@ -1,4 +1,6 @@
 // Copies the web resume PDF into public/ after checking it is safe to publish.
+// Normally the Resume repo's workflow runs this and opens the site PR; run it by
+// hand only to test a local build (default: ~/Documents/Resume/build/resume_web.pdf).
 // Usage: bun scripts/sync-resume.ts [path-to-pdf]
 import { copyFileSync, existsSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
@@ -7,7 +9,7 @@ import { extractText, getDocumentProxy } from 'unpdf';
 import { resumeProblems } from '../src/lib/resume-check';
 import { loadRules } from '../src/lib/copy-check';
 
-const source = process.argv[2] ?? join(homedir(), 'Documents/Resume/resumes/resume_web.pdf');
+const source = process.argv[2] ?? join(homedir(), 'Documents/Resume/build/resume_web.pdf');
 if (!existsSync(source)) {
   console.error(`No PDF at ${source}. Build the web resume first.`);
   process.exit(1);

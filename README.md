@@ -36,13 +36,13 @@ Everything else on the home page (intro, experience, other projects, About) is i
 
 ## Updating the resume
 
-The PDF comes from the web version of my LaTeX resume. After compiling it:
+The private Resume repo is the only source. Its `resume.tex` builds both the full resume and this site's web version (no phone number, held-back claims left out). On every resume change, a workflow there builds the PDFs, runs `scripts/sync-resume.ts` from this repo to check the web one (one page, no phone number, the private copy rules), and opens or updates an "Update resume" PR here. Merge it to publish.
+
+To test a local build by hand:
 
 ```bash
 bun run sync:resume [path/to/resume_web.pdf]
 ```
-
-The script refuses a PDF that isn't one page or that contains a phone number.
 
 ## Deploying
 
