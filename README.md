@@ -41,7 +41,7 @@ The private Resume repo is the only source. Its `resume.tex` builds both the ful
 To test a local build by hand:
 
 ```bash
-bun run sync:resume [path/to/resume_web.pdf]
+bun run sync:resume [path/to/resume-web.pdf]
 ```
 
 ## Deploying
