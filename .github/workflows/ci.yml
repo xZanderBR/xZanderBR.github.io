@@ -13,14 +13,21 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Playwright's image ships Node and all three browsers with their Linux
+    # libraries, so CI never waits on apt or a browser download. Its tag must match
+    # @playwright/test (tests/unit/ci-config.test.ts checks this).
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      # Recommended by Playwright: Docker's small default shared memory crashes browsers.
+      options: --ipc=host
+    env:
+      # The image runs as root; Firefox needs HOME to belong to that user.
+      HOME: /root
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.4.4
+      - name: Install bun
+        run: npm install --global bun@1.4.4
       - run: bun install --frozen-lockfile
 
       - name: Types, lint and formatting
@@ -37,21 +44,25 @@ jobs:
           # Private copy rules (one regex per line). Not available to fork PRs.
           COPY_RULES: ${{ secrets.COPY_RULES }}
 
-      - name: Install browsers
-        run: bunx playwright install --with-deps chromium firefox webkit
       - name: End-to-end tests
         run: bun run test:e2e
         env:
           CI: '1'
       - name: Lighthouse
-        run: bunx @lhci/cli autorun
+        # Uses the image's Chromium; it needs --no-sandbox when running as root.
+        run: |
+          export CHROME_PATH="$(node -e "console.log(require('@playwright/test').chromium.executablePath())")"
+          bunx @lhci/cli autorun --collect.settings.chromeFlags="--no-sandbox"
       - name: Lighthouse numbers
         if: always() && hashFiles('.lighthouseci/lhr-*.json') != ''
         run: bun scripts/lighthouse-summary.ts
+      # Inside a container, github.workspace is the host's path; record the real one.
+      - name: Find the built site
+        run: echo "DIST_DIR=$PWD/dist" >> "$GITHUB_ENV"
       - name: Internal links
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --no-progress --root-dir ${{ github.workspace }}/dist 'dist/**/*.html'
+          args: --offline --no-progress --root-dir ${{ env.DIST_DIR }} 'dist/**/*.html'
           fail: true
 
       - uses: actions/upload-artifact@v7
