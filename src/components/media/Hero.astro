@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const { id, hero } = Astro.props;
-const sizes = '(min-width: 1024px) 960px, calc(100vw - 2rem)';
+const sizes = '(min-width: 1024px) 960px, (min-width: 720px) 672px, calc(100vw - 2rem)';
 ---
 
 <div data-hero class="hero-breakout mt-8" transition:name={`visual-${id}`}>

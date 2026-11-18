@@ -52,4 +52,11 @@ describe('Struc-AI catches by kind of check', () => {
     expect(`${caught} of ${total}`).toBe('101 of 107');
     for (const c of strucaiCatches.categories) expect(c.caught).toBeLessThanOrEqual(c.total);
   });
+
+  test('match the numbers written in the case study', async () => {
+    const { strucaiCatches } = await import('@/lib/stats');
+    const { readFileSync } = await import('node:fs');
+    const mdx = readFileSync('src/content/projects/struc-ai.mdx', 'utf8');
+    expect(mdx).toContain(`across ${strucaiCatches.projects} archived projects`);
+  });
 });

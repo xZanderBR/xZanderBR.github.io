@@ -1,11 +1,32 @@
 {
   "source": "Struc-AI archive score: known issues in issued drawing sets, by the kind of check that should catch them",
   "capturedAt": "2026-11-18",
+  "projects": 83,
   "categories": [
-    { "label": "Seismic and wind design criteria", "caught": 35, "total": 35 },
-    { "label": "Plans against the calculations", "caught": 27, "total": 27 },
-    { "label": "Sheets, title blocks and seals", "caught": 26, "total": 32 },
-    { "label": "General notes", "caught": 7, "total": 7 },
-    { "label": "Revisions, calc packages and CAD files", "caught": 6, "total": 6 }
+    {
+      "label": "Seismic and wind design criteria",
+      "caught": 35,
+      "total": 35
+    },
+    {
+      "label": "Plans against the calculations",
+      "caught": 27,
+      "total": 27
+    },
+    {
+      "label": "Sheets, title blocks and seals",
+      "caught": 26,
+      "total": 32
+    },
+    {
+      "label": "General notes",
+      "caught": 7,
+      "total": 7
+    },
+    {
+      "label": "Revisions, calc packages and CAD files",
+      "caught": 6,
+      "total": 6
+    }
   ]
 }

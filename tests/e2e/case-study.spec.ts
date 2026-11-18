@@ -29,6 +29,7 @@ test('struc-ai stays an overview: no diagram, design details, roadmap or code li
   await expect(headings).toHaveText(['The problem', 'What I built', 'Results']);
   // A chart of results is fine; a diagram of how it works is not.
   await expect(page.locator('[data-diagram]')).toHaveCount(0);
+  await expect(page.locator('svg[role="img"]:not([data-chart] svg)')).toHaveCount(0);
   await expect(page.locator('article')).not.toContainText(/78 rules|USGS|quote check|554/i);
   await expect(page.locator('article')).toContainText('101 of 107');
   await expect(page.locator('dl')).toContainText('Claude API');

@@ -3,7 +3,7 @@
 // Each track is that kind's known issues, on one shared scale; the fill is what it caught.
 import { strucaiCatches } from '@/lib/stats';
 
-const { categories } = strucaiCatches;
+const { categories, projects } = strucaiCatches;
 const caught = categories.reduce((a, c) => a + c.caught, 0);
 const total = categories.reduce((a, c) => a + c.total, 0);
 const most = Math.max(...categories.map((c) => c.total));
@@ -20,7 +20,7 @@ const summary = `Known issues caught, by kind of check: ${categories
       <span class="tabular">
         {caught} of {total}
       </span>{' '}
-      across 83 archived projects
+      across {projects} archived projects
     </p>
   </div>
   <div
@@ -49,9 +49,10 @@ const summary = `Known issues caught, by kind of check: ${categories
       </>
     ))}
   </div>
-  <div class="sr-only">
-    <table>
-      <caption>Known issues caught, by kind of check</caption>
+  <details class="mt-3 text-[13px] text-muted-foreground">
+    <summary class="w-fit cursor-pointer hover:text-ink">Show the numbers</summary>
+    <table class="data-table mt-2">
+      <caption class="sr-only">Known issues caught, by kind of check</caption>
       <thead>
         <tr>
           <th scope="col">Kind of check</th>
@@ -69,5 +70,5 @@ const summary = `Known issues caught, by kind of check: ${categories
         ))}
       </tbody>
     </table>
-  </div>
+  </details>
 </figure>

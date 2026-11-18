@@ -4,7 +4,7 @@
 import { licensingStats } from '@/lib/stats';
 import { niceScale } from '@/lib/charts';
 
-const { days, total } = licensingStats;
+const { days } = licensingStats;
 const fmt = (n: number) => n.toLocaleString('en-US');
 const day = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {
@@ -20,14 +20,16 @@ const pct = (n: number) => `${(n / max) * 100}%`;
 const first = day(days[0].date);
 const last = day(days.at(-1)!.date);
 const errors = days.reduce((a, d) => a + d.errors, 0);
-const summary = `Requests per day to the license server from ${first} to ${last}: between ${fmt(low.requests)} and ${fmt(peak.requests)} a day, with ${errors === 0 ? 'zero' : fmt(errors)} errors.`;
+const charted = days.reduce((a, d) => a + d.requests, 0);
+const errorText = errors === 0 ? 'zero errors' : `${fmt(errors)} errors`;
+const summary = `Requests per day to the license server from ${first} to ${last}: between ${fmt(low.requests)} and ${fmt(peak.requests)} a day, with ${errorText}.`;
 ---
 
 <figure data-chart class="not-prose rounded-lg border border-rule p-4 sm:p-6">
   <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
     <p class="text-[15px] font-semibold">Requests per day</p>
     <p class="text-[13px] text-muted-foreground">
-      <span class="tabular">{fmt(total.requests)}</span> in 30 days, zero errors
+      <span class="tabular">{fmt(charted)}</span> over {days.length} days, {errorText}
     </p>
   </div>
   <div role="img" aria-label={summary} class="mt-5 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3">
@@ -71,9 +73,10 @@ const summary = `Requests per day to the license server from ${first} to ${last}
       <span>{last}</span>
     </div>
   </div>
-  <div class="sr-only">
-    <table>
-      <caption>Requests per day to the license server</caption>
+  <details class="mt-3 text-[13px] text-muted-foreground">
+    <summary class="w-fit cursor-pointer hover:text-ink">Show the numbers</summary>
+    <table class="data-table mt-2">
+      <caption class="sr-only">Requests per day to the license server</caption>
       <thead>
         <tr>
           <th scope="col">Day</th>
@@ -91,5 +94,5 @@ const summary = `Requests per day to the license server from ${first} to ${last}
         ))}
       </tbody>
     </table>
-  </div>
+  </details>
 </figure>

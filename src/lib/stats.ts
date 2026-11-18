@@ -28,6 +28,8 @@ export const strucaiCatchesSchema = z
   .object({
     source: z.string(),
     capturedAt: z.iso.date(),
+    // Archived projects the score was measured on.
+    projects: count,
     categories: z
       .array(z.strictObject({ label: z.string().min(1), caught: count, total: count }))
       .min(1),
