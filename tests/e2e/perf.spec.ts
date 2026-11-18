@@ -56,7 +56,8 @@ async function measureShift(
 
 test.describe('font loading', () => {
   test.use({ viewport: { width: 412, height: 823 } });
-  for (const path of ['/', '/work/aztec-list/']) {
+  // The chart pages have the most text in their visuals, which re-wraps if the font swaps.
+  for (const path of ['/', '/work/aztec-list/', '/work/struc-ai/', '/work/licensing-platform/']) {
     test(`${path} doesn't shift when the font loads`, async ({ page, browserName }) => {
       test.skip(browserName !== 'chromium', 'The layout-shift API is Chromium-only');
       expect(await measureShift(page, path, 0)).toBeLessThan(0.01);

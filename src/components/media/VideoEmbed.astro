@@ -62,5 +62,8 @@ const { id, poster, title, priority = false, class: className } = Astro.props;
       });
     }
   }
+  // After a client-side navigation this script can first run after astro:page-load has
+  // fired, so set up right away too. data-ready keeps anything from binding twice.
+  setUpEmbeds();
   document.addEventListener('astro:page-load', setUpEmbeds);
 </script>

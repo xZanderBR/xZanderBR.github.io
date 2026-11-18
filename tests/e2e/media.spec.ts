@@ -77,3 +77,21 @@ for (const slug of ['licensing-platform', 'struc-ai']) {
     }
   });
 }
+
+test('opening a project from the home page sets up its media, with no errors', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  await page.goto('/');
+  await page.getByTestId('project-row').filter({ hasText: 'Aztec List' }).click();
+  await expect(page).toHaveURL(/\/work\/aztec-list\/$/);
+  const video = page.locator('[data-hero] video');
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(false);
+  // Back home and into another project: its embed is set up too.
+  await page.goBack();
+  await page.getByTestId('project-row').filter({ hasText: 'Pourtocol' }).click();
+  await expect(page.locator('[data-embed]')).toHaveAttribute('data-ready', 'true');
+  await page.locator('[data-hero]').getByRole('button', { name: /play/i }).click();
+  await expect(page.locator('[data-hero] iframe')).toHaveCount(1);
+  expect(errors).toEqual([]);
+});
