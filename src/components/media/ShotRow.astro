@@ -1,0 +1,15 @@
+---
+// Two screenshots side by side, with one caption under both.
+export interface Props {
+  caption?: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="not-prose my-6">
+  <div class="grid grid-cols-2 gap-3 sm:gap-4">
+    <slot />
+  </div>
+  {caption && <figcaption class="mt-2 text-[14px] text-muted-foreground">{caption}</figcaption>}
+</figure>

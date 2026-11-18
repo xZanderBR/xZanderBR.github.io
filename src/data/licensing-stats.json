@@ -1,0 +1,414 @@
+{
+  "source": "Cloudflare Workers metrics for the license server, last 30 days",
+  "capturedAt": "2026-11-18",
+  "total": {
+    "requests": 108140,
+    "errors": 0,
+    "cpuMsP50": 19.9
+  },
+  "days": [
+    {
+      "date": "2026-10-20",
+      "requests": 2980,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-21",
+      "requests": 3200,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-22",
+      "requests": 5070,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-23",
+      "requests": 4230,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-24",
+      "requests": 4170,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-25",
+      "requests": 3690,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-26",
+      "requests": 2790,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-27",
+      "requests": 3020,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-28",
+      "requests": 2890,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-29",
+      "requests": 4340,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-30",
+      "requests": 3330,
+      "errors": 0
+    },
+    {
+      "date": "2026-10-31",
+      "requests": 3510,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-01",
+      "requests": 3120,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-02",
+      "requests": 2880,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-03",
+      "requests": 2700,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-04",
+      "requests": 3230,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-05",
+      "requests": 4080,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-06",
+      "requests": 3130,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-07",
+      "requests": 3260,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-08",
+      "requests": 3010,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-09",
+      "requests": 3070,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-10",
+      "requests": 4490,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-11",
+      "requests": 2910,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-12",
+      "requests": 2830,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-13",
+      "requests": 6360,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-14",
+      "requests": 4840,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-15",
+      "requests": 4200,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-16",
+      "requests": 3710,
+      "errors": 0
+    },
+    {
+      "date": "2026-11-17",
+      "requests": 3460,
+      "errors": 0
+    }
+  ],
+  "countries": [
+    {
+      "code": "US",
+      "requests": 58710
+    },
+    {
+      "code": "BR",
+      "requests": 5350
+    },
+    {
+      "code": "CA",
+      "requests": 5000
+    },
+    {
+      "code": "FR",
+      "requests": 4820
+    },
+    {
+      "code": "GB",
+      "requests": 3950
+    },
+    {
+      "code": "DE",
+      "requests": 3840
+    },
+    {
+      "code": "AU",
+      "requests": 3760
+    },
+    {
+      "code": "SE",
+      "requests": 1930
+    },
+    {
+      "code": "HK",
+      "requests": 1880
+    },
+    {
+      "code": "SG",
+      "requests": 1820
+    },
+    {
+      "code": "PL",
+      "requests": 1470
+    },
+    {
+      "code": "NL",
+      "requests": 1460
+    },
+    {
+      "code": "IN",
+      "requests": 1230
+    },
+    {
+      "code": "CH",
+      "requests": 1040
+    },
+    {
+      "code": "BD",
+      "requests": 870
+    },
+    {
+      "code": "IT",
+      "requests": 860
+    },
+    {
+      "code": "AT",
+      "requests": 770
+    },
+    {
+      "code": "IE",
+      "requests": 610
+    },
+    {
+      "code": "NZ",
+      "requests": 580
+    },
+    {
+      "code": "RO",
+      "requests": 540
+    },
+    {
+      "code": "JO",
+      "requests": 510
+    },
+    {
+      "code": "OM",
+      "requests": 490
+    },
+    {
+      "code": "ES",
+      "requests": 490
+    },
+    {
+      "code": "KW",
+      "requests": 460
+    },
+    {
+      "code": "JP",
+      "requests": 450
+    },
+    {
+      "code": "BE",
+      "requests": 390
+    },
+    {
+      "code": "TH",
+      "requests": 370
+    },
+    {
+      "code": "AR",
+      "requests": 350
+    },
+    {
+      "code": "PT",
+      "requests": 330
+    },
+    {
+      "code": "BG",
+      "requests": 310
+    },
+    {
+      "code": "IL",
+      "requests": 280
+    },
+    {
+      "code": "PK",
+      "requests": 270
+    },
+    {
+      "code": "DK",
+      "requests": 270
+    },
+    {
+      "code": "FI",
+      "requests": 240
+    },
+    {
+      "code": "JM",
+      "requests": 210
+    },
+    {
+      "code": "RS",
+      "requests": 200
+    },
+    {
+      "code": "EE",
+      "requests": 180
+    },
+    {
+      "code": "NO",
+      "requests": 180
+    },
+    {
+      "code": "EC",
+      "requests": 130
+    },
+    {
+      "code": "SA",
+      "requests": 130
+    },
+    {
+      "code": "GE",
+      "requests": 120
+    },
+    {
+      "code": "AZ",
+      "requests": 120
+    },
+    {
+      "code": "TT",
+      "requests": 110
+    },
+    {
+      "code": "BH",
+      "requests": 110
+    },
+    {
+      "code": "PR",
+      "requests": 110
+    },
+    {
+      "code": "IS",
+      "requests": 90
+    },
+    {
+      "code": "QA",
+      "requests": 90
+    },
+    {
+      "code": "LK",
+      "requests": 80
+    },
+    {
+      "code": "MY",
+      "requests": 80
+    },
+    {
+      "code": "RU",
+      "requests": 80
+    },
+    {
+      "code": "MN",
+      "requests": 70
+    },
+    {
+      "code": "PH",
+      "requests": 60
+    },
+    {
+      "code": "HR",
+      "requests": 60
+    },
+    {
+      "code": "GR",
+      "requests": 40
+    },
+    {
+      "code": "CO",
+      "requests": 30
+    },
+    {
+      "code": "CY",
+      "requests": 30
+    },
+    {
+      "code": "NG",
+      "requests": 30
+    },
+    {
+      "code": "DZ",
+      "requests": 30
+    },
+    {
+      "code": "EG",
+      "requests": 20
+    },
+    {
+      "code": "ZA",
+      "requests": 10
+    },
+    {
+      "code": "HU",
+      "requests": 10
+    },
+    {
+      "code": "TW",
+      "requests": 10
+    },
+    {
+      "code": "MV",
+      "requests": 10
+    },
+    {
+      "code": "KZ",
+      "requests": 10
+    }
+  ]
+}

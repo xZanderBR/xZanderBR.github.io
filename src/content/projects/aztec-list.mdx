@@ -16,9 +16,20 @@ links:
   - label: Original team repo
     href: https://github.com/SDSU-CompE-561-Fall-2025/aztec-list
 order: 4
+hero:
+  kind: clip
+  src: /media/aztec-list/assistant.mp4
+  poster: ../../assets/projects/aztec-list/assistant.webp
+  alt: 'The shopping assistant on azteclist.com answering "a cheap desk for my dorm" with a desk from the listings, linked.'
+thumb:
+  kind: image
+  src: ../../assets/projects/aztec-list/thumb.webp
 ---
 
 import AztecList from '@/components/diagrams/AztecList.astro';
+import Shot from '@/components/media/Shot.astro';
+import search from '@/assets/projects/aztec-list/search.webp';
+import moderator from '@/assets/projects/aztec-list/moderator.webp';
 
 ## The problem
 
@@ -33,6 +44,18 @@ I was the primary contributor on a five-person team. Teammates on GitHub: hyp525
 - Semantic search: listings are embedded and stored in Qdrant, so a search like "keep drinks cold in my room" matches by meaning, not keywords.
 - An AI shopping assistant (RAG on LangGraph) that answers from real listings and cites them, plus AI-written listing descriptions, Claude-vision image moderation and an MCP server.
 - The live demo: a Docker API on Fly.io that GitHub Actions deploys once the tests pass, and the frontend on Vercel.
+
+<Shot
+  src={search}
+  alt='Smart search results for "cheap stuff to set up my apartment": a desk, a plant, bedding, a microwave, a guitar and a bookcase.'
+  caption="Smart search ranks listings by what the search means, not just the words in it."
+/>
+
+<Shot
+  src={moderator}
+  alt="The admin dashboard's Flagged tab, with a too-cheap phone listing flagged as a likely scam and buttons to approve or remove it."
+  caption="Moderators review flagged listings and approve or remove them."
+/>
 
 ## How it fits together
 

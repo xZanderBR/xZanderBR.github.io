@@ -133,6 +133,13 @@ html.dark {
   .case-prose figure {
     max-width: none;
   }
+  /* The visual under a case study's title runs wider than the text on large screens. */
+  @media (min-width: 1024px) {
+    .hero-breakout {
+      width: min(960px, calc(100vw - 3rem));
+      margin-left: calc(50% - min(480px, 50vw - 1.5rem));
+    }
+  }
 }
 
 /* Show the shortcut for the visitor's OS; data-platform is set before paint. */

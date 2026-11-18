@@ -84,3 +84,27 @@ test('hovering or focusing Search starts loading the palette before any click', 
   await expect.poll(() => paletteRequests.length).toBeGreaterThan(0);
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
+
+// Thumbnails are tiny, so the home page stays light even with five of them.
+const HOME_IMAGE_BUDGET_BYTES = 120_000;
+
+test(`/ loads under ${HOME_IMAGE_BUDGET_BYTES / 1000}KB of images`, async ({ page }) => {
+  const sizes: Promise<number>[] = [];
+  page.on('response', (res: Response) => {
+    if (res.request().resourceType() === 'image') sizes.push(res.body().then((b) => b.length));
+  });
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+  const total = (await Promise.all(sizes)).reduce((a, b) => a + b, 0);
+  expect(total).toBeLessThan(HOME_IMAGE_BUDGET_BYTES);
+});
+
+test('the visual under the title loads first; screenshots further down wait', async ({ page }) => {
+  await page.goto('/work/pourtocol/');
+  const hero = page.locator('[data-hero] img');
+  await expect(hero).toHaveAttribute('fetchpriority', 'high');
+  expect(await hero.getAttribute('loading')).not.toBe('lazy');
+  for (const img of await page.locator('article .case-prose img').all()) {
+    await expect(img).toHaveAttribute('loading', 'lazy');
+  }
+});

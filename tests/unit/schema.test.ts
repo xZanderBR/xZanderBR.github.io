@@ -32,3 +32,46 @@ describe('projectSchema', () => {
     ).toThrow();
   });
 });
+
+describe('projectSchema visuals', () => {
+  const heroes = {
+    image: { kind: 'image', src: 'search.webp', alt: 'Search results' },
+    clip: { kind: 'clip', src: '/media/aztec-list/assistant.mp4', poster: 'a.webp', alt: 'Asking' },
+    youtube: { kind: 'youtube', id: 'go4TOXk46Cg', poster: 'p.webp', title: 'Demo video' },
+    chart: { kind: 'chart', chart: 'licensing-requests' },
+  };
+
+  for (const [name, hero] of Object.entries(heroes)) {
+    test(`accepts a ${name} hero`, () => {
+      expect(projectSchema.parse({ ...valid, hero }).hero).toEqual(hero);
+    });
+  }
+
+  test.each([
+    ['an image without alt text', { kind: 'image', src: 'a.webp', alt: '' }],
+    ['a clip outside /media', { kind: 'clip', src: '/a.mp4', poster: 'a.webp', alt: 'x' }],
+    [
+      'a clip that is not an MP4',
+      { kind: 'clip', src: '/media/a/b.gif', poster: 'a.webp', alt: 'x' },
+    ],
+    ['a malformed YouTube id', { kind: 'youtube', id: 'nope', poster: 'p.webp', title: 'x' }],
+    ['an unknown chart', { kind: 'chart', chart: 'pie' }],
+  ])('rejects %s', (_name, hero) => {
+    expect(() => projectSchema.parse({ ...valid, hero })).toThrow();
+  });
+
+  test('accepts image and chart thumbnails', () => {
+    for (const thumb of [
+      { kind: 'image', src: 'thumb.webp' },
+      { kind: 'chart', chart: 'strucai-mini' },
+    ]) {
+      expect(projectSchema.parse({ ...valid, thumb }).thumb).toEqual(thumb);
+    }
+  });
+
+  test('rejects an unknown thumbnail chart', () => {
+    expect(() =>
+      projectSchema.parse({ ...valid, thumb: { kind: 'chart', chart: 'licensing-requests' } }),
+    ).toThrow();
+  });
+});

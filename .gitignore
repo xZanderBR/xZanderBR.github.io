@@ -8,3 +8,6 @@ test-results/
 playwright-report/
 .lighthouseci/
 .DS_Store
+
+# Raw screenshots and clips before they are optimized into src/assets
+media-src/

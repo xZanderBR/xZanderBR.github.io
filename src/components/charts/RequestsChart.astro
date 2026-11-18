@@ -1,0 +1,95 @@
+---
+// Requests per day to the license server, from the Cloudflare snapshot. Plain HTML bars, so
+// the labels stay full size on a phone. Hovering a bar shows its day and count.
+import { licensingStats } from '@/lib/stats';
+import { niceScale } from '@/lib/charts';
+
+const { days, total } = licensingStats;
+const fmt = (n: number) => n.toLocaleString('en-US');
+const day = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+const peak = days.reduce((a, d) => (d.requests > a.requests ? d : a));
+const low = days.reduce((a, d) => (d.requests < a.requests ? d : a));
+const { max, step } = niceScale(peak.requests);
+const ticks = Array.from({ length: max / step + 1 }, (_, i) => i * step);
+const pct = (n: number) => `${(n / max) * 100}%`;
+const first = day(days[0].date);
+const last = day(days.at(-1)!.date);
+const errors = days.reduce((a, d) => a + d.errors, 0);
+const summary = `Requests per day to the license server from ${first} to ${last}: between ${fmt(low.requests)} and ${fmt(peak.requests)} a day, with ${errors === 0 ? 'zero' : fmt(errors)} errors.`;
+---
+
+<figure data-chart class="not-prose rounded-lg border border-rule p-4 sm:p-6">
+  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+    <p class="text-[15px] font-semibold">Requests per day</p>
+    <p class="text-[13px] text-muted-foreground">
+      <span class="tabular">{fmt(total.requests)}</span> in 30 days, zero errors
+    </p>
+  </div>
+  <div role="img" aria-label={summary} class="mt-5 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3">
+    <div class="tabular relative h-[180px] text-[12px] text-muted-foreground sm:h-[220px]">
+      {ticks.map((t) => (
+        <span class="absolute right-0 translate-y-1/2 leading-none" style={`bottom:${pct(t)}`}>
+          {fmt(t)}
+        </span>
+      ))}
+      <span class="invisible">{fmt(max)}</span>
+    </div>
+    <div class="relative h-[180px] sm:h-[220px]">
+      {ticks.map((t) => (
+        <div class="absolute inset-x-0 border-t border-rule" style={`bottom:${pct(t)}`} />
+      ))}
+      <div class="absolute inset-0 flex items-end gap-[2px]">
+        {days.map((d) => (
+          <div
+            class="relative flex h-full min-w-0 flex-1 items-end justify-center"
+            title={`${day(d.date)}: ${fmt(d.requests)} requests`}
+          >
+            {d === peak && (
+              <span
+                class="tabular absolute left-1/2 -translate-x-1/2 text-[12px] whitespace-nowrap text-muted-foreground"
+                style={`bottom:calc(${pct(d.requests)} + 4px)`}
+              >
+                {fmt(d.requests)}
+              </span>
+            )}
+            <div
+              class="w-full max-w-[24px] rounded-t-[4px]"
+              style={`height:${pct(d.requests)};background:var(--accent)`}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+    <div></div>
+    <div class="mt-2 flex justify-between text-[12px] text-muted-foreground">
+      <span>{first}</span>
+      <span>{last}</span>
+    </div>
+  </div>
+  <div class="sr-only">
+    <table>
+      <caption>Requests per day to the license server</caption>
+      <thead>
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Requests</th>
+          <th scope="col">Errors</th>
+        </tr>
+      </thead>
+      <tbody>
+        {days.map((d) => (
+          <tr>
+            <th scope="row">{day(d.date)}</th>
+            <td>{fmt(d.requests)}</td>
+            <td>{d.errors}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</figure>

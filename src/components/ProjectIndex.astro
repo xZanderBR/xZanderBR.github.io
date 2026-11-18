@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import Thumb from '@/components/media/Thumb.astro';
 
 export interface Props {
   projects: CollectionEntry<'projects'>[];
@@ -20,18 +21,19 @@ const { projects, proofOverrides = {} } = Astro.props;
         <a
           data-testid="project-row"
           href={`/work/${id}/`}
-          class="group grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1 py-4 sm:grid-cols-[9rem_minmax(0,1fr)_auto]"
+          class="group grid grid-cols-[80px_minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1 py-4 sm:grid-cols-[80px_9rem_minmax(0,1fr)_auto]"
         >
+          <Thumb id={id} thumb={data.thumb} />
           <span
             class="font-semibold text-ink group-hover:underline"
             transition:name={`project-${id}`}
           >
             {data.title}
           </span>
-          <span class="col-span-2 row-start-2 text-[15px] text-muted-foreground sm:col-span-1 sm:row-start-auto">
+          <span class="col-span-2 col-start-2 row-start-2 text-[15px] text-muted-foreground sm:col-span-1 sm:col-start-auto sm:row-start-auto">
             {data.summary}
           </span>
-          <span class="col-start-2 row-start-1 text-right sm:col-start-auto sm:row-start-auto">
+          <span class="col-start-3 row-start-1 text-right sm:col-start-auto sm:row-start-auto">
             <span class="tabular block text-[17px] font-semibold text-link">
               {proofOverrides[id] ?? data.proof.value}
             </span>

@@ -42,7 +42,7 @@ test.describe('diagrams on phones', () => {
   for (const path of diagramPages) {
     test(`${path} shows one tall diagram that fits the screen`, async ({ page }) => {
       await page.goto(path);
-      const visible = page.locator('svg[role="img"]:visible');
+      const visible = page.locator('[data-diagram] svg[role="img"]:visible');
       await expect(visible).toHaveCount(1);
       expect((await visible.getAttribute('viewBox'))?.split(' ')[2]).toBe('340');
       const overflow = await visible.evaluate((svg) => {
@@ -58,7 +58,7 @@ test.describe('diagrams on desktop', () => {
   for (const path of diagramPages) {
     test(`${path} shows the wide diagram`, async ({ page }) => {
       await page.goto(path);
-      const visible = page.locator('svg[role="img"]:visible');
+      const visible = page.locator('[data-diagram] svg[role="img"]:visible');
       await expect(visible).toHaveCount(1);
       expect((await visible.getAttribute('viewBox'))?.split(' ')[2]).toBe('680');
     });

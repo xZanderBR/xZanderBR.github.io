@@ -1,0 +1,113 @@
+---
+// Where the license server's requests came from, by the country of the Cloudflare data
+// center that served them. Drawn at build time; no JavaScript reaches the page.
+import { geoEqualEarth, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import type { FeatureCollection, Geometry } from 'geojson';
+import type { Topology, GeometryCollection } from 'topojson-specification';
+import world from 'world-atlas/countries-110m.json';
+import { licensingStats } from '@/lib/stats';
+import { shadeStep } from '@/lib/charts';
+import { ISO_NUMERIC, countryName } from '@/lib/countries';
+
+const W = 960;
+const H = 470;
+const topology = world as unknown as Topology<{ countries: GeometryCollection<{ name: string }> }>;
+const all = feature(topology, topology.objects.countries) as FeatureCollection<
+  Geometry,
+  { name: string }
+>;
+// Antarctica only takes up room.
+const shapes = { ...all, features: all.features.filter((f) => f.id !== '010') };
+// Whole-pixel coordinates are plenty at this size and keep the page small.
+const path = geoPath(geoEqualEarth().fitSize([W, H], shapes)).digits(0);
+
+const { countries } = licensingStats;
+const byId = new Map(
+  countries.filter((c) => ISO_NUMERIC[c.code]).map((c) => [ISO_NUMERIC[c.code], c]),
+);
+const fmt = (n: number) => n.toLocaleString('en-US');
+
+// Lower bounds of the darker shades (.s1 to .s4 below; .s0 is under the first bound).
+const STEPS = [100, 300, 1000, 5000];
+const legend = ['Under 100', ...STEPS.map((s) => `${fmt(s)}+`)];
+const summary = `World map of requests to the license server over 30 days, by country: ${countries.length} countries, led by ${countries
+  .slice(0, 5)
+  .map((c) => countryName(c.code))
+  .join(', ')}.`;
+---
+
+<figure data-chart class="not-prose my-6">
+  <svg role="img" aria-label={summary} viewBox={`0 0 ${W} ${H}`} class="block h-auto w-full">
+    <g class="map">
+      {shapes.features.map((f) => {
+        const hit = byId.get(String(f.id));
+        return (
+          <path d={path(f) ?? ''} class={hit ? `s${shadeStep(hit.requests, STEPS)}` : undefined}>
+            {hit && <title>{`${countryName(hit.code)}: ${fmt(hit.requests)} requests`}</title>}
+          </path>
+        );
+      })}
+    </g>
+  </svg>
+  <figcaption class="mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[13px] text-muted-foreground">
+    <span>
+      Requests by the country of the Cloudflare data center that served them. Singapore, Hong Kong
+      and a few other small places don't show at this scale.
+    </span>
+    <span class="flex items-center gap-3" aria-hidden="true">
+      {legend.map((label, i) => (
+        <span class="flex items-center gap-1 whitespace-nowrap">
+          <span class={`swatch s${i} inline-block size-3 rounded-[3px]`} />
+          {label}
+        </span>
+      ))}
+    </span>
+  </figcaption>
+  <div class="sr-only">
+    <table>
+      <caption>Requests to the license server by country, last 30 days</caption>
+      <thead>
+        <tr>
+          <th scope="col">Country</th>
+          <th scope="col">Requests</th>
+        </tr>
+      </thead>
+      <tbody>
+        {countries.map((c) => (
+          <tr>
+            <th scope="row">{countryName(c.code)}</th>
+            <td>{fmt(c.requests)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</figure>
+
+<style>
+  /* One sequential ramp: the accent mixed into the paper, so it works in both themes. */
+  .s0 {
+    --shade: color-mix(in oklab, var(--accent) 38%, var(--paper));
+  }
+  .s1 {
+    --shade: color-mix(in oklab, var(--accent) 54%, var(--paper));
+  }
+  .s2 {
+    --shade: color-mix(in oklab, var(--accent) 70%, var(--paper));
+  }
+  .s3 {
+    --shade: color-mix(in oklab, var(--accent) 85%, var(--paper));
+  }
+  .s4 {
+    --shade: var(--accent);
+  }
+  .map path {
+    fill: var(--shade, var(--wash));
+    stroke: var(--paper);
+    stroke-width: 0.6;
+  }
+  .swatch {
+    background: var(--shade);
+  }
+</style>

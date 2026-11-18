@@ -1,0 +1,57 @@
+---
+// A short, silent screen recording. It plays on a loop while it is on screen, and under
+// reduced motion it stays on its poster with controls instead.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  src: string;
+  poster: ImageMetadata;
+  alt: string;
+  caption?: string;
+  class?: string;
+}
+
+const { src, poster, alt, caption, class: className } = Astro.props;
+const posterImage = await getImage({ src: poster, width: 1280, format: 'webp' });
+---
+
+<figure class:list={['not-prose', className ?? 'my-6']}>
+  <video
+    data-clip
+    src={src}
+    poster={posterImage.src}
+    width={poster.width}
+    height={poster.height}
+    aria-label={alt}
+    muted
+    loop
+    playsinline
+    preload="none"
+    class="block h-auto w-full rounded-lg border border-rule bg-wash"
+  ></video>
+  {caption && <figcaption class="mt-2 text-[14px] text-muted-foreground">{caption}</figcaption>}
+</figure>
+
+<script>
+  function setUpClips() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    for (const video of document.querySelectorAll<HTMLVideoElement>('video[data-clip]')) {
+      if (video.dataset.ready) continue;
+      video.dataset.ready = 'true';
+      if (reduce) {
+        video.controls = true;
+        continue;
+      }
+      new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return video.pause();
+          video.preload = 'auto';
+          video.play().catch(() => (video.controls = true));
+        },
+        { threshold: 0.25 },
+      ).observe(video);
+    }
+  }
+  document.addEventListener('astro:page-load', setUpClips);
+</script>
