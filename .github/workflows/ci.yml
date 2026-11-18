@@ -56,14 +56,18 @@ jobs:
       - name: Lighthouse numbers
         if: always() && hashFiles('.lighthouseci/lhr-*.json') != ''
         run: bun scripts/lighthouse-summary.ts
-      # Inside a container, github.workspace is the host's path; record the real one.
-      - name: Find the built site
-        run: echo "DIST_DIR=$PWD/dist" >> "$GITHUB_ENV"
+      # lychee runs as a plain binary: its composite action can't find its own script
+      # inside a container job. Pinned version, checksum verified.
       - name: Internal links
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: --offline --no-progress --root-dir ${{ env.DIST_DIR }} 'dist/**/*.html'
-          fail: true
+        env:
+          LYCHEE: lychee-v0.24.2
+        run: |
+          base="https://github.com/lycheeverse/lychee/releases/download/$LYCHEE"
+          file=lychee-x86_64-unknown-linux-gnu.tar.gz
+          curl -fsSL -o "/tmp/$file" "$base/$file"
+          echo "$(curl -fsSL "$base/$file.sha256" | cut -d' ' -f1)  /tmp/$file" | sha256sum -c -
+          tar -xzf "/tmp/$file" -C /tmp --strip-components=1 lychee-x86_64-unknown-linux-gnu/lychee
+          /tmp/lychee --offline --no-progress --root-dir "$PWD/dist" 'dist/**/*.html'
 
       - uses: actions/upload-artifact@v7
         if: failure()

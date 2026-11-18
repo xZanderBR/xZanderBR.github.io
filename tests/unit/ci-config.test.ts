@@ -16,3 +16,10 @@ test('CI never installs browsers or Linux packages itself', () => {
   expect(ci).not.toMatch(/playwright install/);
   expect(ci).not.toMatch(/apt-get/);
 });
+
+// Composite actions that call ${{ github.action_path }} scripts break inside a
+// container job (the path points at the host), so lychee runs as a plain binary.
+test('CI runs lychee directly, not through its composite action', () => {
+  expect(ci).not.toMatch(/lycheeverse\/lychee-action/);
+  expect(ci).toMatch(/lychee-x86_64-unknown-linux-gnu\.tar\.gz/);
+});
