@@ -4,6 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import CaseStudyMeta from '@/components/CaseStudyMeta.astro';
 import Hero from '@/components/media/Hero.astro';
 import OnThisPage from '@/components/OnThisPage.astro';
+import Lightbox from '@/components/media/Lightbox.astro';
 import { getSortedProjects } from '@/lib/projects';
 import { cachedReleaseDownloads, cachedRepoPushedAt, repoFromUrl } from '@/lib/github';
 import { formatCountFloor } from '@/lib/format';
@@ -61,4 +62,5 @@ const pushedAt = (sourceRepo && (await cachedRepoPushedAt(sourceRepo))) || undef
       </div>
     </div>
   </article>
+  <Lightbox />
 </BaseLayout>

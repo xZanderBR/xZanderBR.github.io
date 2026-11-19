@@ -7,6 +7,7 @@ import Clip from './Clip.astro';
 import VideoEmbed from './VideoEmbed.astro';
 import RequestsChart from '@/components/charts/RequestsChart.astro';
 import CatchChart from '@/components/charts/CatchChart.astro';
+import { sourceName } from '@/lib/images';
 
 export interface Props {
   id: string;
@@ -15,13 +16,11 @@ export interface Props {
 
 const { id, hero } = Astro.props;
 const sizes = '(min-width: 1120px) 1054px, calc(100vw - 3rem)';
-// Built image paths look like /_astro/asset-manager.Hash.webp: keep the name.
-const fileName = (path: string) => path.split('/').pop()!.split(/[.?]/)[0];
 const chromeTitle =
   hero.kind === 'image'
-    ? `${fileName(hero.src.src)}.png`
+    ? `${sourceName(hero.src.src)}.png`
     : hero.kind === 'clip'
-      ? `${fileName(hero.src)}.mp4`
+      ? `${sourceName(hero.src)}.mp4`
       : hero.kind === 'youtube'
         ? `youtube.com/watch?v=${hero.id}`
         : hero.chart === 'licensing-requests'

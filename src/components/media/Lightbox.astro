@@ -1,0 +1,86 @@
+---
+// The screenshot viewer: a click on any screenshot (Shot.astro) opens its full-size file here,
+// fitted to the screen. A native dialog gives focus trapping, Esc and the backdrop. Without
+// JavaScript the screenshot is still a plain link to the same file.
+---
+
+<dialog id="lightbox" aria-labelledby="lightbox-name" class="lightbox">
+  <div class="flex items-center gap-1.5 border-b border-rule px-4 py-2.5">
+    <span class="size-2.5 rounded-full bg-rule" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-rule" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-rule" aria-hidden="true"></span>
+    <span
+      id="lightbox-name"
+      class="flex-1 truncate text-center text-[11px] text-muted-foreground"
+    ></span>
+    <button
+      type="button"
+      data-lightbox-close
+      class="text-[11px] text-muted-foreground hover:text-ink"
+    >
+      close [esc]
+    </button>
+  </div>
+  <img data-lightbox-img alt="" />
+  <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-rule px-4 py-3 text-[12px] text-muted-foreground">
+    <p data-lightbox-caption></p>
+    <a
+      data-lightbox-full
+      target="_blank"
+      rel="noopener"
+      data-astro-reload
+      data-astro-prefetch="false"
+      class="text-ink underline underline-offset-4 hover:text-cyan"
+    >
+      open full size
+    </a>
+  </div>
+</dialog>
+
+<script>
+  let opener: HTMLAnchorElement | null = null;
+
+  function setUpLightbox() {
+    const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+    if (!dialog || dialog.dataset.ready) return;
+    dialog.dataset.ready = 'true';
+    dialog.querySelector('[data-lightbox-close]')!.addEventListener('click', () => dialog.close());
+    // A click on the dialog itself, not its contents, is a click on the backdrop.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    // Safari doesn't focus a link when it's clicked, so hand focus back explicitly.
+    dialog.addEventListener('close', () => opener?.focus());
+  }
+
+  // One listener for the whole visit: the page changes under it, the document doesn't.
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[data-lightbox]');
+    const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+    if (!link || !dialog) return;
+    // Modified clicks open the file in a new tab or window, as links normally do.
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    event.preventDefault();
+    setUpLightbox();
+    const thumb = link.querySelector('img')!;
+    const img = dialog.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
+    // Reserve the shape before the full-size file arrives.
+    img.width = Number(thumb.getAttribute('width'));
+    img.height = Number(thumb.getAttribute('height'));
+    img.alt = thumb.alt;
+    img.src = link.href;
+    dialog.querySelector('#lightbox-name')!.textContent = link.dataset.name ?? '';
+    const caption = dialog.querySelector<HTMLElement>('[data-lightbox-caption]')!;
+    caption.textContent = link.dataset.caption ?? '';
+    caption.hidden = !link.dataset.caption;
+    dialog.querySelector<HTMLAnchorElement>('[data-lightbox-full]')!.href = link.href;
+    opener = link;
+    dialog.showModal();
+  });
+
+  // After a client-side navigation this script can first run after astro:page-load has
+  // fired, so set up right away too. data-ready keeps anything from binding twice.
+  setUpLightbox();
+  document.addEventListener('astro:page-load', setUpLightbox);
+</script>
