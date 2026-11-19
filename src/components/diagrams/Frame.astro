@@ -12,7 +12,10 @@ const width = layout === 'wide' ? 680 : 340;
 const id = (name: string) => `diagram-${name}-${layout}`;
 ---
 
-<figure class:list={['not-prose my-6', layout === 'wide' ? 'hidden sm:block' : 'sm:hidden']}>
+<figure
+  data-diagram
+  class:list={['not-prose my-6', layout === 'wide' ? 'hidden sm:block' : 'sm:hidden']}
+>
   <svg
     role="img"
     aria-labelledby={`${id('title')} ${id('desc')}`}

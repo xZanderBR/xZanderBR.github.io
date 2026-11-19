@@ -9,9 +9,20 @@ team: Solo
 dates: Jul 2026 to present
 stack: [TypeScript, Cloudflare Workers, D1, R2, C++]
 order: 3
+hero:
+  kind: chart
+  chart: licensing-requests
+thumb:
+  kind: chart
+  chart: licensing-sparkline
 ---
 
 import LicensingPlatform from '@/components/diagrams/LicensingPlatform.astro';
+import CountryMap from '@/components/charts/CountryMap.astro';
+import { licensingStats } from '@/lib/stats';
+import { formatCountFloor } from '@/lib/format';
+
+export const { total, countries } = licensingStats;
 
 ## The problem
 
@@ -39,8 +50,10 @@ One deliberate choice: no certificate pinning. Cloudflare rotates its edge certi
 ## Results
 
 - 2,500+ paying customers.
-- Used in 60+ countries.
-- 100,000+ requests a month, with zero errors in the last 30 days.
-- A median of 20 ms of CPU time per request, including the key exchange and encryption.
+- Used in {formatCountFloor(countries.length, 10)} countries.
+- {formatCountFloor(total.requests, 100_000)} requests a month{total.errors === 0 ? ', with zero errors in the last 30 days' : ''}.
+- A median of {Math.round(total.cpuMsP50)} ms of CPU time per request, including the key exchange and encryption.
 - Runs on Cloudflare's $5-a-month Workers plan.
 - Sales, key delivery and most support run on their own.
+
+<CountryMap />

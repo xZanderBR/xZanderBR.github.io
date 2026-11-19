@@ -14,9 +14,19 @@ links:
   - label: Source
     href: https://github.com/oZanderr/Rivals-Toolkit
 order: 1
+hero:
+  kind: image
+  src: ../../assets/projects/rivals-toolkit/asset-manager.webp
+  alt: "The Asset Manager browsing one of the game's packages: 334,722 files, filterable by type, with buttons to search the game and repack folders."
+thumb:
+  kind: image
+  src: ../../assets/projects/rivals-toolkit/thumb.webp
 ---
 
 import RivalsToolkit from '@/components/diagrams/RivalsToolkit.astro';
+import Shot from '@/components/media/Shot.astro';
+import conflicts from '@/assets/projects/rivals-toolkit/conflicts.webp';
+import logs from '@/assets/projects/rivals-toolkit/logs.webp';
 
 ## The problem
 
@@ -29,6 +39,18 @@ Modding Marvel Rivals means working with Unreal Engine 5 packages: pak and IoSto
 - An editor for UE5 packages: Blueprint scripts as text, textures, meshes and audio.
 - A file browser that stays smooth with 10,000+ entries through virtualized rendering. Long jobs run on background threads and report progress over Tauri IPC.
 - A self-updater, and crash-log analysis that names the mod behind a crash.
+
+<Shot
+  src={conflicts}
+  alt="The Mod Asset Conflicts dialog: 542 game files changed by more than one mod, each showing which mod's version is active and which is overridden."
+  caption="When two mods change the same game file, the app shows which one wins, and why."
+/>
+
+<Shot
+  src={logs}
+  alt="The Logs page: a list of game sessions marked as clean exits or abrupt endings, and one session's summary with its build, run time, mods, and errors grouped by kind."
+  caption="Every game session's log, summarized, with repeated errors grouped."
+/>
 
 ## How it fits together
 

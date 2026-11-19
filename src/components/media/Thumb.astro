@@ -1,0 +1,38 @@
+---
+// The small preview on a home page row. Decorative: the row's own text names the project.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Sparkline from '@/components/charts/Sparkline.astro';
+import CatchMini from '@/components/charts/CatchMini.astro';
+
+export interface Props {
+  id: string;
+  thumb?: CollectionEntry<'projects'>['data']['thumb'];
+}
+
+const { id, thumb } = Astro.props;
+---
+
+{!thumb && <span class="row-span-2 block w-[80px] sm:row-span-1" aria-hidden="true" />}
+{thumb && (
+  <span
+    data-thumb
+    class="row-span-2 block h-[50px] w-[80px] self-center overflow-hidden rounded-md border border-rule bg-wash sm:row-span-1"
+    transition:name={`visual-${id}`}
+  >
+    {thumb?.kind === 'image' && (
+      <Image
+        src={thumb.src}
+        alt=""
+        width={80}
+        height={50}
+        densities={[1, 2]}
+        fit="cover"
+        position="top"
+        class="block h-full w-full object-cover"
+      />
+    )}
+    {thumb?.kind === 'chart' && thumb.chart === 'licensing-sparkline' && <Sparkline />}
+    {thumb?.kind === 'chart' && thumb.chart === 'strucai-mini' && <CatchMini />}
+  </span>
+)}

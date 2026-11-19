@@ -133,6 +133,34 @@ html.dark {
   .case-prose figure {
     max-width: none;
   }
+  /* The numbers behind a chart, shown on request. */
+  .data-table {
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 0.2rem 1.25rem 0.2rem 0;
+    text-align: left;
+    font-weight: 400;
+  }
+  .data-table td {
+    text-align: right;
+  }
+  .data-table thead th {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .data-table tbody tr {
+    border-top: 1px solid var(--rule);
+  }
+  /* The visual under a case study's title runs wider than the text on large screens. */
+  @media (min-width: 1024px) {
+    .hero-breakout {
+      width: min(960px, calc(100vw - 3rem));
+      margin-left: calc(50% - min(480px, 50vw - 1.5rem));
+    }
+  }
 }
 
 /* Show the shortcut for the visitor's OS; data-platform is set before paint. */

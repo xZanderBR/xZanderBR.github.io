@@ -1,0 +1,116 @@
+---
+// A short, silent screen recording with a play/pause button. It plays on a loop while it is
+// on screen, unless the visitor paused it or prefers reduced motion; then it waits on its poster.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  src: string;
+  poster: ImageMetadata;
+  alt: string;
+  caption?: string;
+  class?: string;
+}
+
+const { src, poster, alt, caption, class: className } = Astro.props;
+const posterImage = await getImage({ src: poster, width: 1280, format: 'webp' });
+---
+
+<figure data-clip-box class:list={['not-prose', className ?? 'my-6']}>
+  <span class="sr-only">Video: {alt}</span>
+  <div class="relative">
+    <video
+      data-clip
+      src={src}
+      poster={posterImage.src}
+      width={poster.width}
+      height={poster.height}
+      aria-hidden="true"
+      muted
+      loop
+      playsinline
+      preload="none"
+      class="block h-auto w-full rounded-lg border border-rule bg-wash"
+    ></video>
+    <button
+      type="button"
+      data-clip-toggle
+      class="absolute bottom-3 left-3 flex cursor-pointer items-center gap-1.5 rounded-full bg-black/75 py-1.5 pr-3 pl-2.5 text-[13px] font-semibold text-white hover:bg-black/90"
+    >
+      <svg
+        data-icon="play"
+        viewBox="0 0 24 24"
+        class="size-4"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M8 5.5v13a1 1 0 0 0 1.5.87l10.4-6.5a1 1 0 0 0 0-1.74L9.5 4.63A1 1 0 0 0 8 5.5Z"></path>
+      </svg>
+      <svg
+        data-icon="pause"
+        viewBox="0 0 24 24"
+        class="hidden size-4"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+        <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+      </svg>
+      <span data-label>Play</span>
+    </button>
+  </div>
+  {caption && <figcaption class="mt-2 text-[14px] text-muted-foreground">{caption}</figcaption>}
+</figure>
+
+<script>
+  let observers: IntersectionObserver[] = [];
+
+  function showState(box: HTMLElement, playing: boolean) {
+    box.querySelector('[data-label]')!.textContent = playing ? 'Pause' : 'Play';
+    box.querySelector('[data-icon="play"]')!.classList.toggle('hidden', playing);
+    box.querySelector('[data-icon="pause"]')!.classList.toggle('hidden', !playing);
+  }
+
+  function setUpClips() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    for (const box of document.querySelectorAll<HTMLElement>('[data-clip-box]')) {
+      if (box.dataset.ready) continue;
+      box.dataset.ready = 'true';
+      const video = box.querySelector<HTMLVideoElement>('video')!;
+      const toggle = box.querySelector<HTMLButtonElement>('[data-clip-toggle]')!;
+      let pausedByVisitor = reduce;
+      const play = () => {
+        video.preload = 'auto';
+        video.play().catch((e: DOMException) => {
+          // Autoplay blocked: wait for the button. Scrolling away mid-load is not a reason.
+          if (e.name === 'NotAllowedError') pausedByVisitor = true;
+        });
+      };
+      video.addEventListener('play', () => showState(box, true));
+      video.addEventListener('pause', () => showState(box, false));
+      toggle.addEventListener('click', () => {
+        pausedByVisitor = !video.paused;
+        if (video.paused) play();
+        else video.pause();
+      });
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) video.pause();
+          else if (!pausedByVisitor) play();
+        },
+        { threshold: 0.25 },
+      );
+      observer.observe(video);
+      observers.push(observer);
+    }
+  }
+
+  // After a client-side navigation this script can first run after astro:page-load has
+  // fired, so set up right away too. data-ready keeps anything from binding twice.
+  setUpClips();
+  document.addEventListener('astro:page-load', setUpClips);
+  document.addEventListener('astro:before-swap', () => {
+    observers.forEach((o) => o.disconnect());
+    observers = [];
+  });
+</script>

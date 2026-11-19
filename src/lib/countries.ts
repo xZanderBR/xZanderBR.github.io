@@ -1,0 +1,73 @@
+// Two-letter country codes (as Cloudflare reports them) to the numeric ISO 3166-1 ids
+// the world-atlas map uses. Only the countries the stats snapshot has; add more as needed.
+export const ISO_NUMERIC: Record<string, string> = {
+  AR: '032',
+  AT: '040',
+  AU: '036',
+  AZ: '031',
+  BD: '050',
+  BE: '056',
+  BG: '100',
+  BR: '076',
+  CA: '124',
+  CH: '756',
+  CO: '170',
+  CY: '196',
+  DE: '276',
+  DK: '208',
+  DZ: '012',
+  EC: '218',
+  EE: '233',
+  EG: '818',
+  ES: '724',
+  FI: '246',
+  FR: '250',
+  GB: '826',
+  GE: '268',
+  GR: '300',
+  HR: '191',
+  HU: '348',
+  IE: '372',
+  IL: '376',
+  IN: '356',
+  IS: '352',
+  IT: '380',
+  JM: '388',
+  JO: '400',
+  JP: '392',
+  KW: '414',
+  KZ: '398',
+  LK: '144',
+  MN: '496',
+  MY: '458',
+  NG: '566',
+  NL: '528',
+  NO: '578',
+  NZ: '554',
+  OM: '512',
+  PH: '608',
+  PK: '586',
+  PL: '616',
+  PR: '630',
+  PT: '620',
+  QA: '634',
+  RO: '642',
+  RS: '688',
+  RU: '643',
+  SA: '682',
+  SE: '752',
+  TH: '764',
+  TT: '780',
+  TW: '158',
+  US: '840',
+  ZA: '710',
+};
+
+// Places too small for the 110m world map. They still appear in the chart's table.
+export const TOO_SMALL_FOR_MAP = ['BH', 'HK', 'MV', 'SG'];
+
+const names = new Intl.DisplayNames(['en'], { type: 'region' });
+
+export function countryName(code: string): string {
+  return names.of(code) ?? code;
+}

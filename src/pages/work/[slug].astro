@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import CaseStudyMeta from '@/components/CaseStudyMeta.astro';
+import Hero from '@/components/media/Hero.astro';
 import { getSortedProjects } from '@/lib/projects';
 import { cachedReleaseDownloads, cachedRepoPushedAt, repoFromUrl } from '@/lib/github';
 import { formatCountFloor } from '@/lib/format';
@@ -40,6 +41,7 @@ const pushedAt = (sourceRepo && (await cachedRepoPushedAt(sourceRepo))) || undef
     </h1>
     <p class="mt-2 text-[17px] text-muted-foreground">{data.summary}</p>
     <CaseStudyMeta data={data} downloads={downloads} pushedAt={pushedAt} />
+    {data.hero && <Hero id={entry.id} hero={data.hero} />}
     <div class="case-prose mt-10">
       <Content />
     </div>

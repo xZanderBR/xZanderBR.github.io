@@ -16,9 +16,21 @@ links:
   - label: Firmware
     href: https://github.com/xZanderBR/Pourtocol-Firmware
 order: 5
+hero:
+  kind: youtube
+  id: go4TOXk46Cg
+  poster: ../../assets/projects/pourtocol/poster.webp
+  title: Pourtocol demo video
+thumb:
+  kind: image
+  src: ../../assets/projects/pourtocol/thumb.webp
 ---
 
 import Pourtocol from '@/components/diagrams/Pourtocol.astro';
+import Shot from '@/components/media/Shot.astro';
+import ShotRow from '@/components/media/ShotRow.astro';
+import pour from '@/assets/projects/pourtocol/pour.webp';
+import leaderboard from '@/assets/projects/pourtocol/leaderboard.webp';
 
 ## The problem
 
@@ -29,6 +41,21 @@ A drink dispenser that several people can order from at once, from their phones.
 - A React and TypeScript web app for ordering and live status.
 - A Python Flask coordinator between the web app and the device. It talks to the ESP32 over HTTP and finds it on the network with mDNS.
 - The firmware and hardware (relay pump, ultrasonic sensor, NFC) were built with a teammate.
+
+<ShotRow caption="The web app running against its built-in device simulator, with made-up names.">
+  <Shot
+    src={pour}
+    alt="The pour screen: device status (online, glass detected, idle, NFC reader waiting) above shot, double and triple size buttons."
+    sizes="(min-width: 768px) 328px, 50vw"
+    class="m-0"
+  />
+  <Shot
+    src={leaderboard}
+    alt="The leaderboard tab, ranking four people by how much they have poured."
+    sizes="(min-width: 768px) 328px, 50vw"
+    class="m-0"
+  />
+</ShotRow>
 
 ## How it fits together
 

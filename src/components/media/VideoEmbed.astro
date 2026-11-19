@@ -1,0 +1,73 @@
+---
+// A YouTube video that loads nothing from YouTube until someone presses play. Then it
+// swaps in the privacy-enhanced (youtube-nocookie) player. Without JavaScript, the button is
+// a plain link to the video on YouTube.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  id: string;
+  poster: ImageMetadata;
+  title: string;
+  priority?: boolean;
+  class?: string;
+}
+
+const { id, poster, title, priority = false, class: className } = Astro.props;
+---
+
+<figure class:list={['not-prose', className ?? 'my-6']}>
+  <div
+    data-embed={id}
+    data-title={title}
+    class="relative aspect-video overflow-hidden rounded-lg border border-rule bg-wash"
+  >
+    <Picture
+      src={poster}
+      alt=""
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1280].filter((w) => w <= poster.width)}
+      sizes="(min-width: 1024px) 960px, (min-width: 720px) 672px, calc(100vw - 2rem)"
+      priority={priority}
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <a
+      href={`https://www.youtube.com/watch?v=${id}`}
+      class="group absolute inset-0 flex cursor-pointer items-end p-3 hover:bg-black/10 sm:p-4"
+    >
+      <span class="flex items-center gap-2 rounded-full bg-black/75 py-2 pr-4 pl-3 text-[15px] font-semibold text-white group-hover:bg-black/90">
+        <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true">
+          <path d="M8 5.5v13a1 1 0 0 0 1.5.87l10.4-6.5a1 1 0 0 0 0-1.74L9.5 4.63A1 1 0 0 0 8 5.5Z"></path>
+        </svg>
+        Play video<span class="sr-only">: {title}</span>
+      </span>
+    </a>
+  </div>
+</figure>
+
+<script>
+  function setUpEmbeds() {
+    for (const box of document.querySelectorAll<HTMLElement>('[data-embed]')) {
+      const link = box.querySelector('a');
+      if (!link || box.dataset.ready) continue;
+      box.dataset.ready = 'true';
+      link.addEventListener('click', (event) => {
+        // Keep modified clicks (new tab, new window) as plain links.
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        const frame = document.createElement('iframe');
+        frame.src = `https://www.youtube-nocookie.com/embed/${box.dataset.embed}?autoplay=1&rel=0`;
+        frame.title = box.dataset.title ?? 'Video';
+        frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        frame.allowFullscreen = true;
+        frame.className = 'absolute inset-0 h-full w-full';
+        box.replaceChildren(frame);
+        frame.focus();
+      });
+    }
+  }
+  // After a client-side navigation this script can first run after astro:page-load has
+  // fired, so set up right away too. data-ready keeps anything from binding twice.
+  setUpEmbeds();
+  document.addEventListener('astro:page-load', setUpEmbeds);
+</script>

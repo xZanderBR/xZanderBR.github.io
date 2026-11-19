@@ -1,0 +1,30 @@
+---
+// The wide visual under a case study's title. It shares a transition name with the home
+// page thumbnail, so the thumbnail grows into it when someone opens the project.
+import type { CollectionEntry } from 'astro:content';
+import Shot from './Shot.astro';
+import Clip from './Clip.astro';
+import VideoEmbed from './VideoEmbed.astro';
+import RequestsChart from '@/components/charts/RequestsChart.astro';
+import CatchChart from '@/components/charts/CatchChart.astro';
+
+export interface Props {
+  id: string;
+  hero: NonNullable<CollectionEntry<'projects'>['data']['hero']>;
+}
+
+const { id, hero } = Astro.props;
+const sizes = '(min-width: 1024px) 960px, (min-width: 720px) 672px, calc(100vw - 2rem)';
+---
+
+<div data-hero class="hero-breakout mt-8" transition:name={`visual-${id}`}>
+  {hero.kind === 'image' && (
+    <Shot src={hero.src} alt={hero.alt} sizes={sizes} priority class="m-0" />
+  )}
+  {hero.kind === 'clip' && <Clip src={hero.src} poster={hero.poster} alt={hero.alt} class="m-0" />}
+  {hero.kind === 'youtube' && (
+    <VideoEmbed id={hero.id} poster={hero.poster} title={hero.title} priority class="m-0" />
+  )}
+  {hero.kind === 'chart' && hero.chart === 'licensing-requests' && <RequestsChart />}
+  {hero.kind === 'chart' && hero.chart === 'strucai-catches' && <CatchChart />}
+</div>

@@ -15,7 +15,7 @@ for (const slug of slugs.filter((s) => s !== 'struc-ai')) {
   test(`${slug} has an architecture diagram`, async ({ page }) => {
     await page.goto(`/work/${slug}/`);
     // Two layouts exist (wide and tall); exactly one shows, with a title.
-    const visible = page.locator('svg[role="img"]:visible');
+    const visible = page.locator('[data-diagram] svg[role="img"]:visible');
     await expect(visible).toHaveCount(1);
     await expect(visible.locator('title')).toHaveCount(1);
   });
@@ -27,7 +27,9 @@ test('struc-ai stays an overview: no diagram, design details, roadmap or code li
   await page.goto('/work/struc-ai/');
   const headings = page.locator('article h2');
   await expect(headings).toHaveText(['The problem', 'What I built', 'Results']);
-  await expect(page.locator('svg[role="img"]')).toHaveCount(0);
+  // A chart of results is fine; a diagram of how it works is not.
+  await expect(page.locator('[data-diagram]')).toHaveCount(0);
+  await expect(page.locator('svg[role="img"]:not([data-chart] svg)')).toHaveCount(0);
   await expect(page.locator('article')).not.toContainText(/78 rules|USGS|quote check|554/i);
   await expect(page.locator('article')).toContainText('101 of 107');
   await expect(page.locator('dl')).toContainText('Claude API');
