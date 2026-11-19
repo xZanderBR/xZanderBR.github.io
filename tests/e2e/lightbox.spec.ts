@@ -131,3 +131,12 @@ test.describe('without JavaScript', () => {
     await expect(page).toHaveURL(/\/_astro\/[\w.-]+\.webp$/);
   });
 });
+
+test('every link on a case study points somewhere, so search engines can follow it', async ({
+  page,
+}) => {
+  for (const path of withShots) {
+    await page.goto(path);
+    await expect(page.locator('a:not([href])')).toHaveCount(0);
+  }
+});

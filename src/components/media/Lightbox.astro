@@ -24,16 +24,8 @@
   <img data-lightbox-img alt="" />
   <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-rule px-4 py-3 text-[12px] text-muted-foreground">
     <p data-lightbox-caption></p>
-    <a
-      data-lightbox-full
-      target="_blank"
-      rel="noopener"
-      data-astro-reload
-      data-astro-prefetch="false"
-      class="text-ink underline underline-offset-4 hover:text-cyan"
-    >
-      open full size
-    </a>
+    <!-- The full-size link is added on open: an <a> without an href can't be followed. -->
+    <span data-lightbox-full-slot></span>
   </div>
 </dialog>
 
@@ -74,7 +66,17 @@
     const caption = dialog.querySelector<HTMLElement>('[data-lightbox-caption]')!;
     caption.textContent = link.dataset.caption ?? '';
     caption.hidden = !link.dataset.caption;
-    dialog.querySelector<HTMLAnchorElement>('[data-lightbox-full]')!.href = link.href;
+    let full = dialog.querySelector<HTMLAnchorElement>('[data-lightbox-full]');
+    if (!full) {
+      full = document.createElement('a');
+      full.dataset.lightboxFull = '';
+      full.target = '_blank';
+      full.rel = 'noopener';
+      full.className = 'text-ink underline underline-offset-4 hover:text-cyan';
+      full.textContent = 'open full size';
+      dialog.querySelector('[data-lightbox-full-slot]')!.replaceWith(full);
+    }
+    full.href = link.href;
     opener = link;
     dialog.showModal();
   });
