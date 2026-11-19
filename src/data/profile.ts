@@ -70,7 +70,7 @@ export const profile: Profile = {
     },
   ],
   about:
-    'Off the keyboard I compete in powerlifting, surf when conditions allow, and always have music on.',
+    "Off the keyboard I train in powerlifting, surf when there's swell, and love going to music festivals.",
   otherProjects: [
     {
       title: 'Drone 2D obstacle avoidance',
@@ -95,3 +95,10 @@ export const profile: Profile = {
     },
   ],
 };
+
+// The ways to reach Zander, in order: the home page's contact box and every page's footer.
+export const contactLinks: Link[] = [
+  ...(profile.email ? [{ label: 'email', href: `mailto:${profile.email}` }] : []),
+  ...profile.socials.map((s) => ({ label: s.label.toLowerCase(), href: s.href })),
+  { label: 'resume.pdf', href: profile.resumeHref },
+];

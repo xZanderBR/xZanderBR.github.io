@@ -24,18 +24,19 @@ const description =
   <Arrow d="M461 130 H486 V229 H511" />
 </Frame>
 
-<Frame title={title} description={description} height={404} layout="tall">
+<Frame title={title} description={description} height={500} layout="tall">
   <Node x={20} y={10} w={300} label="Browser" />
   <Node x={20} y={96} w={300} label="Next.js" sub="Vercel" />
   <Node x={20} y={182} w={300} label="FastAPI" sub="Docker on Fly.io" accent />
-  <Node x={20} y={268} w={145} h={48} label="SQLite" sub="listings, messages" />
-  <Node x={175} y={268} w={145} h={48} label="Qdrant" sub="semantic search" />
-  <Node x={20} y={346} w={145} h={48} label="Workers AI" sub="embeddings" />
-  <Node x={175} y={346} w={145} h={48} label="Claude" sub="assistant, moderation" />
+  <!-- One column: the store names and their roles need the full width. -->
+  <Node x={30} y={268} w={290} h={48} label="SQLite" sub="listings, messages" />
+  <Node x={30} y={326} w={290} h={48} label="Qdrant" sub="semantic search" />
+  <Node x={30} y={384} w={290} h={48} label="Workers AI" sub="embeddings" />
+  <Node x={30} y={442} w={290} h={48} label="Claude" sub="assistant, moderation" />
   <Arrow layout="tall" d="M170 62 V96" />
   <Arrow layout="tall" d="M170 148 V182" />
-  <Arrow layout="tall" d="M170 234 V251 H92.5 V268" />
-  <Arrow layout="tall" d="M170 234 V251 H247.5 V268" />
-  <Arrow layout="tall" d="M170 234 V330 H92.5 V346" />
-  <Arrow layout="tall" d="M170 234 V330 H247.5 V346" />
+  <Arrow layout="tall" d="M20 208 H8 V292 H30" />
+  <Arrow layout="tall" d="M8 292 V350 H30" />
+  <Arrow layout="tall" d="M8 350 V408 H30" />
+  <Arrow layout="tall" d="M8 408 V466 H30" />
 </Frame>

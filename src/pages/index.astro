@@ -6,7 +6,7 @@ import GitLog from '@/components/home/GitLog.astro';
 import Neofetch from '@/components/home/Neofetch.astro';
 import Prompt from '@/components/Prompt.astro';
 import { splitHero } from '@/lib/terminal';
-import { profile } from '@/data/profile';
+import { contactLinks, profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
 import { cachedReleaseDownloads } from '@/lib/github';
 import { formatCountFloor } from '@/lib/format';
@@ -20,11 +20,6 @@ const jsonLd = JSON.stringify(homeJsonLd(profile, new URL('/', Astro.site).href)
 
 const { lead, rest } = splitHero(profile.hero);
 const github = profile.socials.find((s) => s.label === 'GitHub')!;
-const contact = [
-  ...(profile.email ? [{ label: 'email', href: `mailto:${profile.email}` }] : []),
-  ...profile.socials.map((s) => ({ label: s.label.toLowerCase(), href: s.href })),
-  { label: 'resume.pdf', href: profile.resumeHref },
-];
 
 // Live numbers where a project has them; the frontmatter value is the fallback.
 const proofOverrides: Record<string, string> = {};
@@ -81,7 +76,7 @@ for (const { id, data } of projects) {
         <span class="text-cyan">$</span> contact --all
       </p>
       <ul class="mt-4 flex flex-wrap gap-3">
-        {contact.map((c) => (
+        {contactLinks.map((c) => (
           <li>
             <a
               href={c.href}
