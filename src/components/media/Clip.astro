@@ -13,7 +13,12 @@ export interface Props {
 }
 
 const { src, poster, alt, caption, class: className } = Astro.props;
-const posterImage = await getImage({ src: poster, width: 1280, format: 'webp' });
+const posterImage = await getImage({
+  src: poster,
+  width: Math.min(1600, poster.width),
+  format: 'webp',
+  quality: 'high',
+});
 ---
 
 <figure data-clip-box class:list={['not-prose', className ?? 'my-6']}>

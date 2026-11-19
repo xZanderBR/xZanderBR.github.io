@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Turns raw captures in media-src/<slug>/ into the files the site serves:
-#   *.png  -> src/assets/projects/<slug>/*.webp (quality 90; Astro makes the AVIF/WebP sizes)
+#   *.png  -> src/assets/projects/<slug>/*.webp (lossless; Astro makes the AVIF/WebP sizes)
+#   *.jpg  -> src/assets/projects/<slug>/*.webp (quality 95)
 #   *.webm or *.mp4 -> public/media/<slug>/*.mp4 (H.264, no audio, starts playing while loading)
 # Usage: scripts/capture/optimize.sh <slug>
 set -euo pipefail
@@ -10,9 +11,16 @@ img="src/assets/projects/$slug"
 vid="public/media/$slug"
 mkdir -p "$img"
 shopt -s nullglob
-for f in "$src"/*.png "$src"/*.jpg; do
+for f in "$src"/*.png; do
+  # Lossless, so the site's own AVIF/WebP encode is the only lossy step and text stays crisp.
   name="$(basename "${f%.*}")"
-  cwebp -quiet -q 90 -metadata none "$f" -o "$img/$name.webp"
+  cwebp -quiet -lossless -z 9 -metadata none "$f" -o "$img/$name.webp"
+  echo "$img/$name.webp"
+done
+for f in "$src"/*.jpg; do
+  # Already lossy (a video thumbnail, say): near-lossless is plenty.
+  name="$(basename "${f%.*}")"
+  cwebp -quiet -q 95 -metadata none "$f" -o "$img/$name.webp"
   echo "$img/$name.webp"
 done
 for f in "$src"/*.webm "$src"/*.mp4; do

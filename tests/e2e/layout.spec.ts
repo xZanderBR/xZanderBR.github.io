@@ -16,7 +16,7 @@ const CLASSIC_SCROLLBAR =
   'html{scrollbar-width:auto!important;scrollbar-color:auto!important}' +
   '::-webkit-scrollbar{width:15px;height:15px}::-webkit-scrollbar-thumb{background:#999}';
 
-for (const width of [375, 1280]) {
+for (const width of [375, 768, 1280, 1440, 1920]) {
   test.describe(`at ${width}px`, () => {
     test.use({ viewport: { width, height: 812 } });
     for (const path of pages) {

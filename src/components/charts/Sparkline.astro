@@ -8,11 +8,12 @@ const line = sparklinePath(values, 80, 50, 6);
 const area = `${line}L74 50L6 50Z`;
 ---
 
-<svg viewBox="0 0 80 50" class="block h-full w-full" aria-hidden="true">
+<svg viewBox="0 0 80 50" preserveAspectRatio="none" class="block h-full w-full" aria-hidden="true">
   <path d={area} style="fill:var(--accent);opacity:0.1"></path>
   <path
     d={line}
     fill="none"
     style="stroke:var(--accent);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round"
+    vector-effect="non-scaling-stroke"
   ></path>
 </svg>

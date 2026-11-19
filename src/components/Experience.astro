@@ -1,11 +1,9 @@
 ---
 import { profile } from '@/data/profile';
+import RailSection from '@/components/RailSection.astro';
 ---
 
-<section id="experience" aria-labelledby="experience-heading" class="mt-12">
-  <h2 id="experience-heading" class="mb-3 text-[15px] font-semibold">
-    Experience
-  </h2>
+<RailSection id="experience" headingId="experience-heading" title="Experience">
   <div class="space-y-6">
     {profile.experience.map((job) => (
       <div>
@@ -27,4 +25,4 @@ import { profile } from '@/data/profile';
       </div>
     ))}
   </div>
-</section>
+</RailSection>
