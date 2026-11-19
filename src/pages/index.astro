@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProjectIndex from '@/components/ProjectIndex.astro';
-import OtherProjects from '@/components/OtherProjects.astro';
-import Experience from '@/components/Experience.astro';
+import ProjectCards from '@/components/home/ProjectCards.astro';
+import SideProjects from '@/components/home/SideProjects.astro';
+import GitLog from '@/components/home/GitLog.astro';
+import Neofetch from '@/components/home/Neofetch.astro';
+import Prompt from '@/components/Prompt.astro';
+import { splitHero } from '@/lib/terminal';
 import { profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
 import { cachedReleaseDownloads } from '@/lib/github';
@@ -14,6 +17,14 @@ const jsonLd = JSON.stringify(homeJsonLd(profile, new URL('/', Astro.site).href)
   /</g,
   '\\u003c',
 );
+
+const { lead, rest } = splitHero(profile.hero);
+const github = profile.socials.find((s) => s.label === 'GitHub')!;
+const contact = [
+  ...(profile.email ? [{ label: 'email', href: `mailto:${profile.email}` }] : []),
+  ...profile.socials.map((s) => ({ label: s.label.toLowerCase(), href: s.href })),
+  { label: 'resume.pdf', href: profile.resumeHref },
+];
 
 // Live numbers where a project has them; the frontmatter value is the fallback.
 const proofOverrides: Record<string, string> = {};
@@ -28,26 +39,62 @@ for (const { id, data } of projects) {
   title={profile.name}
   description="Zander Barajas, software engineer in San Diego. Projects, experience and resume."
 >
-  <section class="mt-12 sm:mt-20 lg:mt-24">
-    <h1 class="max-w-[36ch] text-[28px] leading-[1.15] font-semibold tracking-tight sm:text-[36px] lg:text-[40px]">
-      {profile.hero}
-    </h1>
-    <p class="mt-4 text-[17px] text-muted-foreground">{profile.context}</p>
+  <section class="grid items-center gap-10 pt-14 sm:pt-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-14 lg:pt-24">
+    <div>
+      <p class="text-[13px] text-muted-foreground" aria-hidden="true">
+        <span class="text-cyan">$</span> echo $HEADLINE
+      </p>
+      <h1 class="mt-3 text-[26px] leading-[1.15] font-extrabold tracking-tight sm:text-[32px] lg:text-[40px]">
+        <span>{lead}</span>
+        <span class="text-cyan">{rest}</span>
+      </h1>
+      <p class="mt-5 max-w-[48ch] text-[14px] text-muted-foreground">{profile.context}</p>
+      <div data-hero-actions class="mt-7 flex flex-wrap gap-3">
+        <a href="#work" class="btn btn-primary">
+          ./see-work
+        </a>
+        <a href={profile.resumeHref} data-astro-reload data-astro-prefetch="false" class="btn">
+          resume.pdf
+        </a>
+        <a href={github.href} rel="noopener" class="btn gap-1.5">
+          github
+          <svg viewBox="0 0 16 16" class="size-3" aria-hidden="true">
+            <path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </a>
+      </div>
+    </div>
+    <Neofetch />
   </section>
 
-  <ProjectIndex projects={projects} proofOverrides={proofOverrides} />
+  <ProjectCards projects={projects} proofOverrides={proofOverrides} />
+  <SideProjects />
+  <GitLog />
 
-  <!-- Desktop: Experience on the left; About and other projects beside it. Phones stack them. -->
-  <div class="mt-12 lg:mt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-x-16">
-    <Experience />
-    <div class="mt-12 lg:mt-0">
-      <section id="about" aria-labelledby="about-heading" class="scroll-mt-6">
-        <h2 id="about-heading" class="mb-3 text-[15px] font-semibold">
-          About
-        </h2>
-        <p class="max-w-[65ch]">{profile.about}</p>
-      </section>
-      <OtherProjects />
+  <div class="mt-20 grid gap-8 sm:mt-28 lg:grid-cols-2 lg:items-start lg:gap-14">
+    <section id="about" aria-labelledby="about-heading" class="scroll-mt-6">
+      <Prompt id="about-heading" command="cat about.txt" name="About" />
+      <p class="mt-5 max-w-[52ch] text-[13px] text-muted-foreground">{profile.about}</p>
+    </section>
+    <div data-contact class="rounded-lg border border-rule bg-panel p-5 sm:p-6">
+      <p class="text-[12px] text-muted-foreground" aria-hidden="true">
+        <span class="text-cyan">$</span> contact --all
+      </p>
+      <ul class="mt-4 flex flex-wrap gap-3">
+        {contact.map((c) => (
+          <li>
+            <a
+              href={c.href}
+              class="btn"
+              rel={c.href.startsWith('http') ? 'noopener' : undefined}
+              data-astro-reload={c.href === profile.resumeHref ? '' : undefined}
+              data-astro-prefetch={c.href === profile.resumeHref ? 'false' : undefined}
+            >
+              {c.label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
   <script type="application/ld+json" set:html={jsonLd} />

@@ -26,55 +26,6 @@ test.describe('sharp screenshots', () => {
   }
 });
 
-test.describe('home page on a desktop', () => {
-  test.use({ viewport: { width: 1280, height: 900 } });
-
-  test('uses the width: a wide page, big previews and a stack line on every project', async ({
-    page,
-  }) => {
-    await page.goto('/');
-    const main = await page.locator('main').boundingBox();
-    expect(main!.width).toBeGreaterThanOrEqual(1100);
-    const rows = page.getByTestId('project-row');
-    for (const row of await rows.all()) {
-      const thumb = await row.locator('[data-thumb]').boundingBox();
-      // Big enough to read, small enough that rows stay close to the height of their text.
-      expect(thumb!.width).toBeGreaterThanOrEqual(185);
-      expect(thumb!.width).toBeLessThanOrEqual(200);
-      await expect(row.locator('[data-stack]')).not.toBeEmpty();
-      // Title, summary and stack line form one column beside the preview.
-      const left = thumb!.x + thumb!.width;
-      for (const part of ['[data-title]', '[data-summary]', '[data-stack]']) {
-        const box = await row.locator(part).boundingBox();
-        expect(box!.x).toBeGreaterThan(left);
-        expect(box!.y).toBeLessThan(thumb!.y + thumb!.height);
-      }
-    }
-  });
-
-  test('keeps the hero sentence to two lines at 40px', async ({ page }) => {
-    await page.goto('/');
-    const h1 = page.getByRole('heading', { level: 1 });
-    const { size, lines } = await h1.evaluate((el) => {
-      const style = getComputedStyle(el);
-      return {
-        size: parseFloat(style.fontSize),
-        lines: Math.round(el.getBoundingClientRect().height / parseFloat(style.lineHeight)),
-      };
-    });
-    expect(size).toBe(40);
-    expect(lines).toBe(2);
-  });
-
-  test('puts Experience and About side by side', async ({ page }) => {
-    await page.goto('/');
-    const experience = await page.locator('#experience').boundingBox();
-    const about = await page.locator('#about').boundingBox();
-    expect(Math.abs(experience!.y - about!.y)).toBeLessThanOrEqual(4);
-    expect(about!.x).toBeGreaterThan(experience!.x + experience!.width - 1);
-  });
-});
-
 test.describe('case studies on a desktop', () => {
   test.use({ viewport: { width: 1280, height: 900 } });
   for (const slug of slugs) {
@@ -85,7 +36,7 @@ test.describe('case studies on a desktop', () => {
       expect(await sidebar.evaluate((el) => getComputedStyle(el).position)).toBe('sticky');
       await expect(sidebar.locator('dl')).toContainText('Stack');
       const title = page.getByRole('heading', { level: 1 });
-      expect(await title.evaluate((el) => parseFloat(getComputedStyle(el).fontSize))).toBe(44);
+      expect(await title.evaluate((el) => parseFloat(getComputedStyle(el).fontSize))).toBe(40);
 
       const headingIds = await page
         .locator('[data-main] h2')

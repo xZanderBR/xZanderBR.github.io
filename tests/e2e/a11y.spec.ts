@@ -3,15 +3,13 @@ import AxeBuilder from '@axe-core/playwright';
 
 const pages = ['/', '/work/licensing-platform/', '/pages/nope.html'];
 
-for (const scheme of ['light', 'dark'] as const) {
-  for (const path of pages) {
-    test(`${path} has no axe violations in ${scheme} mode`, async ({ page }) => {
-      await page.emulateMedia({ colorScheme: scheme });
-      await page.goto(path);
-      const { violations } = await new AxeBuilder({ page }).analyze();
-      expect(violations.map((v) => `${v.id}: ${v.nodes.length} node(s)`)).toEqual([]);
-    });
-  }
+// One dark theme, whatever the system prefers.
+for (const path of pages) {
+  test(`${path} has no axe violations`, async ({ page }) => {
+    await page.goto(path);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    expect(violations.map((v) => `${v.id}: ${v.nodes.length} node(s)`)).toEqual([]);
+  });
 }
 
 test('the open command palette has no axe violations', async ({ page, browserName }) => {

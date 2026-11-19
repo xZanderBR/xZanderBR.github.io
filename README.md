@@ -5,16 +5,16 @@ My personal site: who I am, what I've built, and my resume. It's also a small pr
 ## Stack
 
 - **[Astro](https://astro.build)** renders every page to static HTML. A portfolio is mostly content, so visitors don't download a framework runtime to read it.
-- **React loads on demand.** Pages ship about 20KB of JavaScript. The command palette (Ctrl K, ⌘K or `/`) fetches React when you hover or focus the Search button, or the first time it opens, and the theme toggle is a few lines of plain script.
+- **React loads on demand.** Pages ship about 20KB of JavaScript. The command palette (Ctrl K, ⌘K or `/`) fetches React when you hover or focus the Search button, or the first time it opens.
 - **Tailwind CSS v4 and shadcn/ui** for styling and the palette's dialog.
 - **MDX content collections** for the case studies, validated with a Zod schema, so a malformed project fails the build.
 - **Build-time data:** Rivals Toolkit's download count comes from the GitHub releases API when the site builds, with a static fallback if GitHub is unreachable.
-- **Generated preview images** for each page with satori and resvg, showing the same live numbers as the home page.
+- **Generated share images** for each page with satori and resvg, in the same terminal style, showing the same live numbers as the home page.
 - **Real visuals, light on weight:** screenshots served as AVIF or WebP at the size the screen needs, short silent clips that only play on screen and stay still under reduced motion, a YouTube embed that loads nothing from YouTube until it's played, and charts drawn at build time from real data, with no JavaScript sent for them.
 - **Icons from one SVG:** the favicon, `favicon.ico` and Apple touch icon are all rendered at build from `src/lib/icons.ts`.
 - **Search:** `robots.txt`, a sitemap, and schema.org `Person` data on the home page.
 - **Accessibility:** a skip link, full support for reduced motion, and diagrams with a tall layout for phones. axe runs on every page in CI.
-- **Self-hosted font** with a size-matched fallback, so text doesn't shift when it loads.
+- **A terminal look:** one dark theme in JetBrains Mono (self-hosted, with a size-matched fallback so text doesn't shift when it loads). Section headings read like shell commands (`$ ls ~/work`) but are named plainly for screen readers.
 
 ## Commands
 
@@ -33,7 +33,7 @@ Locally, Playwright runs Chromium and WebKit, plus a Chromium project with real 
 
 Add an MDX file to `src/content/projects/`. The frontmatter schema lives in `src/lib/schema.ts`; `order` sets its place on the home page. Its architecture diagram goes in `src/components/diagrams/`.
 
-Each project has a `hero` (the visual under the title: an image, a clip, a YouTube video or a chart) and a `thumb` (its preview on the home page). Images go in `src/assets/projects/<slug>/` and clips in `public/media/<slug>/`.
+Each project has a `hero` (the visual under the title: an image, a clip, a YouTube video or a chart, framed like a terminal window) and up to three `tags` for its home page card. Images go in `src/assets/projects/<slug>/` and clips in `public/media/<slug>/`.
 
 ## Screenshots, clips and data
 

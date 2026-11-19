@@ -1,0 +1,28 @@
+---
+// "$ git log --oneline": experience as commits, newest first. The hashes are made up but
+// stable (see shortHash).
+import Prompt from '@/components/Prompt.astro';
+import { profile } from '@/data/profile';
+import { shortHash } from '@/lib/terminal';
+---
+
+<section id="experience" aria-labelledby="experience-heading" class="mt-20 sm:mt-28">
+  <Prompt id="experience-heading" command="git log --oneline" name="Experience" />
+  <ol class="mt-6 space-y-5 text-[13px]">
+    {profile.experience.map((r, i) => (
+      <li data-testid="commit">
+        <p class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span data-hash class="text-hash" aria-hidden="true">
+            {shortHash(`${r.title} ${r.org}`)}
+          </span>
+          {i === 0 && <span class="font-bold text-cyan">(HEAD {'->'} main)</span>}
+          <span class="font-bold text-ink">
+            {r.title} · {r.org}
+          </span>
+          <span class="text-muted-foreground">{r.dates}</span>
+        </p>
+        <p class="mt-1 text-[12px] text-muted-foreground sm:pl-[4.75rem]">{r.summary}</p>
+      </li>
+    ))}
+  </ol>
+</section>

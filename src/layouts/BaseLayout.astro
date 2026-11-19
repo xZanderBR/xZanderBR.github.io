@@ -5,7 +5,6 @@ import Footer from '@/components/Footer.astro';
 import SearchButton from '@/components/palette/SearchButton.astro';
 import { profile } from '@/data/profile';
 import { getSortedProjects } from '@/lib/projects';
-import ThemeToggle from '@/components/ThemeToggle.astro';
 import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
 
@@ -37,14 +36,14 @@ const paletteData = JSON.stringify({
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <Font cssVariable="--font-hanken" preload />
+    <Font cssVariable="--font-jetbrains" preload />
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
@@ -58,26 +57,16 @@ const paletteData = JSON.stringify({
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <script is:inline>
+      // Which keyboard shortcut to show (Cmd K or Ctrl K), set before paint and after each
+      // client-side page swap.
       (() => {
-        const media = matchMedia('(prefers-color-scheme: dark)');
-        const stored = () => {
-          try {
-            return localStorage.getItem('theme');
-          } catch {
-            return null;
-          }
-        };
         const apply = () => {
-          const root = document.documentElement;
-          const theme = stored();
-          root.classList.toggle('dark', theme ? theme === 'dark' : media.matches);
-          root.dataset.platform = /Mac|iPhone|iPad/.test(navigator.userAgent) ? 'mac' : 'other';
+          document.documentElement.dataset.platform = /Mac|iPhone|iPad/.test(navigator.userAgent)
+            ? 'mac'
+            : 'other';
         };
         apply();
         document.addEventListener('astro:after-swap', apply);
-        media.addEventListener('change', () => {
-          if (!stored()) apply();
-        });
       })();
     </script>
     <ClientRouter />
@@ -89,16 +78,13 @@ const paletteData = JSON.stringify({
     >
       Skip to content
     </a>
-    <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-      <Header>
-        <SearchButton />
-        <ThemeToggle />
-      </Header>
-      <main id="main" tabindex="-1" class="outline-none">
-        <slot />
-      </main>
-      <Footer />
-    </div>
+    <Header>
+      <SearchButton />
+    </Header>
+    <main id="main" tabindex="-1" class="shell outline-none">
+      <slot />
+    </main>
+    <Footer />
     <div id="palette-root" transition:persist></div>
     <script type="application/json" id="palette-data" set:html={paletteData} />
   </body>

@@ -1,17 +1,27 @@
 import { Resvg } from '@resvg/resvg-js';
+import { PIXEL_ROWS, pixelCells } from './pixel';
 
-// One source for every icon: a geometric "Z" drawn as a path (favicons can't load
-// web fonts), white on the site's accent blue.
-const ACCENT = '#2459c9';
-const Z_PATH = 'M9 8.5h14v3.2L13.6 20.3H23v3.2H9v-3.2l9.4-8.6H9z';
+// One source for every icon: the neofetch logo's pixel Z, cyan on the terminal background,
+// drawn as squares (favicons can't load web fonts).
+const PAPER = '#0d1117';
+const ACCENT = '#4fb6d8';
+const CELL = 4;
+const Z = pixelCells(PIXEL_ROWS.map((row) => row.slice(0, 5)));
+// The Z is 5 by 6 cells: center it in the 32px square.
+const OFFSET_X = (32 - 5 * CELL) / 2;
+const OFFSET_Y = (32 - 6 * CELL) / 2;
 
 export function iconSvg({ rounded }: { rounded: boolean }): string {
   // iOS rounds the Apple touch icon itself, so that one stays square.
   const corner = rounded ? ' rx="7"' : '';
+  const pixels = Z.map(
+    (p) =>
+      `<rect x="${OFFSET_X + p.x * CELL}" y="${OFFSET_Y + p.y * CELL}" width="${CELL}" height="${CELL}"/>`,
+  ).join('');
   return (
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">` +
-    `<rect width="32" height="32"${corner} fill="${ACCENT}"/>` +
-    `<path d="${Z_PATH}" fill="#ffffff"/>` +
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">` +
+    `<rect width="32" height="32"${corner} fill="${PAPER}"/>` +
+    `<g fill="${ACCENT}">${pixels}</g>` +
     `</svg>`
   );
 }

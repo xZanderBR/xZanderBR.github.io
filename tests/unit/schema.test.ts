@@ -59,19 +59,16 @@ describe('projectSchema visuals', () => {
   ])('rejects %s', (_name, hero) => {
     expect(() => projectSchema.parse({ ...valid, hero })).toThrow();
   });
+});
 
-  test('accepts image and chart thumbnails', () => {
-    for (const thumb of [
-      { kind: 'image', src: 'thumb.webp' },
-      { kind: 'chart', chart: 'strucai-mini' },
-    ]) {
-      expect(projectSchema.parse({ ...valid, thumb }).thumb).toEqual(thumb);
-    }
+describe('projectSchema tags', () => {
+  test('accepts one to three tags', () => {
+    expect(projectSchema.parse({ ...valid, tags: ['Rust'] }).tags).toEqual(['Rust']);
+    expect(projectSchema.parse({ ...valid, tags: ['A', 'B', 'C'] }).tags).toHaveLength(3);
   });
 
-  test('rejects an unknown thumbnail chart', () => {
-    expect(() =>
-      projectSchema.parse({ ...valid, thumb: { kind: 'chart', chart: 'licensing-requests' } }),
-    ).toThrow();
+  test('rejects none or more than three', () => {
+    expect(() => projectSchema.parse({ ...valid, tags: [] })).toThrow();
+    expect(() => projectSchema.parse({ ...valid, tags: ['A', 'B', 'C', 'D'] })).toThrow();
   });
 });

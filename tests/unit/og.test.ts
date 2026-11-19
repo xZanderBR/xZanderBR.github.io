@@ -17,3 +17,15 @@ test('keeps the whole layout on the canvas', async () => {
   const root = svg.match(/<rect x="0" y="0" width="(\d+)" height="(\d+)"/);
   expect(root?.slice(1, 3)).toEqual(['1200', '630']);
 }, 20000);
+
+test('uses the terminal style: dark background, cyan accent', async () => {
+  const { renderOgSvg } = await import('@/lib/og');
+  const svg = await renderOgSvg({
+    title: 'Aztec List',
+    subtitle: 'x',
+    proof: 'Live',
+    command: 'cd ~/work/aztec-list',
+  });
+  expect(svg).toContain('#0d1117');
+  expect(svg).toContain('#4fb6d8');
+}, 20000);

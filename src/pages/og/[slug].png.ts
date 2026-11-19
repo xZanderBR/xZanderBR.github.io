@@ -17,7 +17,10 @@ export const getStaticPaths = (async () => {
           ? await cachedReleaseDownloads(data.liveDownloads.repo)
           : null;
         const live = downloads !== null ? formatCountFloor(downloads) : undefined;
-        return { params: { slug: id }, props: ogProps(data, live) };
+        return {
+          params: { slug: id },
+          props: { ...ogProps(data, live), command: `cd ~/work/${id}` },
+        };
       }),
     )),
   ];

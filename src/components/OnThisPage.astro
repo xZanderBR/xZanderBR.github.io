@@ -9,12 +9,14 @@ export interface Props {
 const sections = Astro.props.headings.filter((h) => h.depth === 2);
 ---
 
-<nav aria-label="On this page" class="mt-8 hidden text-[14px] lg:block">
-  <p class="mb-2 text-[13px] text-muted-foreground">On this page</p>
+<nav aria-label="On this page" class="mt-6 hidden border-t border-rule pt-5 text-[13px] lg:block">
+  <p class="mb-2 text-muted-foreground" aria-hidden="true">
+    <span class="text-cyan">#</span> sections
+  </p>
   <ul class="space-y-1.5">
     {sections.map((h) => (
       <li>
-        <a href={`#${h.slug}`} class="text-muted-foreground hover:text-ink hover:underline">
+        <a href={`#${h.slug}`} class="text-muted-foreground hover:text-cyan">
           {h.text}
         </a>
       </li>

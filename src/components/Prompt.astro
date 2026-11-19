@@ -1,0 +1,19 @@
+---
+// A section heading that reads like a shell command ("$ ls ~/work"). The command is
+// decoration, so screen readers hear the plain name instead.
+export interface Props {
+  command: string;
+  name: string;
+  id?: string;
+  class?: string;
+}
+
+const { command, name, id, class: className } = Astro.props;
+---
+
+<h2 id={id} class:list={['text-[18px] font-bold text-ink sm:text-[20px]', className]}>
+  <span aria-hidden="true">
+    <span class="text-cyan">$</span> {command}
+  </span>
+  <span class="sr-only">{name}</span>
+</h2>

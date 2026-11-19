@@ -5,14 +5,14 @@ const rows = [
   // Live from GitHub at build time, floored to the thousand.
   ['Rivals Toolkit', /\d{2,3},000\+/, '/work/rivals-toolkit/'],
   ['Struc-AI', '101 of 107', '/work/struc-ai/'],
-  ['Licensing platform', '2,500+', '/work/licensing-platform/'],
+  ['Licensing Platform', '2,500+', '/work/licensing-platform/'],
   ['Aztec List', 'Live', '/work/aztec-list/'],
   ['Pourtocol', '~80%', '/work/pourtocol/'],
 ] as const;
 
-test('project rows appear in order with proof and links', async ({ page }) => {
+test('project cards appear in order with proof and links', async ({ page }) => {
   await page.goto('/');
-  const r = page.getByTestId('project-row');
+  const r = page.getByTestId('project-card');
   await expect(r).toHaveCount(5);
   for (const [i, [name, proof, href]] of rows.entries()) {
     await expect(r.nth(i)).toContainText(name);
@@ -21,11 +21,11 @@ test('project rows appear in order with proof and links', async ({ page }) => {
   }
 });
 
-test('hero, experience, other projects and about render', async ({ page }) => {
+test('hero, experience, side projects and about render', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(profile.hero);
   await expect(page.locator('#experience')).toContainText('Envision Engineering');
-  await expect(page.locator('#other-projects li')).toHaveCount(3);
+  await expect(page.locator('#side-projects li')).toHaveCount(3);
   await expect(page.locator('#about')).toContainText('powerlifting');
 });
 
@@ -44,9 +44,9 @@ test('resume link serves a PDF', async ({ page, request }) => {
 
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
-  test('rows render and navigate', async ({ page }) => {
+  test('cards render and navigate', async ({ page }) => {
     await page.goto('/');
-    await page.getByTestId('project-row').first().click();
+    await page.getByTestId('project-card').first().click();
     await expect(page).toHaveURL(/\/work\/rivals-toolkit\/$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Rivals Toolkit');
   });

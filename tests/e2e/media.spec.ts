@@ -36,15 +36,6 @@ for (const slug of slugs) {
   });
 }
 
-test('every home row has a thumbnail with a picture in it', async ({ page }) => {
-  await page.goto('/');
-  const rows = page.getByTestId('project-row');
-  await expect(rows).toHaveCount(slugs.length);
-  for (const row of await rows.all()) {
-    await expect(row.locator('[data-thumb] :is(img, svg)')).toHaveCount(1);
-  }
-});
-
 test.describe('clips', () => {
   test('play on their own when motion is fine, with a button to pause', async ({ page }) => {
     await page.goto('/work/aztec-list/');
@@ -136,13 +127,13 @@ test('opening a project from the home page sets up its media, with no errors', a
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
   await page.goto('/');
-  await page.getByTestId('project-row').filter({ hasText: 'Aztec List' }).click();
+  await page.getByTestId('project-card').filter({ hasText: 'Aztec List' }).click();
   await expect(page).toHaveURL(/\/work\/aztec-list\/$/);
   const video = page.locator('[data-hero] video');
   await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(false);
   // Back home and into another project: its embed is set up too.
   await page.goBack();
-  await page.getByTestId('project-row').filter({ hasText: 'Pourtocol' }).click();
+  await page.getByTestId('project-card').filter({ hasText: 'Pourtocol' }).click();
   await expect(page.locator('[data-embed]')).toHaveAttribute('data-ready', 'true');
   await page
     .locator('[data-hero]')
