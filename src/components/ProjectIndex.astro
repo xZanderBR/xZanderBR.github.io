@@ -25,7 +25,7 @@ const { projects, proofOverrides = {} } = Astro.props;
         <a
           data-testid="project-row"
           href={`/work/${id}/`}
-          class="group grid grid-cols-[80px_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-1 py-4 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:grid-rows-[auto_auto_auto_1fr] sm:gap-x-6 lg:grid-cols-[15rem_minmax(0,1fr)_auto] lg:py-5"
+          class="group grid grid-cols-[80px_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-1 py-4 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:grid-rows-[auto_auto_auto_1fr] sm:gap-x-6 lg:grid-cols-[12rem_minmax(0,1fr)_auto] lg:py-5"
         >
           {/* Every item sits on explicit grid lines: a span utility at a larger size would
               reset the start line set for phones and let the browser place it. From 640px
@@ -33,7 +33,7 @@ const { projects, proofOverrides = {} } = Astro.props;
           <Thumb id={id} thumb={data.thumb} />
           <span
             data-title
-            class="col-[2] row-[1] font-semibold text-ink group-hover:underline lg:text-[18px]"
+            class="col-[2] row-[1] font-semibold text-ink group-hover:underline lg:text-[17px]"
             transition:name={`project-${id}`}
           >
             {data.title}
@@ -51,7 +51,7 @@ const { projects, proofOverrides = {} } = Astro.props;
             {data.stack.slice(0, 3).join(', ')}
           </span>
           <span class="col-[3] row-[1] text-right sm:row-[1/5]">
-            <span class="tabular block text-[17px] font-semibold text-link lg:text-[22px]">
+            <span class="tabular block text-[17px] font-semibold text-link lg:text-[20px]">
               {proofOverrides[id] ?? data.proof.value}
             </span>
             <span class="block text-[13px] text-muted-foreground">{data.proof.label}</span>

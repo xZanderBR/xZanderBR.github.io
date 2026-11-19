@@ -1,5 +1,5 @@
 ---
-// The preview on a home page row: 80x50 on phones, 160x100 on tablets, 240x150 on desktops.
+// The preview on a home page row: 80x50 on phones, 160x100 on tablets, 192x120 on desktops.
 // Decorative: the row's own text names the project.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
@@ -28,7 +28,7 @@ const { id, thumb } = Astro.props;
         width={480}
         height={300}
         widths={[160, 320, 480]}
-        sizes="(min-width: 1024px) 240px, (min-width: 640px) 160px, 80px"
+        sizes="(min-width: 1024px) 192px, (min-width: 640px) 160px, 80px"
         fit="cover"
         position="top"
         class="block h-full w-full object-cover"
