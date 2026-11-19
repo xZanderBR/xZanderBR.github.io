@@ -38,7 +38,9 @@ test.describe('home page on a desktop', () => {
     const rows = page.getByTestId('project-row');
     for (const row of await rows.all()) {
       const thumb = await row.locator('[data-thumb]').boundingBox();
-      expect(thumb!.width).toBeGreaterThanOrEqual(230);
+      // Big enough to read, small enough that rows stay close to the height of their text.
+      expect(thumb!.width).toBeGreaterThanOrEqual(185);
+      expect(thumb!.width).toBeLessThanOrEqual(200);
       await expect(row.locator('[data-stack]')).not.toBeEmpty();
       // Title, summary and stack line form one column beside the preview.
       const left = thumb!.x + thumb!.width;
@@ -48,6 +50,20 @@ test.describe('home page on a desktop', () => {
         expect(box!.y).toBeLessThan(thumb!.y + thumb!.height);
       }
     }
+  });
+
+  test('keeps the hero sentence to two lines at 40px', async ({ page }) => {
+    await page.goto('/');
+    const h1 = page.getByRole('heading', { level: 1 });
+    const { size, lines } = await h1.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return {
+        size: parseFloat(style.fontSize),
+        lines: Math.round(el.getBoundingClientRect().height / parseFloat(style.lineHeight)),
+      };
+    });
+    expect(size).toBe(40);
+    expect(lines).toBe(2);
   });
 
   test('puts Experience and About side by side', async ({ page }) => {
@@ -68,6 +84,8 @@ test.describe('case studies on a desktop', () => {
       await expect(sidebar).toBeVisible();
       expect(await sidebar.evaluate((el) => getComputedStyle(el).position)).toBe('sticky');
       await expect(sidebar.locator('dl')).toContainText('Stack');
+      const title = page.getByRole('heading', { level: 1 });
+      expect(await title.evaluate((el) => parseFloat(getComputedStyle(el).fontSize))).toBe(44);
 
       const headingIds = await page
         .locator('[data-main] h2')
