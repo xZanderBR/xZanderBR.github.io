@@ -151,3 +151,21 @@ test('the 404 page answers like a shell', async ({ page }) => {
   await expect(page.locator('main')).toContainText('No such file or directory');
   await expect(page.getByRole('link', { name: /cd ~/ })).toHaveAttribute('href', '/');
 });
+
+test('every page ends with the contact links and the source, not the framework', async ({
+  page,
+}) => {
+  for (const path of ['/', '/work/struc-ai/']) {
+    await page.goto(path);
+    const footer = page.getByRole('contentinfo');
+    await expect(footer.getByRole('link')).toHaveText([
+      'email',
+      'github',
+      'linkedin',
+      'resume.pdf',
+      'source',
+    ]);
+    await expect(footer).toContainText('exit 0');
+    await expect(footer).not.toContainText('Astro');
+  }
+});

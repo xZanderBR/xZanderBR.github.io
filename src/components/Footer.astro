@@ -1,17 +1,31 @@
 ---
-import { profile } from '@/data/profile';
+import { contactLinks, profile } from '@/data/profile';
 ---
 
 <footer class="mt-24 border-t border-rule">
-  <div class="shell flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-6 text-[12px] text-muted-foreground">
-    <p>
-      Built with Astro ·{' '}
-      <a href={profile.sourceHref} rel="noopener" class="hover:text-ink hover:underline">
-        source on GitHub
+  <div class="shell flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-6 text-[12px] text-muted-foreground">
+    <ul class="flex flex-wrap gap-x-5 gap-y-2">
+      {contactLinks.map((c) => (
+        <li>
+          <a
+            href={c.href}
+            rel={c.href.startsWith('http') ? 'noopener' : undefined}
+            data-astro-reload={c.href === profile.resumeHref ? '' : undefined}
+            data-astro-prefetch={c.href === profile.resumeHref ? 'false' : undefined}
+            class="hover:text-ink"
+          >
+            {c.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="flex items-center gap-5">
+      <a href={profile.sourceHref} rel="noopener" class="hover:text-ink">
+        source
       </a>
-    </p>
-    <p>
-      <span class="text-cyan">$</span> exit 0
+      <span>
+        <span class="text-cyan">$</span> exit 0
+      </span>
     </p>
   </div>
 </footer>

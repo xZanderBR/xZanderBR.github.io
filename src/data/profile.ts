@@ -95,3 +95,10 @@ export const profile: Profile = {
     },
   ],
 };
+
+// The ways to reach Zander, in order: the home page's contact box and every page's footer.
+export const contactLinks: Link[] = [
+  ...(profile.email ? [{ label: 'email', href: `mailto:${profile.email}` }] : []),
+  ...profile.socials.map((s) => ({ label: s.label.toLowerCase(), href: s.href })),
+  { label: 'resume.pdf', href: profile.resumeHref },
+];
