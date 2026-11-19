@@ -1,8 +1,10 @@
 ---
-// A screenshot. Astro serves it as AVIF or WebP at the size the screen needs, and its
-// width and height are known up front so nothing moves when it loads.
+// A screenshot. Astro serves it as AVIF or WebP at the size the screen needs, up to its full
+// size, at high quality so small UI text stays crisp. Its width and height are known up front
+// so nothing moves when it loads, and it never shows wider than its own pixels.
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { responsiveWidths } from '@/lib/images';
 
 export interface Props {
   src: ImageMetadata;
@@ -29,10 +31,12 @@ const {
     src={src}
     alt={alt}
     formats={['avif', 'webp']}
-    widths={[640, 960, 1344, 1920].filter((w) => w <= src.width)}
+    widths={responsiveWidths(src.width)}
     sizes={sizes}
+    quality="high"
     priority={priority}
     class="block h-auto w-full rounded-lg border border-rule"
+    style={`max-width:${src.width}px`}
   />
   {caption && <figcaption class="mt-2 text-[14px] text-muted-foreground">{caption}</figcaption>}
 </figure>
