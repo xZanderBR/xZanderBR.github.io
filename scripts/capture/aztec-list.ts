@@ -10,6 +10,11 @@ import { chromium, type Page } from '@playwright/test';
 const SITE = 'https://azteclist.com';
 const OUT = 'media-src/aztec-list';
 const VIEWPORT = { width: 1280, height: 800 };
+// Pick these to suit whatever the demo's listings are: a search that only works by meaning,
+// a question the assistant can answer from real listings, and a moderator tab with content.
+const SEARCH = 'something to make me smell nice';
+const ASK = 'something to stay warm this winter';
+const MODERATOR_TAB = 'Reported Messages';
 
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch();
@@ -48,7 +53,7 @@ async function shot(page: Page, name: string, clip?: Clip) {
 {
   const { context, page } = await session();
   await logInAs(page, 'buyer');
-  const query = encodeURIComponent('cheap stuff to set up my apartment');
+  const query = encodeURIComponent(SEARCH);
   await page.goto(`${SITE}/listings?q=${query}&semantic=true`);
   await shot(page, 'search');
   // The home page thumbnail: the first row of results, at 16:10.
@@ -56,7 +61,7 @@ async function shot(page: Page, name: string, clip?: Clip) {
 
   await page.goto(SITE);
   await page.getByRole('button', { name: /Ask AI/ }).click();
-  await page.getByPlaceholder('Ask about listings…').fill('a cheap desk for my dorm');
+  await page.getByPlaceholder('Ask about listings…').fill(ASK);
   await page.getByRole('button', { name: 'Send message' }).click();
   await page.waitForTimeout(12_000); // the reply streams in
   await shot(page, 'assistant');
@@ -66,7 +71,7 @@ async function shot(page: Page, name: string, clip?: Clip) {
   const { context, page } = await session();
   await logInAs(page, 'moderator');
   await page.goto(`${SITE}/admin`);
-  await page.getByText('Flagged', { exact: true }).click();
+  await page.getByText(MODERATOR_TAB, { exact: true }).click();
   await shot(page, 'moderator', { x: 0, y: 0, width: 1280, height: 520 });
   await context.close();
 }
@@ -88,7 +93,7 @@ async function shot(page: Page, name: string, clip?: Clip) {
   await page.waitForTimeout(1_000);
   await page.getByRole('button', { name: /Ask AI/ }).click();
   await page.waitForTimeout(600);
-  await page.getByPlaceholder('Ask about listings…').pressSequentially('a cheap desk for my dorm', {
+  await page.getByPlaceholder('Ask about listings…').pressSequentially(ASK, {
     delay: 60,
   });
   await page.waitForTimeout(400);
