@@ -1,19 +1,29 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Shown for any address that isn't a page: old URLs from the previous site, typos. The page
+// is built once, so the address someone typed is filled in by the browser.
 ---
 
 <BaseLayout title="Page not found | Zander Barajas" description="This page doesn't exist." noindex>
-  <section class="mt-10 sm:mt-16">
-    <h1 class="text-[30px] leading-tight font-semibold tracking-tight">
-      That page moved or never existed
+  <section class="pt-14 text-[14px] sm:pt-20">
+    <p class="text-muted-foreground">
+      <span class="text-cyan">$</span> cd <span data-path>this-page</span>
+    </p>
+    <h1 class="mt-2 text-ink">
+      bash: cd: <span data-path>this-page</span>: No such file or directory
     </h1>
-    <p class="mt-3 text-muted-foreground">
-      The old site's pages are gone, but everything is on the home page now.
+    <p class="mt-6 text-muted-foreground">
+      The old site's pages are gone. Everything is on the home page now.
     </p>
     <p class="mt-6">
-      <a href="/" class="text-link underline underline-offset-2">
-        Go home
+      <span class="text-cyan">$</span>{' '}
+      <a href="/" class="text-ink underline underline-offset-4 hover:text-cyan">
+        cd ~
       </a>
     </p>
   </section>
+  <script is:inline>
+    for (const el of document.querySelectorAll('[data-path]')) el.textContent = location.pathname;
+  </script>
 </BaseLayout>

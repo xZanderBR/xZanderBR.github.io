@@ -2,7 +2,6 @@ import { z } from 'astro/zod';
 
 // Charts drawn at build time from the data in src/data/, by key.
 export const HERO_CHARTS = ['licensing-requests', 'strucai-catches'] as const;
-export const THUMB_CHARTS = ['licensing-sparkline', 'strucai-mini'] as const;
 
 // `image` is Astro's image() helper in the content collection, which turns a relative path
 // into image metadata. Tests pass a plain string schema instead.
@@ -26,11 +25,6 @@ export function projectSchemaWith<I extends z.ZodType>(image: () => I) {
     }),
     z.object({ kind: z.literal('chart'), chart: z.enum(HERO_CHARTS) }),
   ]);
-  // The small preview on the home page row. Decorative: the row's text names the project.
-  const thumb = z.discriminatedUnion('kind', [
-    z.object({ kind: z.literal('image'), src: image() }),
-    z.object({ kind: z.literal('chart'), chart: z.enum(THUMB_CHARTS) }),
-  ]);
 
   return z.object({
     title: z.string(),
@@ -43,10 +37,11 @@ export function projectSchemaWith<I extends z.ZodType>(image: () => I) {
     team: z.string(),
     dates: z.string(),
     stack: z.array(z.string()).min(1),
+    // The chips on the home page card; the first three stack items when left out.
+    tags: z.array(z.string()).min(1).max(3).optional(),
     links: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
     order: z.number().int(),
     hero: hero.optional(),
-    thumb: thumb.optional(),
   });
 }
 
@@ -54,4 +49,4 @@ export const projectSchema = projectSchemaWith(() => z.string());
 
 // The text fields every page uses. Visuals are typed by the collection, since their images
 // are image metadata there and plain strings here.
-export type ProjectData = Omit<z.infer<typeof projectSchema>, 'hero' | 'thumb'>;
+export type ProjectData = Omit<z.infer<typeof projectSchema>, 'hero'>;

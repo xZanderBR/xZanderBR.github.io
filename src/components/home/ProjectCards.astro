@@ -1,0 +1,56 @@
+---
+// "$ ls ~/work": one card per project, two columns from 768px, an odd last card full width.
+import type { CollectionEntry } from 'astro:content';
+import Prompt from '@/components/Prompt.astro';
+
+export interface Props {
+  projects: CollectionEntry<'projects'>[];
+  // Slug to proof value, for numbers computed at build time.
+  proofOverrides?: Record<string, string>;
+}
+
+const { projects, proofOverrides = {} } = Astro.props;
+const oddLast = projects.length % 2 === 1;
+---
+
+<section id="work" aria-labelledby="work-heading" class="mt-20 scroll-mt-6 sm:mt-28">
+  <div class="flex items-baseline justify-between gap-4">
+    <Prompt id="work-heading" command="ls ~/work" name="Work" />
+    <span data-work-count class="text-[12px] text-muted-foreground">
+      {projects.length} items
+    </span>
+  </div>
+  <ul class="mt-6 grid gap-4 md:grid-cols-2">
+    {projects.map(({ id, data }, i) => (
+      <li class:list={[oddLast && i === projects.length - 1 && 'md:col-span-2']}>
+        <a
+          data-testid="project-card"
+          href={`/work/${id}/`}
+          class="flex h-full flex-col rounded-lg border border-rule bg-panel p-5 transition-colors hover:border-cyan focus-visible:border-cyan motion-reduce:transition-none sm:p-6"
+        >
+          <span data-dir class="text-[11px] text-muted-foreground">
+            drwxr-xr-x {id}/
+          </span>
+          <span class="mt-3 text-[18px] font-bold text-ink" transition:name={`project-${id}`}>
+            {data.title}
+          </span>
+          <span class="mt-2 text-[13px] text-muted-foreground">{data.summary}.</span>
+          <span data-proof class="mt-3 text-[13px] font-bold text-cyan">
+            <span aria-hidden="true">{'->'}</span> {proofOverrides[id] ?? data.proof.value}{' '}
+            {data.proof.label}
+          </span>
+          <span class="mt-4 flex flex-wrap gap-2">
+            {(data.tags ?? data.stack.slice(0, 3)).map((t) => (
+              <span
+                data-tag
+                class="rounded border border-rule px-2 py-0.5 text-[11px] text-muted-foreground"
+              >
+                {t}
+              </span>
+            ))}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

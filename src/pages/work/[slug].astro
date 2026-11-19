@@ -30,20 +30,27 @@ const pushedAt = (sourceRepo && (await cachedRepoPushedAt(sourceRepo))) || undef
   description={data.summary}
   ogImage={`/og/${entry.id}.png`}
 >
-  <article class="mt-10 sm:mt-16">
-    <a href="/#work" class="text-[13px] text-muted-foreground hover:text-ink hover:underline">
-      Back to all work
-    </a>
+  <article class="pt-12 sm:pt-16">
+    <p data-breadcrumb class="text-[13px] text-muted-foreground">
+      <span class="text-cyan">$</span> cd{' '}
+      <a href="/#work" class="hover:text-ink hover:underline">
+        ~/work
+      </a>
+      /{entry.id}
+    </p>
     <h1
-      class="mt-4 text-[32px] leading-[1.1] font-semibold tracking-tight sm:text-[40px] lg:text-[44px]"
+      class="mt-4 text-[28px] leading-[1.15] font-extrabold tracking-tight sm:text-[36px] lg:text-[40px]"
       transition:name={`project-${entry.id}`}
     >
       {data.title}
     </h1>
-    <p class="mt-3 max-w-[60ch] text-[17px] text-muted-foreground lg:text-[19px]">{data.summary}</p>
+    <p class="mt-3 max-w-[60ch] text-[14px] text-muted-foreground lg:text-[15px]">{data.summary}</p>
     {data.hero && <Hero id={entry.id} hero={data.hero} />}
     <div class="mt-10 lg:mt-14 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-x-12">
-      <aside data-sidebar class="lg:sticky lg:top-8 lg:self-start">
+      <aside
+        data-sidebar
+        class="rounded-lg border border-rule bg-panel p-5 lg:sticky lg:top-8 lg:self-start"
+      >
         <CaseStudyMeta data={data} downloads={downloads} pushedAt={pushedAt} />
         <OnThisPage headings={headings} />
       </aside>

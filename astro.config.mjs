@@ -9,23 +9,25 @@ export default defineConfig({
   site: 'https://xzanderbr.github.io',
   trailingSlash: 'always',
   integrations: [react(), mdx(), sitemap()],
-  // Self-hosted. Astro preloads the file and generates a fallback font with matched
-  // metrics, so text doesn't move when Hanken Grotesk arrives (Linux and Windows
-  // fallbacks are much wider than it).
+  // Self-hosted and preloaded. "optional": if the font isn't ready within about 100ms (a slow
+  // first visit), the page keeps its fallback monospace instead of swapping and re-wrapping
+  // text. Fallback widths vary by system (Linux often lacks Courier New), so a swap could
+  // shift the page.
   fonts: [
     {
       // The Latin variable font from the installed Fontsource package: one file, every weight.
       provider: fontProviders.local(),
-      name: 'Hanken Grotesk',
-      cssVariable: '--font-hanken',
-      fallbacks: ['sans-serif'],
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains',
+      display: 'optional',
+      fallbacks: ['monospace'],
       options: {
         variants: [
           {
             src: [
-              './node_modules/@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2',
+              './node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2',
             ],
-            weight: '100 900',
+            weight: '100 800',
             style: 'normal',
           },
         ],

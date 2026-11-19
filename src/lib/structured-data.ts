@@ -11,7 +11,7 @@ export function homeJsonLd(profile: Profile, siteUrl: string) {
     name: profile.name,
     url: siteUrl,
     jobTitle: profile.jobTitle,
-    worksFor: { '@type': 'Organization', name: profile.experience[0].org },
+    worksFor: { '@type': 'Organization', name: profile.employer },
     alumniOf: { '@type': 'CollegeOrUniversity', name: profile.school },
     sameAs: profile.socials.map((s) => s.href),
   };

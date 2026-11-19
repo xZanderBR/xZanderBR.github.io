@@ -86,7 +86,7 @@ test('hovering or focusing Search starts loading the palette before any click', 
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
-// Thumbnails are tiny, so the home page stays light even with five of them.
+// The home page is text and SVG; its images (the icons) stay well under this.
 const HOME_IMAGE_BUDGET_BYTES = 120_000;
 
 test(`/ loads under ${HOME_IMAGE_BUDGET_BYTES / 1000}KB of images`, async ({ page }) => {

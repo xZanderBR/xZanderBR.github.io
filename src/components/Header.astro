@@ -2,35 +2,37 @@
 import { profile } from '@/data/profile';
 ---
 
-<header class="flex items-center justify-between gap-4 py-6 text-[15px]">
-  <a href="/" class="font-semibold whitespace-nowrap text-ink no-underline hover:underline">
-    {profile.name}
-  </a>
-  <nav aria-label="Main" class="flex items-center gap-3 sm:gap-5">
-    <ul class="flex items-center gap-3 text-muted-foreground sm:gap-5">
-      <li class="hidden sm:list-item">
-        <a href="/#work" class="hover:text-ink hover:underline">
-          Work
-        </a>
-      </li>
-      <li>
-        <a href="/#about" class="hover:text-ink hover:underline">
-          About
-        </a>
-      </li>
-      <li>
-        <a
-          href={profile.resumeHref}
-          data-astro-reload
-          data-astro-prefetch="false"
-          class="hover:text-ink hover:underline"
-        >
-          Resume
-        </a>
-      </li>
-    </ul>
-    <div data-slot="header-actions" class="flex items-center gap-2">
-      <slot />
-    </div>
-  </nav>
+<header class="border-b border-rule">
+  <div class="shell flex h-16 items-center justify-between gap-4 text-[13px]">
+    <a href="/" class="font-bold whitespace-nowrap text-ink no-underline">
+      <span class="text-cyan">~/</span>zander<span class="sr-only">, {profile.name}</span>
+    </a>
+    <nav aria-label="Main" class="flex items-center gap-4 sm:gap-6">
+      <ul class="flex items-center gap-4 text-muted-foreground sm:gap-6">
+        <li class="hidden sm:list-item">
+          <a href="/#work" class="hover:text-ink">
+            work/
+          </a>
+        </li>
+        <li>
+          <a href="/#about" class="hover:text-ink">
+            about/
+          </a>
+        </li>
+        <li>
+          <a
+            href={profile.resumeHref}
+            data-astro-reload
+            data-astro-prefetch="false"
+            class="hover:text-ink"
+          >
+            resume.pdf
+          </a>
+        </li>
+      </ul>
+      <div data-slot="header-actions" class="flex items-center gap-2">
+        <slot />
+      </div>
+    </nav>
+  </div>
 </header>

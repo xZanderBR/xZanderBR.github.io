@@ -7,11 +7,12 @@ const size = (png: Uint8Array) => {
   return [v.getUint32(16), v.getUint32(20)];
 };
 
-test('the icon is an SVG drawn with a path, not text, in the accent blue', () => {
+test('the icon is a pixel Z in cyan on the terminal background, drawn with shapes not text', () => {
   const svg = iconSvg({ rounded: true });
   expect(svg).toMatch(/^<svg[^>]+viewBox="0 0 32 32"/);
-  expect(svg).toContain('#2459c9');
-  expect(svg).toContain('<path');
+  expect(svg).toContain('#0d1117');
+  expect(svg).toContain('#4fb6d8');
+  expect(svg.match(/<rect/g)!.length).toBeGreaterThan(8);
   expect(svg).not.toContain('<text');
 });
 

@@ -1,0 +1,31 @@
+---
+// "ZB" in chunky pixels with a darker drop shadow, for the neofetch card. Decorative.
+import { PIXEL_ROWS, pixelCells } from '@/lib/pixel';
+export interface Props {
+  class?: string;
+}
+
+const CELL = 10;
+const SHADOW = 3;
+const pixels = pixelCells(PIXEL_ROWS).map((p) => ({ x: p.x * CELL, y: p.y * CELL }));
+const width = PIXEL_ROWS[0].length * CELL + SHADOW;
+const height = PIXEL_ROWS.length * CELL + SHADOW;
+---
+
+<svg
+  viewBox={`0 0 ${width} ${height}`}
+  class:list={['block h-auto', Astro.props.class]}
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+>
+  <g style="fill: color-mix(in oklab, var(--accent) 40%, var(--paper))">
+    {pixels.map((p) => (
+      <rect x={p.x + SHADOW} y={p.y + SHADOW} width={CELL} height={CELL} />
+    ))}
+  </g>
+  <g style="fill: var(--accent)">
+    {pixels.map((p) => (
+      <rect x={p.x} y={p.y} width={CELL} height={CELL} />
+    ))}
+  </g>
+</svg>

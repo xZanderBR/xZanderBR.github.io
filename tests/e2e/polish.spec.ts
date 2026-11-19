@@ -19,8 +19,9 @@ test('the header Resume link loads the PDF with a single request', async ({ page
 
 test('every link to the resume skips the client router', async ({ page }) => {
   await page.goto('/');
+  // The header, the hero buttons and the contact box.
   const links = page.locator('a[href="/resume.pdf"]');
-  await expect(links).toHaveCount(2);
+  await expect(links).toHaveCount(3);
   for (const link of await links.all()) {
     await expect(link).toHaveAttribute('data-astro-reload', '');
     await expect(link).toHaveAttribute('data-astro-prefetch', 'false');

@@ -1,0 +1,27 @@
+---
+// "$ ls ~/side-projects": smaller projects as rows, each linking to its repository.
+import Prompt from '@/components/Prompt.astro';
+import { profile } from '@/data/profile';
+---
+
+<section id="side-projects" aria-labelledby="side-heading" class="mt-20 sm:mt-28">
+  <Prompt id="side-heading" command="ls ~/side-projects" name="Side projects" />
+  <ul class="mt-6 divide-y divide-rule overflow-hidden rounded-lg border border-rule bg-panel">
+    {profile.otherProjects.map((p) => (
+      <li>
+        <a
+          data-testid="side-project"
+          href={p.href}
+          rel="noopener"
+          class="grid gap-1 px-5 py-4 hover:bg-paper sm:grid-cols-[minmax(0,16rem)_minmax(0,1fr)_auto] sm:items-baseline sm:gap-6"
+        >
+          <span class="text-[13px] font-bold text-ink">
+            {p.dir}/<span class="sr-only">: {p.title}</span>
+          </span>
+          <span class="text-[12px] text-muted-foreground">{p.summary}</span>
+          <span class="text-[11px] text-muted-foreground sm:text-right">{p.stack.join(' · ')}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

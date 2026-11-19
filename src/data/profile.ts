@@ -1,18 +1,31 @@
 export type Link = { label: string; href: string };
-export type Role = { title: string; dates: string; summary: string };
-export type Job = { org: string; place: string; roles: Role[] };
-export type OtherProject = { title: string; summary: string; stack: string[]; href: string };
+// One line of the git-log experience list, newest first.
+export type Role = { title: string; org: string; dates: string; summary: string };
+// `dir` is the folder name the side-projects listing shows.
+export type OtherProject = {
+  title: string;
+  dir: string;
+  summary: string;
+  stack: string[];
+  href: string;
+};
 export type Profile = {
   name: string;
   jobTitle: string;
+  // The current employer, for search engines' Person data.
+  employer: string;
   school: string;
+  // The neofetch card on the home page.
+  education: string;
+  stackSummary: string;
+  shipped: string[];
   hero: string;
   context: string;
   email: string;
   socials: Link[];
   resumeHref: string;
   sourceHref: string;
-  experience: Job[];
+  experience: Role[];
   about: string;
   otherProjects: OtherProject[];
 };
@@ -20,7 +33,11 @@ export type Profile = {
 export const profile: Profile = {
   name: 'Zander Barajas',
   jobTitle: 'Software Engineer',
+  employer: 'Envision Engineering',
   school: 'San Diego State University',
+  education: 'B.S. Computer Science, SDSU',
+  stackSummary: 'Rust, C++, TypeScript, Python',
+  shipped: ['Aztec List', 'Pourtocol', 'Rivals Toolkit'],
   hero: 'From bytes to browsers: Rust desktop tools, full-stack apps and practical AI.',
   context: 'Software engineer at Envision Engineering. SDSU computer science, 2026. San Diego.',
   // Zander: add your contact address here.
@@ -33,53 +50,45 @@ export const profile: Profile = {
   sourceHref: 'https://github.com/xZanderBR/xZanderBR.github.io',
   experience: [
     {
-      org: 'Envision Engineering',
-      place: 'San Diego',
-      roles: [
-        {
-          title: 'Software engineer',
-          dates: 'Jun 2026 to present',
-          summary:
-            "Building Struc-AI with the firm's licensed engineers: a design-review checker for structural drawing sets, plus LLM reading of plans, soils reports and plan-check letters.",
-        },
-        {
-          title: 'Software engineering intern',
-          dates: 'Summers 2024 and 2025',
-          summary:
-            'Shipped a full-stack reporting dashboard that cut weekly reporting from 1 to 2 hours to under 15 minutes, and automated CAD cleanup in Python, cutting it by 70% across 25+ projects.',
-        },
-      ],
+      title: 'Founder & Software Engineer',
+      org: 'Independent software business',
+      dates: 'Jul 2026 – now',
+      summary: 'Builds and runs commercial Windows software with 2,500+ paying customers.',
     },
     {
-      org: 'Independent software business',
-      place: 'San Diego',
-      roles: [
-        {
-          title: 'Founder and software engineer',
-          dates: 'Jul 2026 to present',
-          summary:
-            'I build and run commercial Windows software with 2,500+ paying customers, on a licensing platform I designed.',
-        },
-      ],
+      title: 'Software Engineer',
+      org: 'Envision Engineering',
+      dates: 'Jun 2026 – now',
+      summary: "Building Struc-AI with the firm's licensed engineers.",
+    },
+    {
+      title: 'Software Engineering Intern',
+      org: 'Envision Engineering',
+      dates: 'Summers 2024 & 2025',
+      summary:
+        'Cut weekly reporting from 1-2 hours to under 15 minutes; automated CAD cleanup, cutting it 70% across 25+ projects.',
     },
   ],
   about:
-    'Outside of code I compete in powerlifting, surf when the swell is worth it, and always have music on.',
+    'Off the keyboard I compete in powerlifting, surf when conditions allow, and always have music on.',
   otherProjects: [
     {
       title: 'Drone 2D obstacle avoidance',
-      summary: 'Trained a PPO agent in a custom Gymnasium environment',
-      stack: ['Python', 'Stable-Baselines3', 'PyTorch'],
+      dir: 'drone-obstacle-avoidance',
+      summary: 'PPO agent trained in a custom Gymnasium environment',
+      stack: ['Python', 'SB3', 'PyTorch'],
       href: 'https://github.com/xZanderBR/Drone2D-Avoidance',
     },
     {
       title: 'Powerlifting meet calculator',
-      summary: 'Cross-platform C++ app with a multithreaded sort, 750% faster on large datasets',
+      dir: 'powerlifting-calculator',
+      summary: 'Cross-platform C++ app, multithreaded sort 750% faster',
       stack: ['C++', 'Vulkan', 'ImGui'],
       href: 'https://github.com/xZanderBR/Powerlifting-Meet-Calculator',
     },
     {
       title: 'Financial transaction classification',
+      dir: 'transaction-classifier',
       summary: 'Owned the neural network model on a 5-person ML project',
       stack: ['Python', 'scikit-learn'],
       href: 'https://github.com/darielgu/financial-classification',

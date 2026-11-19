@@ -39,6 +39,6 @@ test('struc-ai stays an overview: no diagram, design details, roadmap or code li
 test('old URLs land on the 404 page with a way home', async ({ page }) => {
   const res = await page.goto('/pages/music.html');
   expect(res?.status()).toBe(404);
-  await page.getByRole('link', { name: /home/i }).click();
+  await page.getByRole('link', { name: 'cd ~' }).click();
   await expect(page).toHaveURL(/\/$/);
 });

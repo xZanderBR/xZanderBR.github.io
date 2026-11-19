@@ -1,0 +1,58 @@
+---
+// The neofetch-style card beside the headline: who, what and where, terminal style.
+import PixelLogo from './PixelLogo.astro';
+import { profile } from '@/data/profile';
+
+const facts = [
+  { key: 'Role', value: profile.jobTitle },
+  { key: 'Edu', value: profile.education },
+  { key: 'Stack', value: profile.stackSummary },
+  { key: 'Shipped', value: profile.shipped.join(', ') },
+];
+// The eight terminal colours neofetch prints at the end. Decorative.
+const swatches = [
+  '#e5534b',
+  '#e8913a',
+  '#d4b03c',
+  '#57ab5a',
+  '#4fb6d8',
+  '#539bf5',
+  '#b083f0',
+  '#cdd9e5',
+];
+---
+
+<div data-neofetch class="overflow-hidden rounded-lg border border-rule bg-panel">
+  <div class="flex items-center gap-1.5 border-b border-rule px-4 py-2.5" aria-hidden="true">
+    <span class="size-2.5 rounded-full bg-rule"></span>
+    <span class="size-2.5 rounded-full bg-rule"></span>
+    <span class="size-2.5 rounded-full bg-rule"></span>
+    <span class="flex-1 pr-8 text-center text-[11px] text-muted-foreground">
+      zander@sandiego: ~
+    </span>
+  </div>
+  <div class="grid items-center gap-6 p-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:p-6">
+    <PixelLogo class="w-28 sm:w-32" />
+    <div class="text-[12px] leading-relaxed sm:text-[13px]">
+      <p class="text-muted-foreground">
+        <span class="text-cyan">$</span> neofetch
+      </p>
+      <p class="mt-1 font-bold text-cyan">
+        zander<span class="text-ink">@</span>sandiego
+      </p>
+      <hr class="my-2 w-28 border-rule" />
+      <dl>
+        {facts.map((f) => (
+          <div>
+            <dt class="inline text-cyan">{f.key}:</dt> <dd class="inline text-ink">{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="mt-3 flex" aria-hidden="true">
+        {swatches.map((c) => (
+          <span class="h-3 w-5" style={`background:${c}`} />
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

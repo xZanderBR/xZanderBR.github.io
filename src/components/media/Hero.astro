@@ -1,6 +1,6 @@
 ---
-// The wide visual under a case study's title. It shares a transition name with the home
-// page thumbnail, so the thumbnail grows into it when someone opens the project.
+// The wide visual under a case study's title, framed like a terminal window whose title is
+// the file it shows.
 import type { CollectionEntry } from 'astro:content';
 import Shot from './Shot.astro';
 import Clip from './Clip.astro';
@@ -14,10 +14,38 @@ export interface Props {
 }
 
 const { id, hero } = Astro.props;
-const sizes = '(min-width: 1200px) 1136px, calc(100vw - 3rem)';
+const sizes = '(min-width: 1120px) 1054px, calc(100vw - 3rem)';
+// Built image paths look like /_astro/asset-manager.Hash.webp: keep the name.
+const fileName = (path: string) => path.split('/').pop()!.split(/[.?]/)[0];
+const chromeTitle =
+  hero.kind === 'image'
+    ? `${fileName(hero.src.src)}.png`
+    : hero.kind === 'clip'
+      ? `${fileName(hero.src)}.mp4`
+      : hero.kind === 'youtube'
+        ? `youtube.com/watch?v=${hero.id}`
+        : hero.chart === 'licensing-requests'
+          ? 'requests.log'
+          : 'catches.log';
 ---
 
-<div data-hero class="mt-8 lg:mt-12" transition:name={`visual-${id}`}>
+<div
+  data-hero
+  class="hero-frame mt-8 overflow-hidden rounded-lg border border-rule bg-panel lg:mt-12"
+  transition:name={`visual-${id}`}
+>
+  <div
+    data-chrome
+    class="flex items-center gap-1.5 border-b border-rule px-4 py-2.5"
+    aria-hidden="true"
+  >
+    <span class="size-2.5 rounded-full bg-rule"></span>
+    <span class="size-2.5 rounded-full bg-rule"></span>
+    <span class="size-2.5 rounded-full bg-rule"></span>
+    <span class="flex-1 truncate pr-8 text-center text-[11px] text-muted-foreground">
+      {chromeTitle}
+    </span>
+  </div>
   {hero.kind === 'image' && (
     <Shot src={hero.src} alt={hero.alt} sizes={sizes} priority class="m-0" />
   )}

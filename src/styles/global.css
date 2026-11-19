@@ -4,25 +4,20 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Site palette. Diagrams and plain CSS read these directly. */
+/*
+ * Site palette: one dark terminal theme. Diagrams, charts and plain CSS read these directly.
+ * --wash is the raised panel colour (cards, the neofetch box, the sidebar).
+ */
 :root {
-  --paper: #fcfcfb;
-  --ink: #16181d;
-  --muted: #5b6170;
-  --rule: #e6e8ec;
-  --accent: #2459c9;
-  --wash: #f1f2f4;
+  --paper: #0d1117;
+  --wash: #11161d;
+  --rule: #222a33;
+  --ink: #e6edf3;
+  --muted: #8b949e;
+  --accent: #4fb6d8;
+  --accent-ink: #0d1117;
+  --hash: #d29922;
   --radius: 0.5rem;
-  color-scheme: light;
-}
-
-html.dark {
-  --paper: #12151a;
-  --ink: #e8eaee;
-  --muted: #9aa1ae;
-  --rule: #262b33;
-  --accent: #7fa8f0;
-  --wash: #1c2027;
   color-scheme: dark;
 }
 
@@ -32,13 +27,18 @@ html.dark {
  * input, ring, border) map onto the same palette so its components match.
  */
 @theme inline {
-  --font-sans: var(--font-hanken);
+  --font-sans: var(--font-jetbrains);
+  --font-mono: var(--font-jetbrains);
   --font-heading: var(--font-sans);
 
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-rule: var(--rule);
   --color-link: var(--accent);
+  --color-panel: var(--wash);
+  --color-cyan: var(--accent);
+  --color-cyan-ink: var(--accent-ink);
+  --color-hash: var(--hash);
 
   --color-background: var(--paper);
   --color-foreground: var(--ink);
@@ -78,7 +78,7 @@ html.dark {
     background: var(--paper);
     color: var(--ink);
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
   }
   :focus-visible {
@@ -95,11 +95,49 @@ html.dark {
   font-variant-numeric: tabular-nums;
 }
 
+/* Terminal-style buttons: outlined, or filled cyan for the main action. */
+@utility btn {
+  display: inline-flex;
+  height: 2.5rem;
+  align-items: center;
+  border-radius: 0.375rem;
+  border: 1px solid var(--rule);
+  padding-inline: 1rem;
+  font-size: 13px;
+  color: var(--ink);
+  &:hover {
+    border-color: var(--accent);
+  }
+}
+@utility btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  &:hover {
+    background: color-mix(in oklab, var(--accent) 85%, white);
+  }
+}
+
+/* The page column: 1120px at most, with gutters that grow with the screen. */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1120px;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
 /* Case-study body text from MDX. */
 @layer components {
   .case-prose {
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.75;
   }
   /* Text keeps a readable measure; figures, charts and diagrams fill the column. */
   .case-prose > :is(p, ul, ol, h2, h3) {
@@ -109,24 +147,28 @@ html.dark {
     scroll-margin-top: 2rem;
     margin-top: 2.5rem;
     margin-bottom: 0.75rem;
-    font-size: 22px;
+    font-size: 19px;
     line-height: 1.3;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+  /* Headings read like Markdown in a terminal. */
+  .case-prose h2::before {
+    content: '## ';
+    color: var(--accent);
   }
   .case-prose p {
     margin-top: 0.75rem;
   }
   .case-prose ul {
     margin-top: 0.75rem;
-    padding-left: 1.25rem;
-    list-style: disc;
+    padding-left: 1.5rem;
+    list-style: '- ';
   }
   .case-prose li {
     margin-top: 0.4rem;
   }
   .case-prose li::marker {
-    color: var(--muted);
+    color: var(--accent);
   }
   .case-prose code {
     font-size: 0.9em;
@@ -179,4 +221,13 @@ html:not([data-platform='mac']) [data-kbd='mac'] {
     transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
+}
+
+/*
+ * Inside the window frame of a case study's main visual, the visual drops its own border and
+ * corners; the frame provides them. Unlayered so it wins over the utility classes.
+ */
+.hero-frame :is(img, video, [data-embed], [data-chart]) {
+  border: 0;
+  border-radius: 0;
 }
