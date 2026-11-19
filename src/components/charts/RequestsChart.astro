@@ -33,7 +33,7 @@ const summary = `Requests per day to the license server from ${first} to ${last}
     </p>
   </div>
   <div role="img" aria-label={summary} class="mt-5 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3">
-    <div class="tabular relative h-[180px] text-[12px] text-muted-foreground sm:h-[220px]">
+    <div class="tabular relative h-[180px] text-[12px] text-muted-foreground sm:h-[220px] lg:h-[260px]">
       {ticks.map((t) => (
         <span class="absolute right-0 translate-y-1/2 leading-none" style={`bottom:${pct(t)}`}>
           {fmt(t)}
@@ -41,7 +41,7 @@ const summary = `Requests per day to the license server from ${first} to ${last}
       ))}
       <span class="invisible">{fmt(max)}</span>
     </div>
-    <div class="relative h-[180px] sm:h-[220px]">
+    <div class="relative h-[180px] sm:h-[220px] lg:h-[260px]">
       {ticks.map((t) => (
         <div class="absolute inset-x-0 border-t border-rule" style={`bottom:${pct(t)}`} />
       ))}

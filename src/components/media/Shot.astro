@@ -21,7 +21,8 @@ const {
   alt,
   caption,
   priority = false,
-  sizes = '(min-width: 768px) 672px, calc(100vw - 2rem)',
+  // The main column of a case study: 880px at full width, the viewport less the sidebar below.
+  sizes = '(min-width: 1200px) 880px, (min-width: 1024px) calc(100vw - 20rem), calc(100vw - 3rem)',
   class: className,
 } = Astro.props;
 ---

@@ -1,0 +1,33 @@
+---
+// A page section on the site's shared grid. From 1024px up its heading sits in the left
+// rail and stays in view while the section scrolls past; on smaller screens it sits on top.
+export interface Props {
+  id: string;
+  headingId: string;
+  title: string;
+  class?: string;
+  // Extra classes for the heading, to line it up with the first line of the content.
+  headingClass?: string;
+}
+
+const { id, headingId, title, class: className, headingClass } = Astro.props;
+---
+
+<section
+  id={id}
+  aria-labelledby={headingId}
+  class:list={['scroll-mt-6 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-x-12', className]}
+>
+  <h2
+    id={headingId}
+    class:list={[
+      'mb-3 text-[15px] font-semibold lg:sticky lg:top-8 lg:mb-0 lg:self-start',
+      headingClass,
+    ]}
+  >
+    {title}
+  </h2>
+  <div class="min-w-0">
+    <slot />
+  </div>
+</section>

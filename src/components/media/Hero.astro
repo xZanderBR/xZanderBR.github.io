@@ -14,10 +14,10 @@ export interface Props {
 }
 
 const { id, hero } = Astro.props;
-const sizes = '(min-width: 1024px) 960px, (min-width: 720px) 672px, calc(100vw - 2rem)';
+const sizes = '(min-width: 1200px) 1136px, calc(100vw - 3rem)';
 ---
 
-<div data-hero class="hero-breakout mt-8" transition:name={`visual-${id}`}>
+<div data-hero class="mt-8 lg:mt-12" transition:name={`visual-${id}`}>
   {hero.kind === 'image' && (
     <Shot src={hero.src} alt={hero.alt} sizes={sizes} priority class="m-0" />
   )}

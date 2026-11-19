@@ -19,16 +19,16 @@ const rows: { term: string; value: string }[] = [
 ];
 ---
 
-<dl class="mt-8 grid grid-cols-[6rem_minmax(0,1fr)] gap-x-4 gap-y-2 border-y border-rule py-4 text-[15px]">
+<dl class="grid grid-cols-[6rem_minmax(0,1fr)] gap-x-4 gap-y-2 border-y border-rule py-4 text-[15px] lg:block lg:border-y-0 lg:py-0">
   {rows.map((r) => (
     <>
-      <dt class="text-muted-foreground">{r.term}</dt>
+      <dt class="text-muted-foreground lg:mt-4 lg:text-[13px] lg:first:mt-0">{r.term}</dt>
       <dd>{r.value}</dd>
     </>
   ))}
   {data.links.length > 0 && (
     <>
-      <dt class="text-muted-foreground">Links</dt>
+      <dt class="text-muted-foreground lg:mt-4 lg:text-[13px]">Links</dt>
       <dd class="flex flex-wrap gap-x-4 gap-y-1">
         {data.links.map((l) => (
           <a href={l.href} rel="noopener" class="text-link underline-offset-2 hover:underline">

@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Thumb from '@/components/media/Thumb.astro';
+import RailSection from '@/components/RailSection.astro';
 
 export interface Props {
   projects: CollectionEntry<'projects'>[];
@@ -11,30 +12,46 @@ export interface Props {
 const { projects, proofOverrides = {} } = Astro.props;
 ---
 
-<section id="work" aria-labelledby="work-heading" class="mt-16 scroll-mt-6">
-  <h2 id="work-heading" class="mb-3 text-[15px] font-semibold">
-    Work
-  </h2>
+<RailSection
+  id="work"
+  headingId="work-heading"
+  title="Work"
+  class="mt-16 lg:mt-24"
+  headingClass="lg:pt-5"
+>
   <ul class="border-b border-rule">
     {projects.map(({ id, data }) => (
       <li class="border-t border-rule">
         <a
           data-testid="project-row"
           href={`/work/${id}/`}
-          class="group grid grid-cols-[80px_minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1 py-4 sm:grid-cols-[80px_9rem_minmax(0,1fr)_auto]"
+          class="group grid grid-cols-[80px_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-1 py-4 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:grid-rows-[auto_auto_auto_1fr] sm:gap-x-6 lg:grid-cols-[15rem_minmax(0,1fr)_auto] lg:py-5"
         >
+          {/* Every item sits on explicit grid lines: a span utility at a larger size would
+              reset the start line set for phones and let the browser place it. From 640px
+              a fourth row takes the preview's spare height, so the text stays together. */}
           <Thumb id={id} thumb={data.thumb} />
           <span
-            class="font-semibold text-ink group-hover:underline"
+            data-title
+            class="col-[2] row-[1] font-semibold text-ink group-hover:underline lg:text-[18px]"
             transition:name={`project-${id}`}
           >
             {data.title}
           </span>
-          <span class="col-span-2 col-start-2 row-start-2 text-[15px] text-muted-foreground sm:col-span-1 sm:col-start-auto sm:row-start-auto">
+          <span
+            data-summary
+            class="col-[2/4] row-[2] text-[15px] text-muted-foreground sm:col-[2] lg:text-[16px]"
+          >
             {data.summary}
           </span>
-          <span class="col-start-3 row-start-1 text-right sm:col-start-auto sm:row-start-auto">
-            <span class="tabular block text-[17px] font-semibold text-link">
+          <span
+            data-stack
+            class="col-[2] row-[3] hidden text-[13px] text-muted-foreground sm:block"
+          >
+            {data.stack.slice(0, 3).join(', ')}
+          </span>
+          <span class="col-[3] row-[1] text-right sm:row-[1/5]">
+            <span class="tabular block text-[17px] font-semibold text-link lg:text-[22px]">
               {proofOverrides[id] ?? data.proof.value}
             </span>
             <span class="block text-[13px] text-muted-foreground">{data.proof.label}</span>
@@ -43,4 +60,4 @@ const { projects, proofOverrides = {} } = Astro.props;
       </li>
     ))}
   </ul>
-</section>
+</RailSection>

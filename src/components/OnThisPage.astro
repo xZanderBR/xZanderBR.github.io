@@ -1,0 +1,23 @@
+---
+// Links to a case study's sections, for the sidebar on wide screens.
+import type { MarkdownHeading } from 'astro';
+
+export interface Props {
+  headings: MarkdownHeading[];
+}
+
+const sections = Astro.props.headings.filter((h) => h.depth === 2);
+---
+
+<nav aria-label="On this page" class="mt-8 hidden text-[14px] lg:block">
+  <p class="mb-2 text-[13px] text-muted-foreground">On this page</p>
+  <ul class="space-y-1.5">
+    {sections.map((h) => (
+      <li>
+        <a href={`#${h.slug}`} class="text-muted-foreground hover:text-ink hover:underline">
+          {h.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

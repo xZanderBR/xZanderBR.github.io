@@ -1,8 +1,14 @@
 ---
 import { profile } from '@/data/profile';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<section id="other-projects" aria-labelledby="other-heading" class="mt-12">
+<section id="other-projects" aria-labelledby="other-heading" class:list={['mt-12', className]}>
   <h2 id="other-heading" class="mb-3 text-[15px] font-semibold">
     Other projects
   </h2>

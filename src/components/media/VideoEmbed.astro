@@ -29,7 +29,7 @@ const { id, poster, title, priority = false, class: className } = Astro.props;
       formats={['avif', 'webp']}
       widths={responsiveWidths(poster.width)}
       quality="high"
-      sizes="(min-width: 1024px) 960px, (min-width: 720px) 672px, calc(100vw - 2rem)"
+      sizes="(min-width: 1200px) 1136px, calc(100vw - 3rem)"
       priority={priority}
       class="absolute inset-0 h-full w-full object-cover"
     />
