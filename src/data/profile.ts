@@ -21,7 +21,7 @@ export const profile: Profile = {
   name: 'Zander Barajas',
   jobTitle: 'Software Engineer',
   school: 'San Diego State University',
-  hero: 'I build software people use: Rust desktop tools, full-stack web apps and LLM features.',
+  hero: 'From bytes to browsers: Rust desktop tools, full-stack apps and practical AI.',
   context: 'Software engineer at Envision Engineering. SDSU computer science, 2026. San Diego.',
   // Zander: add your contact address here.
   email: 'zanderbr@protonmail.com',
