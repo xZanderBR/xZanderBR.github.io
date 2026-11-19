@@ -14,3 +14,14 @@ describe('responsiveWidths', () => {
     expect(responsiveWidths(500)).toEqual([500]);
   });
 });
+
+describe('sourceName', () => {
+  test('keeps the file name of a built or source image path', async () => {
+    const { sourceName } = await import('@/lib/images');
+    expect(sourceName('/_astro/asset-manager.BVuywGB7.webp')).toBe('asset-manager');
+    expect(sourceName('/@fs/x/src/assets/projects/aztec-list/search.webp?origWidth=2560')).toBe(
+      'search',
+    );
+    expect(sourceName('/media/aztec-list/assistant.mp4')).toBe('assistant');
+  });
+});

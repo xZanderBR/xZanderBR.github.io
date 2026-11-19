@@ -231,3 +231,31 @@ html:not([data-platform='mac']) [data-kbd='mac'] {
   border: 0;
   border-radius: 0;
 }
+
+/* The screenshot viewer (src/components/media/Lightbox.astro). No animation to turn off. */
+a[data-lightbox] {
+  cursor: zoom-in;
+}
+.lightbox {
+  margin: auto;
+  padding: 0;
+  max-width: min(96vw, 1600px);
+  max-height: 96dvh;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+  background: var(--wash);
+  color: var(--ink);
+}
+.lightbox::backdrop {
+  background: rgb(0 0 0 / 0.85);
+}
+.lightbox [data-lightbox-img] {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(96dvh - 6.5rem);
+  margin-inline: auto;
+  object-fit: contain;
+}

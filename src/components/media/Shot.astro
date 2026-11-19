@@ -1,10 +1,11 @@
 ---
 // A screenshot. Astro serves it as AVIF or WebP at the size the screen needs, up to its full
 // size, at high quality so small UI text stays crisp. Its width and height are known up front
-// so nothing moves when it loads, and it never shows wider than its own pixels.
-import { Picture } from 'astro:assets';
+// so nothing moves when it loads, and it never shows wider than its own pixels. It links to its
+// full-size file, which the screenshot viewer (Lightbox.astro) opens in place.
+import { Picture, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { responsiveWidths } from '@/lib/images';
+import { responsiveWidths, sourceName } from '@/lib/images';
 
 export interface Props {
   src: ImageMetadata;
@@ -25,19 +26,32 @@ const {
   sizes = '(min-width: 1200px) 880px, (min-width: 1024px) calc(100vw - 20rem), calc(100vw - 3rem)',
   class: className,
 } = Astro.props;
+// Built once, downloaded only when someone opens the viewer.
+const full = await getImage({ src, width: src.width, format: 'webp', quality: 'high' });
 ---
 
 <figure class:list={['not-prose', className ?? 'my-6']}>
-  <Picture
-    src={src}
-    alt={alt}
-    formats={['avif', 'webp']}
-    widths={responsiveWidths(src.width)}
-    sizes={sizes}
-    quality="high"
-    priority={priority}
-    class="block h-auto w-full rounded-lg border border-rule"
-    style={`max-width:${src.width}px`}
-  />
+  <a
+    href={full.src}
+    data-lightbox
+    data-name={`${sourceName(src.src)}.png`}
+    data-caption={caption}
+    data-astro-reload
+    data-astro-prefetch="false"
+    class="group block rounded-lg"
+  >
+    <Picture
+      src={src}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={responsiveWidths(src.width)}
+      sizes={sizes}
+      quality="high"
+      priority={priority}
+      class="block h-auto w-full rounded-lg border border-rule transition-colors group-hover:border-cyan group-focus-visible:border-cyan motion-reduce:transition-none"
+      style={`max-width:${src.width}px`}
+    />
+    <span class="sr-only">(opens larger)</span>
+  </a>
   {caption && <figcaption class="mt-2 text-[14px] text-muted-foreground">{caption}</figcaption>}
 </figure>
